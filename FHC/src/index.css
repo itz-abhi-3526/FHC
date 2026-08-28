@@ -1,0 +1,1242 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #08090B;
+  --color-pink: #FF1687;
+  --color-pink-dark: #c4106a;
+  --color-sky: #6fd0f0;
+  --color-sky-light: #a6e4f7;
+  --color-arcade: #FFD21A;
+  --color-arcade-yellow: #FFD21A;
+  --color-arcade-dark: #bf9f00;
+  --color-cream: #FFF7E5;
+  --color-green: #36D65A;
+  --color-green-dark: #2abf4f;
+  --color-blue: #238BE6;
+  --color-blue-dark: #1a6fb5;
+  --color-purple: #9B59FF;
+  --color-purple-dark: #7f52bf;
+  --color-cyan: #1ED7E8;
+  --color-cyan-dark: #15a3b0;
+  --color-orange: #ffa23d;
+  --color-orange-dark: #bf792d;
+  --color-teal: #2ecdc9;
+  --color-teal-dark: #239a97;
+  --color-sky-blue: #89cff0;
+  --color-sky-blue-light: #b0e0f6;
+  --color-grass-green: #36D65A;
+  --color-grass-dark: #2abf4f;
+  --color-dark-purple: #17101F;
+
+  --font-pixel: "Press Start 2P", monospace;
+  --font-mono: "VT323", monospace;
+
+  --animate-float: float 4.5s ease-in-out infinite;
+  --animate-blink: blink 1s steps(1) infinite;
+  --animate-twinkle: twinkle 2.4s ease-in-out infinite;
+  --animate-pulse-dot: pulse-dot 1s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+html { scroll-behavior: smooth; }
+body { @apply bg-ink text-cream font-mono text-lg; }
+
+/* Scanlines overlay */
+.scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.08) 0px,
+    rgba(0, 0, 0, 0.08) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+/* Hero Window Frame - 2-tier retro game window border */
+.hero-window-frame {
+  position: relative;
+  border: 4px solid #0c0c0f;
+}
+.hero-window-frame::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 4px solid #ff2e8c;
+  pointer-events: none;
+}
+
+/* Sky Blue Background */
+.hero-sky-bg {
+  background: #39BCEB;
+}
+
+/* Grass is now rendered using the actual pixel-art PNG asset */
+
+/* Clouds are now rendered using the actual pixel-art cloud asset */
+
+/* Glowing Plus Sparks */
+.hero-spark {
+  position: absolute;
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  animation: twinkle 2.4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.hero-spark-pink { color: #ff2e8c; opacity: 0.8; }
+.hero-spark-yellow { color: #ffd400; opacity: 0.8; }
+.hero-spark-white { color: #ffffff; opacity: 0.6; }
+.hero-spark-blue { color: #5ab8ff; opacity: 0.7; }
+
+/* Hero Section Layout */
+.hero-container {
+  position: relative;
+  z-index: 5;
+}
+
+.hero-text-block {
+  position: relative;
+  z-index: 10;
+}
+
+.hero-text-block h1,
+.hero-text-block h2 {
+  position: relative;
+}
+
+.hero-text-block h1::before,
+.hero-text-block h2::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  color: #0c0c0f;
+  z-index: -1;
+  -webkit-text-stroke: 0;
+  paint-order: fill;
+}
+
+.hero-highlight {
+  background: #ff2e8c;
+  color: #0c0c0f;
+  padding: 0 6px;
+  font-weight: 700;
+}
+
+/* Assets are now rendered using the actual pixel-art PNG assets */
+
+/* Laptop is now rendered using the actual pixel-art PNG asset */
+
+/* Connectors SVG */
+.hero-connectors {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 7;
+}
+
+.hero-connectors path {
+  stroke: #0c0c0f;
+  stroke-width: 1.5;
+  stroke-dasharray: 4, 4;
+  fill: none;
+}
+
+/* Sawtooth / Pixel Grass borders */
+.sawtooth-top-ink {
+  position: relative;
+}
+.sawtooth-top-ink::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-image: 
+    linear-gradient(135deg, #0C0C0F 25%, transparent 25%),
+    linear-gradient(225deg, #0C0C0F 25%, transparent 25%);
+  background-position: 0 0;
+  background-size: 16px 16px;
+  background-repeat: repeat-x;
+  z-index: 10;
+}
+
+.sawtooth-bottom-ink {
+  position: relative;
+}
+.sawtooth-bottom-ink::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-image: 
+    linear-gradient(45deg, #0C0C0F 25%, transparent 25%),
+    linear-gradient(315deg, #0C0C0F 25%, transparent 25%);
+  background-position: 0 0;
+  background-size: 16px 16px;
+  background-repeat: repeat-x;
+  z-index: 10;
+}
+
+.sawtooth-top-arcade {
+  position: relative;
+}
+.sawtooth-top-arcade::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-image: 
+    linear-gradient(135deg, #FFD400 25%, transparent 25%),
+    linear-gradient(225deg, #FFD400 25%, transparent 25%);
+  background-position: 0 0;
+  background-size: 16px 16px;
+  background-repeat: repeat-x;
+  z-index: 10;
+}
+
+.sawtooth-bottom-arcade {
+  position: relative;
+}
+.sawtooth-bottom-arcade::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-image: 
+    linear-gradient(45deg, #FFD400 25%, transparent 25%),
+    linear-gradient(315deg, #FFD400 25%, transparent 25%);
+  background-position: 0 0;
+  background-size: 16px 16px;
+  background-repeat: repeat-x;
+  z-index: 10;
+}
+
+.sawtooth-top-pink {
+  position: relative;
+}
+.sawtooth-top-pink::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-image: 
+    linear-gradient(135deg, #FF2E8C 25%, transparent 25%),
+    linear-gradient(225deg, #FF2E8C 25%, transparent 25%);
+  background-position: 0 0;
+  background-size: 16px 16px;
+  background-repeat: repeat-x;
+  z-index: 10;
+}
+
+.sawtooth-bottom-pink {
+  position: relative;
+}
+.sawtooth-bottom-pink::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-image: 
+    linear-gradient(45deg, #FF2E8C 25%, transparent 25%),
+    linear-gradient(315deg, #FF2E8C 25%, transparent 25%);
+  background-position: 0 0;
+  background-size: 16px 16px;
+  background-repeat: repeat-x;
+  z-index: 10;
+}
+
+/* Dotted vertical divider for Why Join columns */
+.divide-dotted-cream > :not([hidden]) ~ :not([hidden]) {
+  border-left: 2px dotted rgba(253, 246, 232, 0.3);
+}
+
+/* Window control dots for terminal panels */
+.window-dots {
+  display: flex;
+  gap: 4px;
+}
+.window-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid #0C0C0F;
+}
+.window-dot-close { background: #FF5F56; }
+.window-dot-min { background: #FFBD2E; }
+.window-dot-max { background: #27C93F; }
+
+/* ============================================
+   ARCADE BOOT SCREEN
+   ============================================ */
+
+/* Arcade pixel frame */
+.arcade-frame {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+.arcade-frame-outer {
+  position: absolute;
+  inset: 12px;
+  border: 4px solid #ff2e8c;
+  pointer-events: none;
+}
+.arcade-frame-inner {
+  position: absolute;
+  inset: 16px;
+  border: 2px solid rgba(255, 46, 140, 0.3);
+  pointer-events: none;
+}
+/* Corner pixels */
+.arcade-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #ff2e8c;
+}
+.arcade-corner-tl { top: 8px; left: 8px; }
+.arcade-corner-tr { top: 8px; right: 8px; }
+.arcade-corner-bl { bottom: 8px; left: 8px; }
+.arcade-corner-br { bottom: 8px; right: 8px; }
+
+/* CRT overlay for boot screen */
+.crt-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.12) 0px,
+      rgba(0, 0, 0, 0.12) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  mix-blend-mode: multiply;
+}
+.crt-vignette {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+}
+
+/* Boot screen animations */
+@keyframes boot-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+  97% { opacity: 1; }
+}
+
+@keyframes pixel-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes pixel-drift-alt {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+@keyframes led-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+@keyframes signal-pulse {
+  0% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.8); }
+  100% { opacity: 0.8; transform: scale(1); }
+}
+
+@keyframes terminal-type {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes scan-line-move {
+  0% { top: -2px; }
+  100% { top: 100%; }
+}
+
+@keyframes bar-fill {
+  from { width: 0%; }
+}
+
+@keyframes boot-dot-seq {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+@keyframes screen-on {
+  0% { opacity: 0; transform: scaleY(0.01); }
+  30% { opacity: 1; transform: scaleY(0.01); }
+  60% { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 1; transform: scaleY(1); }
+}
+
+.animate-boot-flicker {
+  animation: boot-flicker 4s steps(1) infinite;
+}
+.animate-pixel-drift {
+  animation: pixel-drift 4.5s ease-in-out infinite;
+}
+.animate-pixel-drift-alt {
+  animation: pixel-drift-alt 5s ease-in-out infinite;
+}
+.animate-led-blink {
+  animation: led-blink 1.2s ease-in-out infinite;
+}
+.animate-signal-pulse {
+  animation: signal-pulse 2s ease-in-out infinite;
+}
+.animate-screen-on {
+  animation: screen-on 0.8s ease-out forwards;
+}
+
+/* Boot dot indicators */
+.boot-dot {
+  width: 6px;
+  height: 6px;
+  background: #ff2e8c;
+  display: inline-block;
+}
+.boot-dot.active {
+  animation: boot-dot-seq 0.6s ease-in-out infinite;
+}
+
+/* Pixel grid noise background */
+.pixel-noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Scan line effect */
+.scan-line-effect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 46, 140, 0.08);
+  animation: scan-line-move 6s linear infinite;
+  pointer-events: none;
+}
+
+/* ============================================
+   ARCADE EVENT TICKET TERMINAL
+   ============================================ */
+
+@keyframes ticket-slide-in {
+  0% { opacity: 0; transform: translateX(30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes ticket-slide-out {
+  0% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(-30px); }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--glow-color, #ff2e8c)30; }
+  50% { box-shadow: 0 0 20px var(--glow-color, #ff2e8c)50; }
+}
+@keyframes selector-active-glow {
+  0%, 100% { box-shadow: inset 0 0 12px var(--glow-color, #ff2e8c)25, 0 0 6px var(--glow-color, #ff2e8c)20; }
+  50% { box-shadow: inset 0 0 20px var(--glow-color, #ff2e8c)40, 0 0 12px var(--glow-color, #ff2e8c)35; }
+}
+@keyframes pixel-scatter {
+  0% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+@keyframes ticket-stub-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(0.5deg); }
+  75% { transform: rotate(-0.5deg); }
+}
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes led-sequence {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 1; }
+}
+@keyframes coin-slot-glow {
+  0%, 100% { box-shadow: inset 0 0 4px rgba(255,212,0,0.2); }
+  50% { box-shadow: inset 0 0 8px rgba(255,212,0,0.5); }
+}
+
+.animate-ticket-in {
+  animation: ticket-slide-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+.animate-selector-glow {
+  animation: selector-active-glow 2.5s ease-in-out infinite;
+}
+.animate-marquee {
+  animation: marquee-scroll 20s linear infinite;
+}
+
+/* Mobile horizontal scroll for event selector */
+.events-selector-scroll {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.events-selector-scroll::-webkit-scrollbar { display: none; }
+.events-selector-scroll > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   HERO RESPONSIVE OVERRIDES
+   ============================================ */
+
+/* Hero two-column grid */
+.hero-content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 42fr) minmax(0, 58fr);
+  gap: 0;
+  align-items: center;
+}
+
+.hero-text-col {
+  padding-left: 8%;
+  position: relative;
+  z-index: 10;
+}
+
+@media (max-width: 900px) {
+  .hero-content-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-text-col {
+    padding-left: 0 !important;
+    text-align: center;
+  }
+  .hero-art-col {
+    display: none;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .hero-text-col {
+    padding-left: 4% !important;
+  }
+}
+
+@media (min-width: 1101px) {
+  .hero-text-col {
+    padding-left: 8%;
+  }
+}
+
+/* ============================================
+   JOIN PAGE — ARCADE PIXEL UTILITIES
+   ============================================ */
+
+.pixel-corners {
+  clip-path: polygon(
+    0 8px, 4px 4px, 8px 0,
+    calc(100% - 8px) 0, calc(100% - 4px) 4px, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) 100%,
+    8px 100%, 4px calc(100% - 4px), 0 calc(100% - 8px)
+  );
+}
+
+.pixel-corners-sm {
+  clip-path: polygon(
+    0 6px, 6px 0,
+    calc(100% - 6px) 0, 100% 6px,
+    100% calc(100% - 6px), calc(100% - 6px) 100%,
+    6px 100%, 0 calc(100% - 6px)
+  );
+}
+
+/* Join page responsive title */
+@media (max-width: 768px) {
+  .join-hero-title {
+    font-size: 36px !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .join-hero-title {
+    font-size: 50px !important;
+  }
+}
+
+/* Pixel border utility */
+.border-3 {
+  border-width: 3px;
+}
+
+/* ============================================
+   ARCADE PRESS-START SCREEN — Level-up CTA
+   ============================================ */
+
+/* Heading cursor blink — FHC pink */
+@keyframes arcade-cursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.animate-arcade-cursor {
+  animation: arcade-cursor 1s steps(1) infinite;
+}
+
+/* Slower cursor blink for premium title */
+@keyframes arcade-cursor-slow {
+  0%, 64% { opacity: 1; }
+  65%, 100% { opacity: 0; }
+}
+.animate-arcade-cursor-slow {
+  animation: arcade-cursor-slow 1.4s steps(1) infinite;
+}
+
+/* Controller idle float */
+@keyframes ctrl-idle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+.animate-ctrl-idle {
+  animation: ctrl-idle 4.5s ease-in-out infinite;
+}
+
+/* Heart pixel pulse */
+@keyframes heart-pulse {
+  0%, 72% { transform: scale(1); }
+  78%, 92% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+.animate-heart-pulse {
+  animation: heart-pulse 2.4s ease-in-out infinite;
+}
+
+/* CRT scanlines — deep blue panel */
+.arcade-panel-scanlines {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.04) 0px,
+    rgba(0, 0, 0, 0.04) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Pixel grid — barely visible up close */
+.arcade-panel-grid {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* Button hover CRT flicker — extremely restrained */
+@keyframes btn-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.92; }
+}
+.animate-btn-flicker {
+  animation: btn-flicker 0.15s steps(1) 1;
+}
+
+/* ============================================
+   ARCADE PLAYER TERMINAL — Hero v2
+   ============================================ */
+
+/* CRT scanline sweep */
+@keyframes term-crt-sweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+.term-crt-sweep {
+  pointer-events: none;
+  position: absolute;
+  left: 0; right: 0;
+  height: 120px;
+  z-index: 3;
+  background: linear-gradient(to bottom, transparent, rgba(0,229,255,0.025), rgba(0,229,255,0.05), rgba(0,229,255,0.025), transparent);
+  animation: term-crt-sweep 7s linear infinite;
+}
+
+/* HUD flicker */
+@keyframes term-hud-flicker {
+  0%, 91%, 100% { opacity: 1; }
+  92% { opacity: 0.65; }
+  95% { opacity: 0.85; }
+  96% { opacity: 0.55; }
+}
+.term-hud-flicker {
+  animation: term-hud-flicker 5s ease-in-out infinite;
+}
+
+/* Robot idle float */
+@keyframes term-robot-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+.term-robot-float {
+  animation: term-robot-float 3.8s ease-in-out infinite;
+}
+
+/* Heart double-pulse */
+@keyframes term-heart-pulse {
+  0%, 65% { transform: scale(1); }
+  72% { transform: scale(1.2); }
+  78% { transform: scale(1); }
+  84% { transform: scale(1.1); }
+  90%, 100% { transform: scale(1); }
+}
+.term-heart-pulse {
+  animation: term-heart-pulse 2.2s ease-in-out infinite;
+}
+
+/* Terminal cursor blink */
+@keyframes term-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.term-blink {
+  animation: term-blink 1s steps(1) infinite;
+}
+
+/* Slow cursor blink */
+@keyframes term-blink-slow {
+  0%, 64% { opacity: 1; }
+  65%, 100% { opacity: 0; }
+}
+.term-blink-slow {
+  animation: term-blink-slow 1.3s steps(1) infinite;
+}
+
+/* LED pulse */
+@keyframes term-led {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.15; }
+}
+.term-led {
+  animation: term-led 1.2s steps(1) infinite;
+}
+
+/* Background twinkle */
+@keyframes term-twinkle {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.45; }
+}
+
+/* ── Hero structural CSS ── */
+
+/* CRT scanlines layer — 2px line + 2px gap, ≤2% opacity */
+.term-scanlines {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.02) 0px,
+    rgba(255,255,255,0.02) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* Technical pixel grid — 32px spacing, 3% opacity */
+.term-grid {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0,229,255,0.03) 0px, rgba(0,229,255,0.03) 1px, transparent 1px, transparent 32px),
+    repeating-linear-gradient(90deg, rgba(0,229,255,0.03) 0px, rgba(0,229,255,0.03) 1px, transparent 1px, transparent 32px);
+}
+
+/* Info panel (left) */
+.term-info-panel {
+  position: relative;
+  background: #000;
+  border: 1px solid #FF007F;
+}
+.term-info-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(0,229,255,0.018) 0px, rgba(0,229,255,0.018) 1px, transparent 1px, transparent 4px);
+}
+
+/* Player card (center) */
+.term-player-card {
+  position: relative;
+  background: #03050B;
+  border: 1px solid rgba(0,229,255,0.15);
+}
+.term-player-card::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255,0,127,0.15) 0%, transparent 60%);
+  z-index: -1;
+}
+.term-player-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(0,229,255,0.015) 0px, rgba(0,229,255,0.015) 1px, transparent 1px, transparent 5px);
+}
+
+/* Heart viewport — 140x140 with corner brackets */
+.term-viewport {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  background: #050812;
+  border: 1px solid rgba(0,229,255,0.4);
+}
+
+/* Circular platform rings */
+.term-platform-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid;
+  pointer-events: none;
+}
+
+/* Halftone dot field — magenta dots behind robot */
+.term-halftone {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,0,127,0.3) 1px, transparent 1px);
+  background-size: 10px 10px;
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 0%, transparent 70%);
+}
+
+/* Status pill container */
+.term-status-pill {
+  position: relative;
+  background: #000;
+  border: 1px solid #00E5FF;
+  padding: 6px 16px;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+/* HUD corner bracket — reusable L-shape */
+.term-bracket {
+  position: absolute;
+  pointer-events: none;
+}
+.term-bracket--tl { top: 0; left: 0; }
+.term-bracket--tr { top: 0; right: 0; }
+.term-bracket--bl { bottom: 0; left: 0; }
+.term-bracket--br { bottom: 0; right: 0; }
+
+/* Dashed edge between corners */
+.term-dashed-edge {
+  position: absolute;
+  pointer-events: none;
+}
+.term-dashed-edge--top {
+  top: 0; left: 24px; right: 24px; height: 1px;
+  border-top: 1px dashed rgba(0,229,255,0.15);
+}
+.term-dashed-edge--bottom {
+  bottom: 0; left: 24px; right: 24px; height: 1px;
+  border-bottom: 1px dashed rgba(0,229,255,0.15);
+}
+.term-dashed-edge--left {
+  top: 24px; bottom: 24px; left: 0; width: 1px;
+  border-left: 1px dashed rgba(0,229,255,0.15);
+}
+.term-dashed-edge--right {
+  top: 24px; bottom: 24px; right: 0; width: 1px;
+  border-right: 1px dashed rgba(0,229,255,0.15);
+}
+
+/* Responsive title sizing */
+@media (max-width: 640px) {
+  .term-title-join { font-size: 38px !important; }
+  .term-title-fhc { font-size: 54px !important; }
+  .term-viewport { width: 120px; height: 120px; }
+}
+@media (min-width: 641px) and (max-width: 1023px) {
+  .term-title-join { font-size: 48px !important; }
+  .term-title-fhc { font-size: 68px !important; }
+}
+
+/* ============================================
+   FHC ARCADE — ABOUT PAGE EXPERIENCE
+   ============================================ */
+
+/* ── Cursor blink ── */
+@keyframes arcade-blink-kf {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.arcade-blink {
+  animation: arcade-blink-kf 1s steps(1) infinite;
+  color: #1ED7E8;
+}
+
+/* ── LED pulse ── */
+@keyframes arcade-led-kf {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.2; }
+}
+.arcade-led {
+  animation: arcade-led-kf 1.2s steps(1) infinite;
+}
+
+/* ── Robot float ── */
+@keyframes arcade-float-kf {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.arcade-float {
+  animation: arcade-float-kf 4s ease-in-out infinite;
+}
+
+/* ── Heart pulse ── */
+@keyframes arcade-heart-kf {
+  0%, 65% { transform: scale(1); }
+  72% { transform: scale(1.15); }
+  78% { transform: scale(1); }
+  84% { transform: scale(1.08); }
+  90%, 100% { transform: scale(1); }
+}
+.arcade-heart {
+  animation: arcade-heart-kf 2.5s ease-in-out infinite;
+}
+
+/* ── Telemetry flicker ── */
+@keyframes arcade-telemetry-kf {
+  0%, 88%, 100% { opacity: 1; }
+  89% { opacity: 0.5; }
+  91% { opacity: 0.8; }
+  93% { opacity: 0.4; }
+}
+.arcade-telemetry {
+  animation: arcade-telemetry-kf 6s ease-in-out infinite;
+}
+
+/* ── Ring spin ── */
+@keyframes arcade-spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ── Signal sweep bar ── */
+@keyframes arcade-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+/* ── Reusable sweep alias ── */
+@keyframes sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+/* ── Telemetry flicker ── */
+@keyframes flicker {
+  0%, 88%, 100% { opacity: 1; }
+  89% { opacity: 0.5; }
+  91% { opacity: 0.8; }
+  93% { opacity: 0.4; }
+}
+
+/* ── Standard spin ── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── CRT sweep ── */
+@keyframes arcade-crt-sweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(500%); }
+}
+
+/* ── CTA button ── */
+.arcade-cta {
+  clip-path: polygon(0 6px, 6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px));
+}
+
+/* ── Zone base ── */
+.arcade-zone {
+  position: relative;
+}
+
+/* ── Canvas container ── */
+.arcade-canvas-wrap canvas {
+  display: block;
+}
+
+/* ── Arcade viewport sweep ── */
+@keyframes arcade-viewport-sweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(600%); }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .arcade-blink,
+  .arcade-led,
+  .arcade-float,
+  .arcade-heart,
+  .arcade-telemetry,
+  .term-crt-sweep,
+  .term-hud-flicker,
+  .term-robot-float,
+  .term-heart-pulse,
+  .term-blink,
+  .term-blink-slow,
+  .term-led {
+    animation: none !important;
+  }
+  .arcade-canvas-wrap {
+    display: none;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Mobile: dim WebGL ── */
+@media (max-width: 768px) {
+  .arcade-canvas-wrap {
+    opacity: 0.25;
+  }
+}
+
+/* ============================================
+   JOIN PAGE — HORIZON CORE + BUTTON INTERACTIONS
+   ============================================ */
+
+/* CREATE PLAYER button hover scanline sweep */
+#create-player-btn:hover .absolute {
+  transform: translateX(100%) !important;
+  transition: transform 0.5s ease !important;
+}
+
+/* Horizon core viewport responsive */
+@media (max-width: 640px) {
+  .horizon-core-viewport {
+    max-width: 280px !important;
+  }
+}
+
+/* Core canvas on mobile — ensure it doesn't overflow */
+@media (max-width: 768px) {
+  .horizon-core-viewport canvas {
+    max-width: 100% !important;
+  }
+}
+
+/* ============================================
+   JOIN PAGE — TERMINAL INPUT ENHANCEMENTS
+   ============================================ */
+
+/* Terminal input focus states */
+.join-input-wrap {
+  position: relative;
+  background: #0a0d14;
+  border: 1px solid rgba(0,229,255,0.12);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.join-input-wrap:focus-within {
+  border-color: rgba(0,229,255,0.35);
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,0.1);
+}
+.join-input-wrap:focus-within::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 8px;
+  height: 1px;
+  background: #FF007F;
+}
+.join-input-wrap:focus-within::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 8px;
+  height: 1px;
+  background: #00E5FF;
+}
+
+/* Domain card hover effect */
+.domain-card {
+  position: relative;
+  overflow: hidden;
+}
+.domain-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,229,255,0.03), transparent);
+  transition: left 0.5s ease;
+}
+.domain-card:hover::before {
+  left: 100%;
+}
+
+/* Reduced motion for new effects */
+@media (prefers-reduced-motion: reduce) {
+  .domain-card::before {
+    animation: none;
+    left: 0;
+    background: none;
+  }
+  .join-input-wrap:focus-within::before,
+  .join-input-wrap:focus-within::after {
+    animation: none;
+  }
+}
+
+/* ============================================
+   COMING SOON PAGE — CINEMATIC ARCADE
+   ============================================ */
+
+/* CRT scan sweep across viewport */
+@keyframes cs-scan-sweep {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+/* Ring spin for fallback */
+@keyframes cs-ring-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Core pulse for fallback */
+@keyframes cs-core-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+
+/* Floating particle animation */
+@keyframes cs-float-particle {
+  0%, 100% { transform: translateY(0); opacity: 0.2; }
+  50% { transform: translateY(-8px); opacity: 0.4; }
+}
+
+/* Film grain overlay — subtle noise texture */
+.cs-film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  opacity: 0.025;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  mix-blend-mode: overlay;
+  animation: cs-grain-shift 0.5s steps(4) infinite;
+}
+
+@keyframes cs-grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, -2px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* CRT scanlines overlay — very subtle */
+.cs-crt-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.035) 0px,
+    rgba(0, 0, 0, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+/* Reduced motion for coming soon */
+@media (prefers-reduced-motion: reduce) {
+  .cs-scan-sweep,
+  .cs-ring-spin,
+  .cs-core-pulse,
+  .cs-float-particle {
+    animation: none !important;
+  }
+  .cs-film-grain {
+    animation: none;
+    opacity: 0.02;
+  }
+}
+
