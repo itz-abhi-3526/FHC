@@ -58,7 +58,7 @@ function SectionDivider({ leftLabel, rightLabel, color = MJF_CY }) {
   return (
     <div className="relative" style={{ padding: "16px 0", zIndex: 30 }}>
       {/* Main divider line */}
-      <div className="flex items-center gap-3" style={{ padding: "0 48px" }}>
+      <div className="flex items-center gap-3" style={{ padding: "0 clamp(16px, 5vw, 48px)" }}>
         {/* Left label */}
         <span className="font-pixel shrink-0" style={{ fontSize: 6, letterSpacing: "0.18em", color: MJF_CY, opacity: 0.35 }}>{leftLabel}</span>
         {/* Dashed line — left */}
@@ -302,10 +302,10 @@ function Hero() {
                 background: "#030508", color: HC_CR,
                 border: `2px solid ${HC_PK}`,
                 boxShadow: `inset 0 0 0 3px #030508, inset 0 0 0 4px ${HC_PK}50, 0 0 0 1px #1E90FF20`,
-                padding: "18px 38px", fontFamily: "var(--font-pixel)", fontSize: 16,
+                padding: "16px clamp(18px, 6vw, 38px)", fontFamily: "var(--font-pixel)", fontSize: "clamp(11px, 3vw, 16px)",
                 letterSpacing: 2, cursor: "pointer", textDecoration: "none",
                 transition: "background 0.1s steps(2), color 0.1s steps(2), box-shadow 0.15s, transform 0.08s steps(2)",
-                overflow: "hidden",
+                overflow: "hidden", whiteSpace: "nowrap",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = HC_PK;
@@ -525,7 +525,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
               </div>
 
               {/* Two-column layout: Profile Card + Form */}
-              <div className="grid lg:grid-cols-[280px_1fr] gap-0 items-stretch">
+              <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-0 items-stretch">
 
                 {/* ═══ LEFT — HOLOGRAPHIC PORTAL ═══ */}
                 <div className="hidden lg:block" style={{ borderRight: `1px solid ${CP_CY}0c` }}>
@@ -876,7 +876,7 @@ function ReadyToLevelUp() {
         {/* ═══════════════════════════════════════════════════════
             DESKTOP — 3-PART COMPOSITION
             ═══════════════════════════════════════════════════════ */}
-        <div className="hidden md:flex w-full items-center justify-between" style={{ padding: "0 20px" }}>
+        <div className="hidden lg:flex w-full items-center justify-between" style={{ padding: "0 20px" }}>
 
           {/* ── LEFT: CONTROLLER ── */}
           <div className="flex flex-col items-center" style={{ flex: "0 0 220px" }}>
@@ -995,7 +995,7 @@ function ReadyToLevelUp() {
         {/* ═══════════════════════════════════════════════════════
             MOBILE — VERTICAL STACK
             ═══════════════════════════════════════════════════════ */}
-        <div className="flex md:hidden flex-col items-center gap-6 w-full">
+        <div className="flex lg:hidden flex-col items-center gap-6 w-full">
 
           {/* Controller (mobile) */}
           <div className="flex flex-col items-center">

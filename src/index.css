@@ -51,8 +51,40 @@
   50% { opacity: 1; transform: scale(1); }
 }
 
-html { scroll-behavior: smooth; }
-body { @apply bg-ink text-cream font-mono text-lg; }
+html {
+  scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  @apply bg-ink text-cream font-mono text-lg;
+  margin: 0;
+}
+
+/* Media defaults: never let embedded media force horizontal overflow */
+img,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
 
 /* Scanlines overlay */
 .scanlines {

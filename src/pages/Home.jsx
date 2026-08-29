@@ -214,7 +214,7 @@ function StatsAchievements() {
       <div className="relative z-10 max-w-[1200px] mx-auto px-8 py-8 md:py-10">
 
         {/* ── MAIN: STATS + ACHIEVEMENTS ────────────────────────── */}
-        <div className="grid lg:grid-cols-[1fr_auto_1fr] gap-0 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-0 items-start">
 
           {/* ═══════ LEFT: STATS PANEL ══════════════════════════════ */}
           <div>
@@ -226,7 +226,7 @@ function StatsAchievements() {
             </div>
 
             {/* Three stat cards — larger */}
-            <div className="grid grid-cols-3 gap-3 mb-5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
               {stats.map((s, i) => {
                 const rotations = [-1.2, 0.6, -0.5];
                 return (
@@ -632,7 +632,7 @@ function UpcomingEvents() {
             <span className="font-pixel text-[10px] tracking-wider" style={{ color: accent, letterSpacing: 2 }}>//</span>
             <h2
               className="font-pixel tracking-wider font-bold"
-              style={{ fontSize: 28, color: CR, textShadow: `2px 2px 0 0 ${INK}, 0 0 12px ${accent}30` }}
+              style={{ fontSize: "clamp(15px, 4.5vw, 28px)", color: CR, textShadow: `2px 2px 0 0 ${INK}, 0 0 12px ${accent}30` }}
             >
               FHC EVENT ARCADE
             </h2>
@@ -652,7 +652,7 @@ function UpcomingEvents() {
         </div>
 
         {/* ── MAIN 3-PANEL LAYOUT ───────────────────────────────── */}
-        <div className="grid lg:grid-cols-[200px_1fr_220px] gap-4 lg:gap-5 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr_220px] gap-4 lg:gap-5 items-start">
 
           {/* ═══════════════════════════════════════════════════════════
               LEFT — ARCADE EVENT SELECTOR
@@ -1248,7 +1248,7 @@ function ProjectsBand() {
         </div>
 
         {/* ═══ FEATURED PROJECT — CAMPUS PAY ═════════════════════════ */}
-        <div className="grid lg:grid-cols-[55%_1fr] gap-6 lg:gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[55%_1fr] gap-6 lg:gap-8 mb-12">
           {/* Left: Large visual window */}
           <div className="relative">
             {/* Large number behind */}
@@ -1402,7 +1402,7 @@ function ProjectsBand() {
           </div>
 
           {/* ═══ ASYMMETRIC PROJECT GRID ══════════════════════════════ */}
-          <div className="grid lg:grid-cols-[1fr_280px] gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-5">
 
             {/* ═══ MEDITSCHED — large horizontal panel ═══════════════ */}
             <div className="group relative">

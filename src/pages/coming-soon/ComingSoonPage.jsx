@@ -83,7 +83,7 @@ const css = `
 
   @media (max-width: 640px) {
     .cs2-title {
-      font-size: clamp(3.2rem, 18vw, 5rem) !important;
+      font-size: clamp(2.4rem, 14vw, 5rem) !important;
       letter-spacing: 0.02em !important;
     }
   }

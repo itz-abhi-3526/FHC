@@ -739,7 +739,7 @@ function HeroSection({ mouse }) {
           </span>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 lg:gap-12 items-center">
           {/* LEFT — cinematic copy */}
           <div className={`transition-all duration-1000 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
             <div className="flex items-center gap-2 mb-5">
@@ -790,7 +790,7 @@ function HeroSection({ mouse }) {
           {/* RIGHT — HORIZON CORE artifact */}
           <div className="relative">
             <div
-              className="relative mx-auto w-[300px] sm:w-[360px] lg:w-[420px] aspect-square bg-[#05070d] border border-[#1ED7E8]/15 overflow-hidden"
+              className="relative mx-auto w-full max-w-[300px] sm:max-w-[360px] lg:max-w-[420px] aspect-square bg-[#05070d] border border-[#1ED7E8]/15 overflow-hidden"
               style={{ opacity: vis ? 1 : 0, transition: "opacity 1.2s ease 0.5s" }}
             >
               <Brackets size={16} color="#1ED7E8" />
@@ -1139,8 +1139,8 @@ function TerminalSection() {
       <style>{`
         .hc-cursor-blink{animation:hcCursor 0.9s steps(1) infinite}
         @keyframes hcCursor{50%{opacity:0}}
-        .hc-type{white-space:nowrap;overflow:hidden;display:inline-block;vertical-align:bottom;animation:hcType 0.55s steps(26,end) forwards}
-        @keyframes hcType{from{width:0}to{width:100%}}
+        .hc-type{white-space:nowrap;overflow:hidden;display:inline-block;vertical-align:bottom;max-width:100%;animation:hcType 0.55s steps(26,end) forwards}
+        @keyframes hcType{from{max-width:0}to{max-width:100%}}
         .hc-scan{animation:hcScan 7s linear infinite}
         @keyframes hcScan{0%{top:-2%}100%{top:100%}}
         .hc-noise{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");animation:hcNoise 1.2s steps(6) infinite}

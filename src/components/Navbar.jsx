@@ -100,7 +100,7 @@ export default function Navbar() {
       <div
         className="absolute left-[15px] top-[18px] z-[60] pointer-events-auto"
       >
-        <Link to="/" className="block relative" style={{ width: 260, height: 155 }}>
+        <Link to="/" className="block relative" style={{ width: "min(260px, calc(100vw - 105px))", height: 155 }}>
           {/* Layer 1: Black outer shadow */}
           <div
             className="absolute bg-ink"
@@ -151,7 +151,7 @@ export default function Navbar() {
       {/* ── Mobile dropdown ──────────────────────────────────── */}
       {open && (
         <div className="lg:hidden border-b-4 border-ink bg-pink absolute top-full left-0 right-0 z-40">
-          <ul className="px-6 py-4 flex flex-col gap-2">
+          <ul className="px-6 py-4 flex flex-col gap-2 max-h-[calc(100dvh-140px)] overflow-y-auto">
             {LINKS.map((l) => (
               <li key={l.to}>
                 <Link

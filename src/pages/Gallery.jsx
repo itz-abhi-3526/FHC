@@ -176,21 +176,21 @@ function PhotoCard({ p }) {
 
 function Pagination() {
   return (
-    <div className="flex items-center justify-center gap-2 mt-10">
-      <button className="w-10 h-10 border-2 border-ink bg-cream text-ink font-pixel text-sm grid place-items-center hover:bg-pink transition-colors">
+    <div className="flex items-center justify-center gap-1 sm:gap-2 mt-10">
+      <button className="w-8 h-8 sm:w-10 sm:h-10 border-2 border-ink bg-cream text-ink font-pixel text-sm grid place-items-center hover:bg-pink transition-colors">
         ‹
       </button>
       {["1", "2", "3", "…", "7"].map((p) => (
         <button
           key={p}
-          className={`w-10 h-10 border-2 border-ink font-pixel text-sm grid place-items-center ${
+          className={`w-8 h-8 sm:w-10 sm:h-10 border-2 border-ink font-pixel text-sm grid place-items-center ${
             p === "1" ? "bg-pink text-ink" : "bg-cream text-ink hover:bg-sky"
           }`}
         >
           {p}
         </button>
       ))}
-      <button className="w-10 h-10 border-2 border-ink bg-cream text-ink font-pixel text-sm grid place-items-center hover:bg-pink transition-colors">
+      <button className="w-8 h-8 sm:w-10 sm:h-10 border-2 border-ink bg-cream text-ink font-pixel text-sm grid place-items-center hover:bg-pink transition-colors">
         ›
       </button>
     </div>

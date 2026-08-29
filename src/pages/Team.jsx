@@ -178,7 +178,7 @@ function TeamHeader() {
       <div className="relative z-10 max-w-[1200px] mx-auto grid md:grid-cols-2 gap-10 items-center">
         <div>
           <SectionEyebrow tone="sky">TEAM</SectionEyebrow>
-          <h1 className="font-pixel text-3xl md:text-5xl text-cream mt-4 mb-6">
+          <h1 className="font-pixel text-xl sm:text-3xl md:text-5xl text-cream mt-4 mb-6">
             MEET THE TEAM
           </h1>
           <p className="text-xl md:text-2xl leading-relaxed text-cream/80 max-w-lg">

@@ -389,7 +389,7 @@ export default function Hero() {
             <h1
               className="font-pixel"
               style={{
-                fontSize: 28,
+                fontSize: "clamp(20px, 6vw, 28px)",
                 color: "#0c0c0f",
                 marginBottom: 8,
                 lineHeight: 1.2,
@@ -402,7 +402,7 @@ export default function Hero() {
             <h2
               className="font-pixel"
               style={{
-                fontSize: "clamp(95px, 11vw, 145px)",
+                fontSize: "clamp(64px, 11vw, 145px)",
                 lineHeight: 0.95,
                 color: "#ff2e8c",
                 marginBottom: 10,
@@ -426,7 +426,7 @@ export default function Hero() {
                 whiteSpace: "nowrap",
               }}
             >
-              <span className="font-pixel" style={{ fontSize: 13, color: "#ffffff", letterSpacing: 1 }}>
+              <span className="font-pixel" style={{ fontSize: "clamp(8px, 3.2vw, 13px)", color: "#ffffff", letterSpacing: 1 }}>
                 FULL FISAT HORIZON CLUB_
               </span>
             </div>
