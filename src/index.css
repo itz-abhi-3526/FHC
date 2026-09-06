@@ -596,11 +596,16 @@ canvas {
   }
 }
 
-/* Mobile: shift hero composition down ~5-8% of viewport height
-   (viewport-relative so it scales across phone sizes) */
+/* Mobile: shift hero composition down ~50-70px of viewport height.
+   Content-only rebalance: padding-top increases while padding-bottom
+   shrinks by the same amount, so the grid's box height (and therefore
+   the hero height, the bottom-anchored grass strip, and the next
+   section) stay exactly where they are. Viewport-relative so it scales
+   across phone sizes. */
 @media (max-width: 767px) {
   .hero-content-grid {
-    padding-top: clamp(40px, 7vh, 72px) !important;
+    padding-top: clamp(100px, 13vh, 128px) !important;
+    padding-bottom: clamp(24px, 4vh, 40px) !important;
   }
   /* Shared mobile hero breathing for page hero sections (About/Team/Gallery):
      gives the main content block intentional top spacing below the header

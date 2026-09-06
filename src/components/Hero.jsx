@@ -368,7 +368,6 @@ export default function Hero() {
           {/* ── LEFT: Typography & CTA ──────────────────── */}
           <div className="hero-text-col">
             <div
-              className="max-md:hidden"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
