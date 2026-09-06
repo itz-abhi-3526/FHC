@@ -607,6 +607,18 @@ canvas {
     padding-top: clamp(100px, 13vh, 128px) !important;
     padding-bottom: clamp(24px, 4vh, 40px) !important;
   }
+  /* Mobile: INITIATING CONNECTION chip is a small secondary status
+     element. Compact inline chip, single line, shrink-wrapped so it
+     reads as supporting text between the header badge and the main
+     hero content rather than a full-width panel. */
+  .hero-init-chip {
+    font-size: 9px !important;
+    gap: 5px !important;
+    padding: 5px 10px !important;
+    border-width: 2px !important;
+    margin-bottom: 12px !important;
+    white-space: nowrap !important;
+  }
   /* Shared mobile hero breathing for page hero sections (About/Team/Gallery):
      gives the main content block intentional top spacing below the header
      and logo plaque. Content-only — decorative/background layers (grass,
@@ -615,6 +627,61 @@ canvas {
      Desktop (> 767px) is unaffected. */
   .fhc-hero-pad {
     padding-top: clamp(104px, 11vh, 140px);
+  }
+}
+
+/* Mobile splash: intent-based hierarchy. Main elements (FHC branding,
+   loading message + progress bar, module/feature row) are sized with
+   viewport-relative clamps so they stay proportioned and never clip.
+   Secondary system UI (terminal log, footer micro-details) is demoted
+   (and dropped on short screens) so it never competes or overflows. */
+@media (max-width: 767px) {
+  .splash-laptop {
+    width: clamp(84px, 24vw, 120px) !important;
+  }
+  .splash-mascot {
+    height: clamp(56px, 16vw, 110px) !important;
+  }
+  .splash-pbar {
+    height: clamp(18px, 10vw, 28px) !important;
+  }
+  .splash-percent {
+    font-size: clamp(9px, 2.6vw, 12px) !important;
+  }
+  .splash-mod-img {
+    width: clamp(28px, 11vw, 44px) !important;
+    height: clamp(28px, 11vw, 44px) !important;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 780px) {
+  /* System log panel is secondary — collapse it on short screens so the
+     main content fits comfortably without clipping. */
+  .splash-terminal {
+    display: none;
+  }
+  /* Vertically center the (now shorter) content column on short screens
+     so the branding + loading group sits balanced in the viewport
+     instead of hugging the top with empty space below. */
+  .splash-scene {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 620px) {
+  /* Tightest tier: compact the branding artwork & fold in the footer. */
+  .splash-laptop {
+    width: clamp(64px, 20vw, 84px) !important;
+  }
+  .splash-mascot {
+    height: clamp(44px, 13vw, 56px) !important;
+  }
+  .splash-mod-img {
+    width: clamp(22px, 8vw, 28px) !important;
+    height: clamp(22px, 8vw, 28px) !important;
+  }
+  .splash-footer {
+    display: none;
   }
 }
 

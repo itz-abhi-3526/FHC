@@ -368,6 +368,7 @@ export default function Hero() {
           {/* ── LEFT: Typography & CTA ──────────────────── */}
           <div className="hero-text-col">
             <div
+              className="hero-init-chip"
               style={{
                 display: "inline-flex",
                 alignItems: "center",

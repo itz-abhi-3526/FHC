@@ -80,12 +80,12 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* Mobile toggle */}
+          {/* Mobile toggle — own black panel, upper-right, clear of the logo badge */}
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
             aria-expanded={open}
-            className="lg:hidden ml-auto w-12 h-12 grid place-items-center bg-ink text-cream font-pixel text-sm"
+            className="lg:hidden absolute right-6 bottom-[16px] w-[58px] h-[52px] grid place-items-center bg-ink border-2 border-pink text-cream font-pixel text-sm"
             style={{
               clipPath:
                 "polygon(0 6px, 6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px))",
@@ -100,7 +100,7 @@ export default function Navbar() {
       <div
         className="absolute left-[15px] top-[18px] z-[60] pointer-events-auto"
       >
-        <Link to="/" className="block relative" style={{ width: "min(260px, calc(100vw - 105px))", height: 155 }}>
+        <Link to="/" className="block relative" style={{ width: "min(260px, calc(100vw - 125px))", height: 155 }}>
           {/* Layer 1: Black outer shadow */}
           <div
             className="absolute bg-ink"

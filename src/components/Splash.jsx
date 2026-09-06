@@ -115,13 +115,13 @@ function ProgressBar({ progress }) {
         <span className="font-pixel text-[7px] text-cream/40">{Math.round(progress)}%</span>
       </div>
       <div className="relative border-[3px] border-cream bg-black p-[3px]" style={{borderRadius:"3px"}}>
-        <div className="flex gap-[3px]" style={{height:28}}>
+        <div className="flex gap-[3px] splash-pbar" style={{height:28}}>
           {Array.from({length:segs}).map((_,i)=>(
             <div key={i} className="flex-1" style={{backgroundColor:i<filled?"#ff2e8c":"#1a1a1a",boxShadow:i<filled?"inset 0 -2px 0 #c4106a, inset 0 1px 0 #ff7eb3":"none",transition:"background-color 0.1s"}}/>
           ))}
         </div>
       </div>
-      <p className="text-center font-pixel text-[12px] text-pink mt-2">{Math.round(progress)}%</p>
+      <p className="text-center font-pixel text-[12px] text-pink mt-2 splash-percent">{Math.round(progress)}%</p>
     </div>
   );
 }
@@ -132,7 +132,7 @@ function ModulePanel() {
       <div className="grid grid-cols-5 divide-x divide-cream/15">
         {MODULES.map(({label,color,img}) => (
           <div key={label} className="flex flex-col items-center gap-1 py-2 px-1">
-            <img src={img} alt="" style={{width:48,height:48,imageRendering:"pixelated",objectFit:"contain"}}/>
+            <img src={img} alt="" className="splash-mod-img" style={{width:48,height:48,imageRendering:"pixelated",objectFit:"contain"}}/>
             <span className="font-pixel text-[5px] md:text-[7px]" style={{color}}>{label}</span>
           </div>
         ))}
@@ -144,7 +144,7 @@ function ModulePanel() {
 function Terminal({ progress }) {
   const lines = TERMINAL_LINES.filter(l => progress >= l.at);
   return (
-    <div className="border-2 border-green bg-black relative" style={{borderRadius:"3px"}}>
+    <div className="border-2 border-green bg-black relative splash-terminal" style={{borderRadius:"3px"}}>
       <div className="flex items-center justify-between px-3 py-1 border-b border-green/30">
         <span className="font-pixel text-[6px] text-green/70">SYS://FHC/CORE</span>
         <div className="flex gap-3">
@@ -178,21 +178,20 @@ function SplashScene({ progress }) {
   const fade = (d=0) => ({opacity:show?1:0,transition:`opacity 0.8s ease ${d}s`});
 
   return (
-    <div className="relative z-10 w-full h-full flex flex-col" style={{maxHeight:"100vh"}}>
+    <div className="relative z-10 w-full h-full flex flex-col splash-scene" style={{maxHeight:"100vh"}}>
       <Header progress={progress}/>
 
-      {/* HERO SECTION */}
-      <div className="relative flex flex-col items-center" style={{flex:"0 0 auto",paddingTop:4,paddingBottom:4}}>
+      <div className="relative flex flex-col items-center splash-hero" style={{flex:"0 0 auto",paddingTop:4,paddingBottom:4}}>
         {/* Laptop centered above FHC */}
         <div style={{...fade(0.2)}}>
-          <img src="/assets/fhc-loader/hero-laptop.png" alt="" style={{width:120,imageRendering:"pixelated"}} className="block mx-auto"/>
+          <img src="/assets/fhc-loader/hero-laptop.png" alt="" className="block mx-auto splash-laptop" style={{width:120,imageRendering:"pixelated"}}/>
         </div>
 
         {/* Robot left, FHC center, Satellite right */}
         <div className="w-full max-w-3xl mx-auto flex items-end justify-between px-4 md:px-8" style={{marginTop:-8}}>
           {/* Robot */}
           <div className="flex flex-col items-center" style={{...fade(0.4)}}>
-            <img src="/assets/fhc-loader/hero-robot.png" alt="" style={{height:110,imageRendering:"pixelated"}} className="block"/>
+            <img src="/assets/fhc-loader/hero-robot.png" alt="" className="block splash-mascot" style={{height:110,imageRendering:"pixelated"}}/>
           </div>
 
           {/* FHC Logo */}
@@ -205,7 +204,7 @@ function SplashScene({ progress }) {
           {/* Satellite */}
           <div className="flex flex-col items-center" style={{...fade(0.5)}}>
             <div style={{height:50}}/>
-            <img src="/assets/fhc-loader/satellite-dish.png" alt="" style={{height:110,imageRendering:"pixelated"}} className="block"/>
+            <img src="/assets/fhc-loader/satellite-dish.png" alt="" className="block splash-mascot" style={{height:110,imageRendering:"pixelated"}}/>
           </div>
         </div>
 
@@ -252,7 +251,7 @@ function SplashScene({ progress }) {
       </div>
 
       {/* FOOTER */}
-      <div className="flex items-center justify-center gap-2 pb-[22px] pt-2" style={{...fade(0.1),flex:"0 0 auto"}}>
+      <div className="flex items-center justify-center gap-2 pb-[22px] pt-2 splash-footer" style={{...fade(0.1),flex:"0 0 auto"}}>
         <img src="/assets/fhc-loader/pixel-heart.png" alt="" style={{width:12,height:12,imageRendering:"pixelated"}} className="block"/>
         <span className="font-pixel text-[7px] text-cream/70">MADE WITH 8-BIT LOVE</span>
         <img src="/assets/fhc-loader/pixel-heart.png" alt="" style={{width:12,height:12,imageRendering:"pixelated"}} className="block"/>
