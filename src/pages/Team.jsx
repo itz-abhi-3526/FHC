@@ -164,7 +164,7 @@ function CompactList({ list }) {
 
 function TeamHeader() {
   return (
-    <section className="relative overflow-hidden bg-ink text-cream border-b-4 border-ink px-6 py-16 md:py-20">
+    <section className="relative overflow-hidden bg-ink text-cream border-b-4 border-ink px-6 py-16 md:py-20 fhc-hero-pad">
       {TWINKLES.map((s) => (
         <span
           key={s.id}

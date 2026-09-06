@@ -48,7 +48,7 @@ function SocialButton({ label, title, url }) {
   );
 }
 
-export default function Footer({ currentYear = 2025, clubName = "FULL FISAT HORIZON CLUB" }) {
+export default function Footer({ currentYear = 2025, clubName = "FISAT HORIZON CLUB" }) {
   return (
     <footer className="w-full select-none font-mono">
       {/* MAIN PINK FOOTER */}

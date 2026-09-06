@@ -60,7 +60,7 @@ function SectionDivider({ leftLabel, rightLabel, color = MJF_CY }) {
       {/* Main divider line */}
       <div className="flex items-center gap-3" style={{ padding: "0 clamp(16px, 5vw, 48px)" }}>
         {/* Left label */}
-        <span className="font-pixel shrink-0" style={{ fontSize: 6, letterSpacing: "0.18em", color: MJF_CY, opacity: 0.35 }}>{leftLabel}</span>
+        <span className="font-pixel shrink-0 max-md:hidden" style={{ fontSize: 6, letterSpacing: "0.18em", color: MJF_CY, opacity: 0.35 }}>{leftLabel}</span>
         {/* Dashed line — left */}
         <div style={{ flex: 1, borderTop: `1px dashed ${MJF_CY}15` }} />
         {/* Center diamond */}
@@ -68,13 +68,13 @@ function SectionDivider({ leftLabel, rightLabel, color = MJF_CY }) {
         {/* Dashed line — right */}
         <div style={{ flex: 1, borderTop: `1px dashed ${MJF_CY}15` }} />
         {/* Right label */}
-        <span className="font-pixel shrink-0" style={{ fontSize: 6, letterSpacing: "0.18em", color: MJF_CY, opacity: 0.35 }}>{rightLabel}</span>
+        <span className="font-pixel shrink-0 max-md:hidden" style={{ fontSize: 6, letterSpacing: "0.18em", color: MJF_CY, opacity: 0.35 }}>{rightLabel}</span>
       </div>
       {/* Tiny status nodes */}
-      <div className="absolute top-1/2 -translate-y-1/2" style={{ left: "calc(48px + 25%)" }}>
+      <div className="absolute top-1/2 -translate-y-1/2 max-md:hidden" style={{ left: "calc(48px + 25%)" }}>
         <div className="w-[3px] h-[3px] rounded-full" style={{ background: MJF_PK, opacity: 0.3 }} />
       </div>
-      <div className="absolute top-1/2 -translate-y-1/2" style={{ right: "calc(48px + 25%)" }}>
+      <div className="absolute top-1/2 -translate-y-1/2 max-md:hidden" style={{ right: "calc(48px + 25%)" }}>
         <div className="w-[3px] h-[3px] rounded-full" style={{ background: MJF_CY, opacity: 0.25 }} />
       </div>
     </div>
@@ -102,7 +102,7 @@ function Hero() {
       <div className="term-crt-sweep" />
 
       {/* ═══ SPARSE TECHNICAL MARKERS ═══ */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-[4]">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-[4] max-md:hidden">
         <span className="absolute font-pixel" style={{ left: "3%", top: "8%", fontSize: 5, color: HC_CY, opacity: 0.12 }}>FHC // PLAYER ENTRY</span>
         <span className="absolute font-pixel" style={{ right: "3%", top: "6%", fontSize: 5, color: HC_PK, opacity: 0.1 }}>SYS_RDY</span>
         <span className="absolute font-pixel" style={{ left: "4%", bottom: "8%", fontSize: 5, color: HC_CY, opacity: 0.08 }}>INITIALIZING</span>
@@ -118,7 +118,7 @@ function Hero() {
       </div>
 
       {/* ═══ TOP HUD STRIP ═══ */}
-      <div className="absolute top-[14px] left-0 right-0 z-40 pointer-events-none flex items-center px-[40px]">
+      <div className="absolute top-[14px] left-0 right-0 z-40 pointer-events-none flex items-center px-[40px] max-md:hidden">
         <div className="flex items-center gap-2">
           <div className="w-[4px] h-[4px]" style={{ background: HC_GR, boxShadow: `0 0 4px ${HC_GR}50` }} />
           <span className="font-pixel" style={{ fontSize: 7, letterSpacing: "0.2em", color: HC_CY, opacity: 0.55 }}>FHC // PLAYER ENTRY</span>
@@ -185,7 +185,7 @@ function Hero() {
           {/* ── MAIN TITLE ── */}
           <div style={{ marginBottom: 28, position: "relative" }}>
             {/* Initialization label */}
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-2 max-md:hidden">
               <div className="w-[3px] h-[3px]" style={{ background: HC_CY, opacity: 0.3 }} />
               <span className="font-pixel" style={{ fontSize: 7, letterSpacing: "0.2em", color: HC_CY, opacity: 0.35 }}>INITIALIZING JOURNEY...</span>
             </div>
@@ -220,7 +220,7 @@ function Hero() {
               </h2>
             </div>
             {/* Player slot indicator */}
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex items-center gap-2 mt-2 max-md:hidden">
               <span className="font-pixel" style={{ fontSize: 6, letterSpacing: "0.15em", color: HC_PK, opacity: 0.3 }}>PLAYER SLOT // 01</span>
               <div className="w-[3px] h-[3px]" style={{ background: HC_PK, opacity: 0.2 }} />
               <span className="font-pixel" style={{ fontSize: 6, letterSpacing: "0.15em", color: HC_CY, opacity: 0.25 }}>INITIALIZING</span>
@@ -243,7 +243,7 @@ function Hero() {
             <div className="absolute top-2 right-2 w-[4px] h-[4px]" style={{ background: HC_PK, opacity: 0.5 }} />
 
             {/* Header */}
-            <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
+            <div className="flex items-center gap-2 max-md:hidden" style={{ marginBottom: 8 }}>
               <span style={{ display: "inline-block", width: 4, height: 4, background: HC_PK }} />
               <span className="font-pixel" style={{ fontSize: 8, letterSpacing: "0.12em", color: HC_CY, opacity: 0.6 }}>FHC // PLAYER SYSTEM</span>
             </div>
@@ -261,7 +261,7 @@ function Hero() {
           </div>
 
           {/* ── CONNECTING DETAIL ── */}
-          <div className="flex items-center" style={{ marginBottom: 24 }}>
+          <div className="flex items-center max-md:hidden" style={{ marginBottom: 24 }}>
             <div style={{ width: 18, height: 1, background: `${HC_CY}25` }} />
             <div className="w-[3px] h-[3px] rotate-45" style={{ background: HC_CY, opacity: 0.45 }} />
             <div style={{ width: 36, height: 1, background: `linear-gradient(90deg, ${HC_CY}25, ${HC_PK}25)` }} />
@@ -339,7 +339,7 @@ function Hero() {
           </div>
 
           {/* ── Small system metadata ── */}
-          <div className="flex items-center gap-3 mt-5" style={{ opacity: 0.3 }}>
+          <div className="flex items-center gap-3 mt-5 max-md:hidden" style={{ opacity: 0.3 }}>
             <span className="font-pixel" style={{ fontSize: 6, color: HC_CY, letterSpacing: "0.15em" }}>FHC</span>
             <div style={{ width: 3, height: 3, background: HC_CY, opacity: 0.5 }} />
             <span className="font-pixel" style={{ fontSize: 6, color: HC_CY, letterSpacing: "0.15em" }}>CORE</span>
@@ -369,7 +369,7 @@ function Hero() {
       </div>
 
       {/* ═══ BOTTOM HUD ═══ */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none">
+      <div className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none max-md:hidden">
         <div style={{ borderTop: `1px solid #1E90FF12`, margin: "0 48px" }} />
         <div className="flex items-center justify-between" style={{ padding: "10px 48px", maxWidth: 1400, margin: "0 auto" }}>
           <div className="flex flex-col gap-1">
@@ -453,7 +453,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
         </div>
 
         {/* ═══ TOP SYSTEM BAR ═══ */}
-        <div className="absolute top-[14px] left-0 right-0 z-30 pointer-events-none flex items-center px-[32px]">
+        <div className="absolute top-[14px] left-0 right-0 z-30 pointer-events-none flex items-center px-[32px] max-md:hidden">
           <span className="font-pixel" style={{ fontSize: 7, letterSpacing: "0.2em", color: CP_CY, opacity: 0.5 }}>FHC // PLAYER CREATION</span>
           <div className="flex-1 mx-3" style={{ height: 1, background: `${CP_CY}18` }} />
           <div className="flex items-center gap-2">
@@ -487,7 +487,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
               <div style={{ width: 40, height: 1, background: `${CP_CY}35` }} />
             </div>
 
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center justify-center gap-3 max-md:hidden">
               <div style={{ width: 40, height: 1, background: CP_CY, opacity: 0.15 }} />
               <span className="font-pixel" style={{ fontSize: 6, letterSpacing: "0.2em", color: CP_CY, opacity: 0.3 }}>NEW PLAYER DETECTED</span>
               <div style={{ width: 4, height: 4, background: CP_PK, opacity: 0.4 }} className="term-led" />
@@ -501,7 +501,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
             <div className="relative" style={{ background: CP_DK, border: `2px solid ${CP_CY}25`, borderRadius: 0 }}>
 
               {/* Terminal header bar */}
-              <div className="flex items-center justify-between px-5 py-2.5" style={{ borderBottom: `1px solid ${CP_CY}18` }}>
+              <div className="flex items-center justify-between px-5 py-2.5 max-md:hidden" style={{ borderBottom: `1px solid ${CP_CY}18` }}>
                 <div className="flex items-center gap-2">
                   <div className="w-[4px] h-[4px]" style={{ background: CP_PK, opacity: 0.6 }} />
                   <span className="font-pixel" style={{ fontSize: 7, letterSpacing: "0.2em", color: CP_CY, opacity: 0.5 }}>FHC // PLAYER CREATION TERMINAL</span>
@@ -515,7 +515,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
               {/* ═══════════════════════════════════════════
                   STAGE 01 — PLAYER DATA + PROFILE PREVIEW
                   ═══════════════════════════════════════════ */}
-              <div className="flex items-center gap-2 px-5 pt-4 pb-2" style={{ borderBottom: `1px solid ${CP_CY}08` }}>
+              <div className="flex items-center gap-2 px-5 pt-4 pb-2 max-md:hidden" style={{ borderBottom: `1px solid ${CP_CY}08` }}>
                 <div className="w-[3px] h-[3px]" style={{ background: CP_PK, opacity: 0.5 }} />
                 <span className="font-pixel" style={{ fontSize: 8, letterSpacing: "0.15em", color: CP_CY, opacity: 0.45 }}>STAGE 01</span>
                 <span className="font-pixel" style={{ fontSize: 7, letterSpacing: "0.12em", color: CP_CY, opacity: 0.3 }}>—</span>
@@ -645,7 +645,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
                     </div>
 
                     {/* Stage 01 footer */}
-                    <div className="flex items-center justify-between mt-5 pt-3" style={{ borderTop: `1px solid ${CP_CY}08` }}>
+                    <div className="flex items-center justify-between mt-5 pt-3 max-md:hidden" style={{ borderTop: `1px solid ${CP_CY}08` }}>
                       <div className="flex items-center gap-1">
                         {Array.from({ length: 8 }).map((_, j) => (
                           <div key={j} style={{ width: 3, height: 2, background: j % 2 === 0 ? CP_PK : `${CP_PK}12` }} />
@@ -660,7 +660,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
               {/* ═══════════════════════════════════════════
                   STAGE TRANSITION DIVIDER
                   ═══════════════════════════════════════════ */}
-              <div className="flex items-center gap-3 px-5" style={{ padding: "12px 20px" }}>
+              <div className="flex items-center gap-3 px-5 max-md:hidden" style={{ padding: "12px 20px" }}>
                 <span className="font-pixel" style={{ fontSize: 6, letterSpacing: "0.15em", color: CP_CY, opacity: 0.3 }}>01</span>
                 <div className="flex-1 flex items-center gap-1">
                   <div style={{ flex: 1, height: 1, background: `${CP_CY}18` }} />
@@ -679,7 +679,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
               {/* ═══════════════════════════════════════════
                   STAGE 02 — DOMAIN / ABILITY SELECT
                   ═══════════════════════════════════════════ */}
-              <div className="flex items-center gap-2 px-5 pt-2 pb-2" style={{ borderBottom: `1px solid ${CP_CY}08` }}>
+              <div className="flex items-center gap-2 px-5 pt-2 pb-2 max-md:hidden" style={{ borderBottom: `1px solid ${CP_CY}08` }}>
                 <div className="w-[3px] h-[3px]" style={{ background: CP_PK, opacity: 0.5 }} />
                 <span className="font-pixel" style={{ fontSize: 8, letterSpacing: "0.15em", color: CP_CY, opacity: 0.45 }}>STAGE 02</span>
                 <span className="font-pixel" style={{ fontSize: 7, letterSpacing: "0.12em", color: CP_CY, opacity: 0.3 }}>—</span>
@@ -737,7 +737,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
 
                 {/* Selected status */}
                 {selected && (
-                  <div className="mt-4 pt-3 flex items-center gap-3" style={{ borderTop: `1px solid ${CP_CY}0c` }}>
+                  <div className="mt-4 pt-3 flex items-center gap-3 max-md:hidden" style={{ borderTop: `1px solid ${CP_CY}0c` }}>
                     <div className="w-[5px] h-[5px]" style={{ background: selected.color, boxShadow: `0 0 6px ${selected.color}50` }} />
                     <span className="font-pixel" style={{ fontSize: 7, letterSpacing: "0.15em", color: CP_CY, opacity: 0.4 }}>SYSTEM PATH LOCKED</span>
                     <span className="font-pixel" style={{ fontSize: 7, letterSpacing: "0.15em", color: selected.color }}>{selected.label.toUpperCase()}</span>
@@ -745,7 +745,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
                 )}
 
                 {/* Stage 02 footer */}
-                <div className="flex items-center justify-between mt-4 pt-3" style={{ borderTop: `1px solid ${CP_CY}08` }}>
+                <div className="flex items-center justify-between mt-4 pt-3 max-md:hidden" style={{ borderTop: `1px solid ${CP_CY}08` }}>
                   <div className="flex items-center gap-1">
                     {Array.from({ length: 8 }).map((_, j) => (
                       <div key={j} style={{ width: 3, height: 2, background: j % 2 === 0 ? CP_CY : `${CP_CY}10` }} />
@@ -764,7 +764,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
           </form>
 
           {/* ═══ BOTTOM SYSTEM BAR ═══ */}
-          <div className="w-full" style={{ marginTop: 24, borderTop: `1px solid ${BLUE}20`, paddingTop: 10 }}>
+          <div className="w-full max-md:hidden" style={{ marginTop: 24, borderTop: `1px solid ${BLUE}20`, paddingTop: 10 }}>
             <div className="flex items-center justify-between">
               <span className="font-pixel" style={{ fontSize: 6, letterSpacing: "0.15em", color: CP_CY, opacity: 0.3 }}>FHC // PLAYER CREATION TERMINAL</span>
               <div className="hidden sm:flex items-center gap-2">
@@ -842,7 +842,7 @@ function ReadyToLevelUp() {
       </div>
 
       {/* ═══ TOP SYSTEM BAR ═══ */}
-      <div className="absolute top-[14px] left-0 right-0 z-30 pointer-events-none flex items-center px-[32px]">
+      <div className="absolute top-[14px] left-0 right-0 z-30 pointer-events-none flex items-center px-[32px] max-md:hidden">
         <span className="font-pixel" style={{ fontSize: 7, letterSpacing: "0.2em", color: CY, opacity: 0.5 }}>FHC // PRESS START</span>
         <div className="flex-1 mx-3" style={{ height: 1, background: `${CY}18` }} />
         <div className="flex items-center gap-2">
@@ -998,7 +998,7 @@ function ReadyToLevelUp() {
         <div className="flex lg:hidden flex-col items-center gap-6 w-full">
 
           {/* Controller (mobile) */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center max-md:hidden">
             <div className="relative" style={{ padding: 10 }}>
               <div className="absolute top-0 left-0"><div style={{ width: 6, height: 1, background: CY, opacity: 0.4 }} /><div style={{ width: 1, height: 6, background: CY, opacity: 0.4 }} /></div>
               <div className="absolute top-0 right-0"><div style={{ width: 6, height: 1, background: CY, opacity: 0.4, marginLeft: "auto" }} /><div style={{ width: 1, height: 6, background: CY, opacity: 0.4, marginLeft: "auto" }} /></div>
@@ -1006,7 +1006,7 @@ function ReadyToLevelUp() {
               <div className="absolute bottom-0 right-0"><div style={{ width: 1, height: 6, background: CY, opacity: 0.4, marginLeft: "auto" }} /><div style={{ width: 6, height: 1, background: CY, opacity: 0.4, marginLeft: "auto" }} /></div>
               <img src={fhcController} alt="Controller" style={{ width: 110, height: "auto", imageRendering: "pixelated", display: "block" }} />
             </div>
-            <div className="flex items-center gap-1" style={{ marginTop: 6 }}>
+            <div className="flex items-center gap-1 max-md:hidden" style={{ marginTop: 6 }}>
               <div className="w-[3px] h-[3px]" style={{ background: CY }} />
               <span className="font-pixel" style={{ fontSize: 6, letterSpacing: "0.12em", color: CY, opacity: 0.45 }}>CONTROLLER // READY</span>
             </div>
@@ -1036,7 +1036,7 @@ function ReadyToLevelUp() {
               </div>
             </div>
             <img src={fhcHeart} alt="" style={{ width: 26, height: 26, imageRendering: "pixelated", marginTop: 10, filter: `drop-shadow(0 0 6px ${PK}30)`, display: "block", marginLeft: "auto", marginRight: "auto" }} className="animate-heart-pulse" />
-            <div className="flex items-center gap-1" style={{ marginTop: 6 }}>
+            <div className="flex items-center gap-1 max-md:hidden" style={{ marginTop: 6 }}>
               <div className="w-[3px] h-[3px] rounded-full" style={{ background: PK, opacity: 0.5, boxShadow: `0 0 3px ${PK}25` }} />
               <span className="font-pixel" style={{ fontSize: 6, letterSpacing: "0.1em", color: CY, opacity: 0.35 }}>SIGNAL // CONNECTED</span>
             </div>
@@ -1044,12 +1044,12 @@ function ReadyToLevelUp() {
         </div>
 
         {/* ═══ BOTTOM TEXT ═══ */}
-        <p className="font-pixel text-center mt-10" style={{ fontSize: "clamp(9px, 1.1vw, 12px)", letterSpacing: "0.18em", color: CY, opacity: 0.5 }}>
+        <p className="font-pixel text-center mt-10 max-md:hidden" style={{ fontSize: "clamp(9px, 1.1vw, 12px)", letterSpacing: "0.18em", color: CY, opacity: 0.5 }}>
           PRESS START TO ENTER THE HORIZON<span style={{ color: CY }} className="animate-arcade-cursor-slow">_</span>
         </p>
 
         {/* ═══ BOTTOM SYSTEM BAR ═══ */}
-        <div className="w-full" style={{ marginTop: 24, borderTop: `1px solid ${BLUE}20`, paddingTop: 10 }}>
+        <div className="w-full max-md:hidden" style={{ marginTop: 24, borderTop: `1px solid ${BLUE}20`, paddingTop: 10 }}>
           <div className="flex items-center justify-between">
             <span className="font-pixel" style={{ fontSize: 6, letterSpacing: "0.15em", color: CY, opacity: 0.3 }}>FHC // PRESS START</span>
             <div className="hidden sm:flex items-center gap-2">

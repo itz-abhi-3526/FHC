@@ -719,12 +719,12 @@ function HeroSection({ mouse }) {
   }, []);
 
   return (
-    <section ref={ref} className="relative min-h-[92vh] flex items-center px-4 sm:px-6 lg:px-8 pt-16 pb-12 overflow-x-clip">
+    <section ref={ref} className="relative min-h-[92vh] flex items-center px-4 sm:px-6 lg:px-8 pt-16 pb-12 overflow-x-clip fhc-hero-pad">
       <BootOverlay booted={booted} />
 
       <div className="relative z-10 w-full max-w-[1400px] mx-auto">
         {/* BOOT — system header */}
-        <div className="flex items-center justify-between mb-8 font-pixel text-[7px] sm:text-[8px] text-[#1ED7E8]/40 tracking-wider">
+        <div className="flex items-center justify-between mb-8 font-pixel text-[7px] sm:text-[8px] text-[#1ED7E8]/40 tracking-wider max-md:hidden">
           <span className="flex items-center gap-2">
             <Led color="#FF1687" />
             FHC // HORIZON SYSTEM
@@ -742,8 +742,7 @@ function HeroSection({ mouse }) {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 lg:gap-12 items-center">
           {/* LEFT — cinematic copy */}
           <div className={`transition-all duration-1000 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-            <div className="flex items-center gap-2 mb-5">
-              <Tag color="#FF1687">BOOT SEQUENCE</Tag>
+            <div className="flex items-center gap-2 mb-5 max-md:hidden">
               <span className="font-pixel text-[7px] text-[#FFF7E5]/30 tracking-wider hidden sm:inline">
                 WORLD_01 // PREPARED
               </span>
@@ -771,7 +770,7 @@ function HeroSection({ mouse }) {
             </h1>
 
             <p className="text-base md:text-lg text-[#FFF7E5]/70 font-mono max-w-[560px] leading-relaxed mb-3">
-              FHC (Full FISAT Horizon Club) is the official technology club of the Computer Science Department at FISAT.
+              FHC (FISAT Horizon Club) is the official technology club of the Computer Science Department at FISAT.
             </p>
             <p className="text-base md:text-lg text-[#FFF7E5]/70 font-mono max-w-[560px] leading-relaxed mb-8">
               A community of curious minds and passionate builders, driven by innovation, collaboration and the desire to create impact through technology.
@@ -796,10 +795,10 @@ function HeroSection({ mouse }) {
               <Brackets size={16} color="#1ED7E8" />
               <Scanlines />
               {/* central label */}
-              <div className="absolute top-3 inset-x-0 z-20 flex justify-center pointer-events-none">
+              <div className="absolute top-3 inset-x-0 z-20 flex justify-center pointer-events-none max-md:hidden">
                 <span className="font-pixel text-[6px] text-[#36D65A]/50 tracking-[0.3em]">HORIZON CORE // ACTIVE</span>
               </div>
-              <div className="absolute bottom-3 inset-x-0 z-20 flex justify-center pointer-events-none gap-3">
+              <div className="absolute bottom-3 inset-x-0 z-20 flex justify-center pointer-events-none gap-3 max-md:hidden">
                 <span className="flex items-center gap-1 font-pixel text-[6px] text-[#1ED7E8]/40"><Led color="#1ED7E8" />SYNC</span>
                 <span className="flex items-center gap-1 font-pixel text-[6px] text-[#FF1687]/40"><Led color="#FF1687" />POWER</span>
               </div>
@@ -809,7 +808,7 @@ function HeroSection({ mouse }) {
                 </Suspense>
               </div>
             </div>
-            <div className="mt-3 text-center font-pixel text-[7px] text-[#1ED7E8]/35 tracking-[0.3em]">
+            <div className="mt-3 text-center font-pixel text-[7px] text-[#1ED7E8]/35 tracking-[0.3em] max-md:hidden">
               MODULE 01 // BOOT
             </div>
           </div>
@@ -879,12 +878,12 @@ function PrinciplesSection() {
             >
               <Brackets size={10} color="#FF1687" />
               <Scanlines />
-              <span className="font-pixel text-[8px] text-[#FF1687]/60 tracking-[0.2em] block mb-4">{p.num} // MODULE</span>
+              <span className="font-pixel text-[8px] text-[#FF1687]/60 tracking-[0.2em] block mb-4 max-md:hidden">{p.num} // MODULE</span>
               <span className="font-pixel text-[42px] sm:text-[52px] text-[#FF1687]/10 block leading-none mb-4">{p.num}</span>
               <h3 className="font-pixel text-[12px] sm:text-[13px] text-[#FFF7E5] mb-2">{p.title}</h3>
               <p className="font-pixel text-[8px] text-[#1ED7E8]/70 tracking-wider mb-3">{p.tag}</p>
               <p className="text-sm text-[#FFF7E5]/45 leading-snug font-mono mb-5">{p.desc}</p>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 max-md:hidden">
                 <Led color="#36D65A" />
                 <span className="font-pixel text-[6px] text-[#FFF7E5]/25 tracking-wider group-hover:text-[#FFF7E5]/45 transition-colors">MODULE ACTIVE</span>
               </div>
@@ -1025,7 +1024,7 @@ function ScoreboardSection() {
                 ))}
               </div>
 
-              <div className="mt-6 pt-3 border-t border-[#FFF7E5]/6">
+              <div className="mt-6 pt-3 border-t border-[#FFF7E5]/6 max-md:hidden">
                 <div className="flex items-center gap-2">
                   <span className="font-pixel text-[6px] text-[#1ED7E8]/25">TERMINAL_01</span>
                   <div className="flex-1 h-px bg-[#1ED7E8]/10 relative overflow-hidden">
@@ -1201,7 +1200,7 @@ function TerminalSection() {
               <span className="font-pixel text-[8px] text-[#FFF7E5]/45 ml-2" style={{ textShadow: "0 0 6px rgba(30,215,232,0.35)" }}>FHC_CORE // UPLINK</span>
               <span className="flex-1" />
               <span className="font-pixel text-[6px] text-[#36D65A]/55 hidden sm:inline">HORIZON SYSTEM</span>
-              <span className="flex items-center gap-1.5 border border-[#36D65A]/25 bg-[#36D65A]/5 px-2 py-0.5">
+              <span className="flex items-center gap-1.5 border border-[#36D65A]/25 bg-[#36D65A]/5 px-2 py-0.5 max-md:hidden">
                 <span className="hc-pulse inline-block w-[5px] h-[5px] rounded-full text-[#36D65A]" style={{ background: "currentColor" }} />
                 <span className="font-pixel text-[6px] text-[#36D65A]/70">CONNECTION: STABLE</span>
               </span>
@@ -1312,7 +1311,7 @@ function BecomeSection() {
             <span className="font-pixel text-[11px] text-[#FFF7E5] tracking-wider">Join the Horizon</span>
           </Link>
 
-          <div className="mt-10 flex items-center justify-center gap-3 font-pixel text-[7px] text-[#1ED7E8]/25">
+          <div className="mt-10 flex items-center justify-center gap-3 font-pixel text-[7px] text-[#1ED7E8]/25 max-md:hidden">
             <span>ARCHIVE COMPLETE</span>
             <span className="w-1 h-1 bg-[#FF1687]/30 inline-block" />
             <span>HORIZON SYSTEM ONLINE</span>

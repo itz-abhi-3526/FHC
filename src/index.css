@@ -596,6 +596,23 @@ canvas {
   }
 }
 
+/* Mobile: shift hero composition down ~5-8% of viewport height
+   (viewport-relative so it scales across phone sizes) */
+@media (max-width: 767px) {
+  .hero-content-grid {
+    padding-top: clamp(40px, 7vh, 72px) !important;
+  }
+  /* Shared mobile hero breathing for page hero sections (About/Team/Gallery):
+     gives the main content block intentional top spacing below the header
+     and logo plaque. Content-only — decorative/background layers (grass,
+     clouds, scanlines, twinkles, grids) are absolutely positioned and stay
+     anchored to their sections, so they are not pushed down with the text.
+     Desktop (> 767px) is unaffected. */
+  .fhc-hero-pad {
+    padding-top: clamp(104px, 11vh, 140px);
+  }
+}
+
 @media (min-width: 901px) and (max-width: 1100px) {
   .hero-text-col {
     padding-left: 4% !important;

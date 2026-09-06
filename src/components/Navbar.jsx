@@ -140,7 +140,7 @@ export default function Navbar() {
               FHC
             </span>
             <span className="font-pixel text-[10px] leading-[1.7] text-cream text-center block px-3">
-              FULL FISAT
+              FISAT
               <br />
               HORIZON CLUB
             </span>

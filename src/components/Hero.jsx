@@ -368,6 +368,7 @@ export default function Hero() {
           {/* ── LEFT: Typography & CTA ──────────────────── */}
           <div className="hero-text-col">
             <div
+              className="max-md:hidden"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -427,7 +428,7 @@ export default function Hero() {
               }}
             >
               <span className="font-pixel" style={{ fontSize: "clamp(8px, 3.2vw, 13px)", color: "#ffffff", letterSpacing: 1 }}>
-                FULL FISAT HORIZON CLUB_
+                FISAT HORIZON CLUB_
               </span>
             </div>
 

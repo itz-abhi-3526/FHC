@@ -431,7 +431,7 @@ function StatsAchievements() {
         </div>
 
         {/* ── BOTTOM STRIP ──────────────────────────────────────── */}
-        <div className="mt-5 pt-3 flex items-center justify-between" style={{ borderTop: `2px solid ${PK}15` }}>
+        <div className="mt-5 pt-3 flex items-center justify-between max-md:hidden" style={{ borderTop: `2px solid ${PK}15` }}>
           <div className="flex items-center gap-3 flex-wrap">
             <span className="font-pixel text-[6px] text-cream/40 tracking-widest">FHC</span>
             <span className="w-[3px] h-[3px] rounded-full" style={{ background: PK, opacity: 0.5 }} />
@@ -586,9 +586,9 @@ function UpcomingEvents() {
         </div>
 
         {/* Border labels — top-left */}
-        <span className="absolute top-[10px] left-[24px] font-pixel text-[5px] tracking-widest" style={{ color: "#1687B8", opacity: 0.45 }}>FHC // EVENT TERMINAL</span>
+        <span className="absolute top-[10px] left-[24px] font-pixel text-[5px] tracking-widest max-md:hidden" style={{ color: "#1687B8", opacity: 0.45 }}>FHC // EVENT TERMINAL</span>
         {/* Border labels — bottom-right */}
-        <span className="absolute bottom-[10px] right-[24px] font-pixel text-[5px] tracking-widest" style={{ color: "#1687B8", opacity: 0.45 }}>04 PASSES AVAILABLE</span>
+        <span className="absolute bottom-[10px] right-[24px] font-pixel text-[5px] tracking-widest max-md:hidden" style={{ color: "#1687B8", opacity: 0.45 }}>04 PASSES AVAILABLE</span>
       </div>
 
       {/* ── Arcade Machine Frame ────────────────────────────────── */}
@@ -641,9 +641,9 @@ function UpcomingEvents() {
           <div className="flex items-center gap-4 flex-wrap">
             <span className="font-pixel text-[8px] tracking-widest" style={{ color: `${accent}90` }}>UPCOMING EVENTS</span>
             <span className="flex-1 h-[1px] hidden sm:block" style={{ background: `${accent}20` }} />
-            <span className="font-pixel text-[6px] tracking-widest" style={{ color: `${CR}30` }}>SELECT YOUR NEXT EXPERIENCE</span>
+            <span className="font-pixel text-[6px] tracking-widest max-md:hidden" style={{ color: `${CR}30` }}>SELECT YOUR NEXT EXPERIENCE</span>
           </div>
-          <div className="flex items-center gap-3 mt-2">
+          <div className="flex items-center gap-3 mt-2 max-md:hidden">
             <span className="w-[4px] h-[4px] rounded-full" style={{ background: GR, animation: "led-blink 1.2s ease-in-out infinite" }} />
             <span className="font-pixel text-[6px] tracking-widest" style={{ color: `${CR}25` }}>FHC // EVENT TERMINAL</span>
             <span className="flex-1 h-[1px]" style={{ background: `${CR}08` }} />
@@ -1010,7 +1010,7 @@ function UpcomingEvents() {
               </div>
 
               {/* Coin slot decoration */}
-              <div className="mb-4 py-2 flex items-center justify-center" style={{ border: `1px dashed ${accent}15` }}>
+              <div className="mb-4 py-2 flex items-center justify-center max-md:hidden" style={{ border: `1px dashed ${accent}15` }}>
                 <div className="flex items-center gap-2">
                   <span className="font-pixel text-[5px]" style={{ color: `${CR}20` }}>&#9670;</span>
                   <span className="font-pixel text-[5px] tracking-widest" style={{ color: `${CR}20` }}>INSERT COIN</span>
@@ -1086,7 +1086,7 @@ function UpcomingEvents() {
 
         {/* ── BOTTOM STATUS BAR ──────────────────────────────────── */}
         <div
-          className="mt-8 md:mt-10 flex flex-wrap items-center justify-between gap-3 pt-4"
+          className="mt-8 md:mt-10 flex flex-wrap items-center justify-between gap-3 pt-4 max-md:hidden"
           style={{ borderTop: `1px solid ${accent}12` }}
         >
           <div className="flex items-center gap-2">
@@ -1749,7 +1749,7 @@ function WhyJoin() {
             <h2 className="font-pixel text-[11px] text-pink tracking-wider">WHY JOIN FHC?</h2>
             <span className="inline-block w-[8px] h-[14px] bg-pink" style={{ animation: "blink 1s steps(1) infinite" }} />
           </div>
-          <div className="flex items-center gap-4 mt-3">
+          <div className="flex items-center gap-4 mt-3 max-md:hidden">
             <span className="font-pixel text-[7px] text-cream/40 tracking-widest">PLAYER DEVELOPMENT</span>
             <span className="flex-1 h-[1px] bg-cream/10" />
             <span className="font-pixel text-[7px] text-cream/40 tracking-widest">SKILLS UNLOCKED: 05</span>
@@ -1807,7 +1807,7 @@ function WhyJoin() {
           ))}
         </div>
 
-        <div className="mt-10 flex items-center justify-between">
+        <div className="mt-10 flex items-center justify-between max-md:hidden">
           <span className="font-pixel text-[6px] text-cream/30 tracking-widest">PRESS START TO UNLOCK ALL ABILITIES</span>
           <div className="flex items-center gap-2">
             <span className="w-[4px] h-[4px] bg-pink" style={{ animation: "blink 1s steps(1) infinite" }} />

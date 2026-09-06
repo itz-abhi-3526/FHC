@@ -14,7 +14,7 @@ const TERMINAL_LINES = [
   { at: 10, text: "CONNECTING TO FHC NETWORK.....", ok: true },
   { at: 30, text: "LOADING RESOURCES.............", ok: true },
   { at: 50, text: "PREPARING EXPERIENCE..........", ok: true },
-  { at: 70, text: "WELCOME TO FULL FISAT HORIZON CLUB!", ok: false },
+  { at: 70, text: "WELCOME TO FISAT HORIZON CLUB!", ok: false },
 ];
 
 const MODULES = [
