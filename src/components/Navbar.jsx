@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
+import PixelAvatar from "../components/PixelAvatar";
 
 const LINKS = [
   { label: "HOME", to: "/", arrow: true },
@@ -9,17 +12,145 @@ const LINKS = [
   { label: "GALLERY", to: "/coming-soon" },
   { label: "ABOUT", to: "/about" },
   { label: "JOIN", to: "/join" },
+  { label: "AUTH", to: "/auth", auth: true },
 ];
+
+const MotionLink = motion.create(Link);
+
+/* ── AUTH arcade control — layered pixel frame, mechanical press ── */
+function AuthNavButton({ active, onClose }) {
+  return (
+    <>
+      <span className="nav-auth-glow" aria-hidden="true" />
+      <span className="nav-auth-shadow" aria-hidden="true" />
+      <MotionLink
+        to="/auth"
+        onClick={onClose}
+        className={`nav-auth-btn${active ? " nav-auth-act" : ""}`}
+        whileHover={{ y: -3, transition: { type: "spring", stiffness: 520, damping: 22, mass: 0.6 } }}
+        whileTap={{ y: 3, transition: { type: "spring", stiffness: 700, damping: 30, mass: 0.5 } }}
+        aria-label="AUTH — open the FHC access terminal"
+      >
+        <span className="nav-auth-pink" aria-hidden="true" />
+        <span className="nav-auth-face" aria-hidden="true" />
+        <span className="nav-auth-scan" aria-hidden="true" />
+        <span className="nav-auth-led" aria-hidden="true" />
+        <span className="nav-auth-content">
+          <span className="nav-auth-micro font-pixel">ACCESS</span>
+          <span className="nav-auth-main font-pixel">
+            <span className="nav-auth-icon" aria-hidden="true">▶</span>
+            AUTH
+          </span>
+        </span>
+      </MotionLink>
+    </>
+  );
+}
+
+/* ── PLAYER menu — avatar trigger + compact arcade dropdown ── */
+function PlayerMenu({ name, email, seed, onLoggedInChange }) {
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e) => {
+      if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [open]);
+
+  const close = () => setOpen(false);
+
+  const doLogout = async () => {
+    close();
+    await signOut();
+    onLoggedInChange?.();
+    navigate("/", { replace: true });
+  };
+
+  return (
+    <div className="nav-player" ref={rootRef}>
+      <button
+        type="button"
+        className={`nav-player-btn font-pixel${open ? " is-open" : ""}`}
+        onClick={() => setOpen((v) => !v)}
+        aria-label="PLAYER MENU — member options"
+        aria-expanded={open}
+      >
+        <PixelAvatar seed={seed} size={30} className="nav-player-avatar" />
+        <span className="nav-player-name">{name}</span>
+        <span className="nav-player-cheveron" aria-hidden="true">▼</span>
+      </button>
+
+      {open && (
+        <div className="nav-player-menu font-pixel">
+          <div className="nav-player-menu-head">
+            <PixelAvatar seed={seed} size={34} className="nav-player-avatar" />
+            <div className="min-w-0 flex-1">
+              <div className="nav-player-menu-name">{name}</div>
+              <div className="nav-player-menu-mail">{email}</div>
+              <div className="nav-player-menu-status mt-1"><span className="nav-player-online">ONLINE</span></div>
+            </div>
+          </div>
+          <Link to="/dashboard#profile" onClick={close} className="nav-player-menu-item">
+            <span>PROFILE</span>
+            <span className="nav-player-menu-arrow" aria-hidden="true">▶</span>
+          </Link>
+          <Link to="/dashboard" onClick={close} className="nav-player-menu-item">
+            <span>DASHBOARD</span>
+            <span className="nav-player-menu-arrow" aria-hidden="true">▶</span>
+          </Link>
+          <Link to="/dashboard#account" onClick={close} className="nav-player-menu-item">
+            <span>SETTINGS</span>
+            <span className="nav-player-menu-arrow" aria-hidden="true">▶</span>
+          </Link>
+          <button type="button" onClick={doLogout} className="nav-player-menu-item is-logout">
+            <span>LOG OUT</span>
+            <span className="nav-player-menu-arrow" aria-hidden="true">⏻</span>
+          </button>
+          <div className="nav-player-menu-foot">
+            FHC // MEMBER SESSION
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Navbar() {
   const { hash, pathname } = useLocation();
+  const { status, user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const isJoin = pathname === "/join";
+  const isAuthActive = pathname === "/auth";
+  const isAuthed = status === "authed";
+
+  const name = isAuthed
+    ? profile?.full_name || user?.user_metadata?.full_name || "PLAYER"
+    : "";
+  const email = isAuthed ? profile?.email || user?.email || "" : "";
+  const seed = isAuthed
+    ? profile?.avatar_seed || user?.id || email || "fhc"
+    : "fhc";
+
+  const handleMobileLogout = async () => {
+    setOpen(false);
+    await signOut();
+    navigate("/", { replace: true });
+  };
 
   useEffect(() => {
-    if (hash) {
+    if (!hash || hash.length < 2) return;
+    try {
       const el = document.querySelector(hash);
       if (el) el.scrollIntoView({ behavior: "smooth" });
+    } catch {
+      /* hash is a URL token (e.g. #access_token=...) from an auth email link, not an anchor */
     }
   }, [hash]);
 
@@ -44,27 +175,35 @@ export default function Navbar() {
           {/* Desktop nav links */}
           <ul className="hidden lg:flex items-center gap-0">
             {LINKS.map((l, idx) => (
-              <li key={l.to} className="flex items-center">
-                <Link
-                  to={l.to}
-                  onClick={() => setOpen(false)}
-                  className="font-pixel text-[18px] text-ink hover:text-cream transition-colors px-3 py-2 whitespace-nowrap"
-                >
-                  {l.arrow && (
-                    <span
-                      className="mr-2 inline-block"
-                      style={{
-                        width: 0,
-                        height: 0,
-                        borderTop: "6px solid transparent",
-                        borderBottom: "6px solid transparent",
-                        borderLeft: "10px solid #0c0c0f",
-                        verticalAlign: "middle",
-                      }}
-                    />
-                  )}
-                  {l.label}
-                </Link>
+              <li key={l.to} className={`flex items-center${l.auth ? " nav-auth" : ""}`}>
+                {l.auth ? (
+                  isAuthed ? (
+                    <PlayerMenu name={name} email={email} seed={seed} />
+                  ) : (
+                    <AuthNavButton active={isAuthActive} onClose={() => setOpen(false)} />
+                  )
+                ) : (
+                  <Link
+                    to={l.to}
+                    onClick={() => setOpen(false)}
+                    className="font-pixel text-[18px] text-ink hover:text-cream transition-colors px-3 py-2 whitespace-nowrap"
+                  >
+                    {l.arrow && (
+                      <span
+                        className="mr-2 inline-block"
+                        style={{
+                          width: 0,
+                          height: 0,
+                          borderTop: "6px solid transparent",
+                          borderBottom: "6px solid transparent",
+                          borderLeft: "10px solid #0c0c0f",
+                          verticalAlign: "middle",
+                        }}
+                      />
+                    )}
+                    {l.label}
+                  </Link>
+                )}
                 {idx < LINKS.length - 1 && (
                   <span
                     className="select-none mx-1.5"
@@ -152,16 +291,71 @@ export default function Navbar() {
       {open && (
         <div className="lg:hidden border-b-4 border-ink bg-pink absolute top-full left-0 right-0 z-40">
           <ul className="px-6 py-4 flex flex-col gap-2 max-h-[calc(100dvh-140px)] overflow-y-auto">
+            {isAuthed && (
+              <li>
+                <div className="nav-auth-mobile flex items-start gap-3 justify-start mb-2 max-w-none">
+                  <PixelAvatar seed={seed} size={34} className="nav-player-avatar shrink-0" />
+                  <div className="min-w-0">
+                    <div className="nav-player-menu-name text-left">{name}</div>
+                    <div className="nav-player-menu-mail text-left">{email}</div>
+                    <div className="nav-player-menu-status mt-1 text-left">
+                      <span className="nav-player-online">ONLINE</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            )}
             {LINKS.map((l) => (
               <li key={l.to}>
-                <Link
-                  to={l.to}
-                  onClick={() => setOpen(false)}
-                  className="block font-pixel text-[12px] px-4 py-3 border-2 border-ink text-center bg-ink text-cream"
-                >
-                  {l.arrow && <span className="mr-1">▶</span>}
-                  {l.label}
-                </Link>
+                {l.auth ? (
+                  isAuthed ? (
+                    <div className="flex flex-col gap-2">
+                      {[
+                        { label: "PROFILE", to: "/dashboard#profile" },
+                        { label: "DASHBOARD", to: "/dashboard" },
+                        { label: "SETTINGS", to: "/dashboard#account" },
+                      ].map((m) => (
+                        <Link
+                          key={m.label}
+                          to={m.to}
+                          onClick={() => setOpen(false)}
+                          className="block font-pixel text-[12px] px-4 py-3 border-2 border-ink text-center bg-ink text-cream text-left"
+                        >
+                          {m.label}
+                        </Link>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={handleMobileLogout}
+                        className="block font-pixel text-[12px] px-4 py-3 border-2 border-ink text-center bg-ink text-pink text-left"
+                      >
+                        LOG OUT
+                      </button>
+                    </div>
+                  ) : (
+                    <Link
+                      to={l.to}
+                      onClick={() => setOpen(false)}
+                      className={`nav-auth-mobile font-pixel${isAuthActive ? " nav-auth-mobile-act" : ""}`}
+                    >
+                      <span className="nav-auth-mobile-edge" aria-hidden="true" />
+                      <span className="nav-auth-mobile-main">
+                        <span className="nav-auth-icon" aria-hidden="true">▶</span>
+                        AUTH
+                      </span>
+                      <span className="nav-auth-mobile-micro font-pixel">ACCESS</span>
+                    </Link>
+                  )
+                ) : (
+                  <Link
+                    to={l.to}
+                    onClick={() => setOpen(false)}
+                    className="block font-pixel text-[12px] px-4 py-3 border-2 border-ink text-center bg-ink text-cream"
+                  >
+                    {l.arrow && <span className="mr-1">▶</span>}
+                    {l.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>

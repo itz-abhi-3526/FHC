@@ -252,9 +252,9 @@ function SplashScene({ progress }) {
 
       {/* FOOTER */}
       <div className="flex items-center justify-center gap-2 pb-[22px] pt-2 splash-footer" style={{...fade(0.1),flex:"0 0 auto"}}>
-        <img src="/assets/fhc-loader/pixel-heart.png" alt="" style={{width:12,height:12,imageRendering:"pixelated"}} className="block"/>
+        <img src="/assets/fhc-loader/rocket.png" alt="" style={{width:12,height:12,imageRendering:"pixelated"}} className="block"/>
         <span className="font-pixel text-[7px] text-cream/70">MADE WITH 8-BIT LOVE</span>
-        <img src="/assets/fhc-loader/pixel-heart.png" alt="" style={{width:12,height:12,imageRendering:"pixelated"}} className="block"/>
+        <img src="/assets/fhc-loader/rocket.png" alt="" style={{width:12,height:12,imageRendering:"pixelated"}} className="block"/>
       </div>
     </div>
   );

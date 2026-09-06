@@ -80,7 +80,7 @@ const PROJECTS = [
 
 const WHY_JOIN = [
   {
-    asset: "/assets/pixel-tech/retro-pc.png",
+    asset: "/assets/fhc-loader/hero-laptop.png",
     title: "LEARN",
     desc: "Workshops and talks that level up your skills.",
     accent: "#39ff6a",
