@@ -1,10 +1,5 @@
 import { Link } from "react-router-dom";
-import laptop from "../assets/laptop.png";
-import robot from "../assets/robot.png";
-import microchip from "../assets/microchip.png";
-import globe from "../assets/globe.png";
-import terminal from "../assets/terminal.png";
-import codeBubble from "../assets/code-bubble.png";
+import fhcMain from "../assets/FHC Main.png";
 import heroCloud from "../assets/hero-cloud.png";
 import heroGrass from "../assets/hero-grass-clean.png";
 
@@ -129,223 +124,19 @@ function GrassFloor() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   HERO ART SCENE — laptop + orbiting devices + connectors
-   Positions are relative to the RIGHT ART COL container.
+   HERO ART — unified tech scene (FHC Main.png)
+   Single composition: laptop, robot, globe, terminal, chip,
+   code bubble, clouds and connecting details.
    ═══════════════════════════════════════════════════════════════ */
-const SCENE = {
-  laptop: { x: 25, y: 25 },
 
-  // upper-left of laptop
-  chip: { x: 4, y: 8 },
-
-  // directly above laptop
-  bubble: { x: 40, y: 5 },
-
-  // upper-right of laptop
-  robot: { x: 72, y: 6 },
-
-  // right side of laptop
-  globe: { x: 89, y: 34 },
-
-  // lower-right of laptop
-  terminal: { x: 89, y: 66 },
-
-  // lower-left of laptop
-  cloud: { x: 5, y: 66 },
-};
-
-function CircuitConnections() {
-  return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ zIndex: 6 }}
-      viewBox="0 0 100 100"
-      preserveAspectRatio="none"
-    >
-      {/* LAPTOP upper-left → CHIP: down then left */}
-      <path
-        d="M 2 15 L 2 12 L 4 12 L 4 10"
-        stroke="#0c0c0f"
-        strokeWidth="0.28"
-        strokeDasharray="0.8,0.6"
-        fill="none"
-      />
-
-      {/* LAPTOP upper-center → CODE BUBBLE: straight up */}
-      <path
-        d="M 25 12 L 25 8 L 40 8 L 40 6"
-        stroke="#0c0c0f"
-        strokeWidth="0.28"
-        strokeDasharray="0.8,0.6"
-        fill="none"
-      />
-
-      {/* LAPTOP upper-right → ROBOT: right then up */}
-      <path
-        d="M 48 15 L 58 15 L 58 10 L 72 10 L 72 8"
-        stroke="#0c0c0f"
-        strokeWidth="0.28"
-        strokeDasharray="0.8,0.6"
-        fill="none"
-      />
-
-      {/* LAPTOP right → GLOBE: horizontal right */}
-      <path
-        d="M 51 25 L 70 25 L 70 34 L 84 34"
-        stroke="#0c0c0f"
-        strokeWidth="0.28"
-        strokeDasharray="0.8,0.6"
-        fill="none"
-      />
-
-      {/* LAPTOP lower-right → TERMINAL: down then right */}
-      <path
-        d="M 48 38 L 70 38 L 70 58 L 84 58 L 84 64"
-        stroke="#0c0c0f"
-        strokeWidth="0.28"
-        strokeDasharray="0.8,0.6"
-        fill="none"
-      />
-
-      {/* LAPTOP lower-left → CLOUD: down then left */}
-      <path
-        d="M 2 38 L 2 58 L 5 58 L 5 64"
-        stroke="#0c0c0f"
-        strokeWidth="0.28"
-        strokeDasharray="0.8,0.6"
-        fill="none"
-      />
-    </svg>
-  );
-}
-
-/* ── Floating Asset — anchored by its CENTER at SCENE[key] ───── */
-function FloatingAsset({ src, alt, w, h, pos, delay = 0 }) {
-  return (
-    <div
-      className="absolute"
-      style={{
-        left: `${pos.x}%`,
-        top: `${pos.y}%`,
-        transform: "translate(-50%, -50%)",
-        zIndex: 8,
-        animation: "float 4.5s ease-in-out infinite",
-        animationDelay: `${delay}s`,
-      }}
-    >
-      <img
-        src={src}
-        alt={alt}
-        style={{
-          width: w,
-          height: h,
-          imageRendering: "pixelated",
-          objectFit: "contain",
-          display: "block",
-          filter: "drop-shadow(4px 4px 0 0 #0c0c0f)",
-        }}
-      />
-    </div>
-  );
-}
-
-/* ── Retro Laptop ────────────────────────────────────────────── */
-function RetroLaptop() {
-  return (
-    <div
-      className="absolute"
-      style={{
-        left: `${SCENE.laptop.x}%`,
-        top: `${SCENE.laptop.y}%`,
-        transform: "translate(-50%, -50%)",
-        zIndex: 8,
-        animation: "float 4.5s ease-in-out infinite",
-        width: 430,
-      }}
-    >
-      <img
-        src={laptop}
-        alt="FHC laptop"
-        style={{
-          width: "100%",
-          height: "auto",
-          imageRendering: "pixelated",
-          display: "block",
-        }}
-      />
-    </div>
-  );
-}
-
-/* ── Right Tech Scene ────────────────────────────────────────── */
+/* ── Unified Hero Illustration ──────────────────────────────── */
 function HeroArt() {
   return (
-    <div
-      className="relative"
-      style={{
-        width: "100%",
-        height: 560,
-        zIndex: 5,
-      }}
-    >
-      <CircuitConnections />
-
-      <RetroLaptop />
-
-      <FloatingAsset
-        src={microchip}
-        alt="Microchip"
-        w={68}
-        h={70}
-        pos={SCENE.chip}
-        delay={0}
-      />
-
-      <FloatingAsset
-        src={codeBubble}
-        alt="Code"
-        w={88}
-        h={58}
-        pos={SCENE.bubble}
-        delay={0.5}
-      />
-
-      <FloatingAsset
-        src={robot}
-        alt="FHC Robot"
-        w={95}
-        h={115}
-        pos={SCENE.robot}
-        delay={1}
-      />
-
-      <FloatingAsset
-        src={globe}
-        alt="Globe"
-        w={85}
-        h={87}
-        pos={SCENE.globe}
-        delay={1.5}
-      />
-
-      <FloatingAsset
-        src={terminal}
-        alt="Terminal"
-        w={85}
-        h={95}
-        pos={SCENE.terminal}
-        delay={2}
-      />
-
-      <FloatingAsset
-        src={heroCloud}
-        alt=""
-        w={95}
-        h={52}
-        pos={SCENE.cloud}
-        delay={2.5}
-      />
-    </div>
+    <img
+      src={fhcMain}
+      alt="FHC tech network — laptop, robot, globe, terminal and more"
+      className="hero-art-img"
+    />
   );
 }
 
