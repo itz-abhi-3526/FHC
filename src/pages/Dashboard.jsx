@@ -1,15 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import PixelAvatar from "../components/PixelAvatar";
+import { supabase } from "../lib/supabase";
+import {
+  isCloudinaryConfigured,
+  isValidAvatarFile,
+  uploadAvatarToCloudinary,
+} from "../lib/cloudinary";
+import { classifyProfileError, PROFILE_ERROR, updateProfileFields } from "../lib/profileService";
 
 const PK = "#FF007F";
 const CY = "#00E5FF";
 const CR = "#FFF4D6";
 const GR = "#4CFF4C";
 const YL = "#FFD400";
-const INK = "#05070D";
 
 function fmtDate(iso) {
   if (!iso) return "-- --- ----";
@@ -21,20 +27,6 @@ function fmtDate(iso) {
   } catch { return "-- --- ----"; }
 }
 
-function fmtTime(iso) {
-  if (!iso) return "--:--:--";
-  try {
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return "--:--:--";
-    return d.toISOString().slice(11,19);
-  } catch { return "--:--:--"; }
-}
-
-function fmtShort(iso) {
-  if (!iso) return null;
-  return `${fmtDate(iso)} ${fmtTime(iso)}`;
-}
-
 /* ═══════════════════════════════════════════════════════════
    SMALL ATOMICS
    ═══════════════════════════════════════════════════════════ */
@@ -42,6 +34,7 @@ function fmtShort(iso) {
 function Led({ color = GR, size = 5, blink = false }) {
   return (
     <span
+      aria-hidden="true"
       className={blink ? "dsh-blink" : ""}
       style={{ width: size, height: size, background: color, boxShadow: `0 0 6px ${color}88`, display: "inline-block", flexShrink: 0 }}
     />
@@ -91,110 +84,25 @@ function Panel({ id, tag, title, accent = CY, wide = false, children }) {
   );
 }
 
-function DataField({ label, value, accent = CY, mono = true }) {
+function SecRow({ label, value, accent = CY }) {
   return (
-    <div className="dsh-field">
-      <span className="dsh-field-label font-pixel">{label}</span>
-      <span className={`${mono ? "font-mono" : "font-pixel"} dsh-field-value`} style={{ color: accent }}>
-        {value || "—"}
-      </span>
-    </div>
-  );
-}
-
-function StatBlock({ label, value, accent = CY, icon }) {
-  return (
-    <motion.div
-      className="dsh-stat"
-      whileHover={{ borderColor: `${accent}60`, boxShadow: `0 0 20px ${accent}18` }}
-      transition={{ duration: 0.2 }}
-    >
-      <div className="dsh-stat-icon" style={{ color: accent }}>{icon || "◆"}</div>
-      <div className="dsh-stat-value font-pixel" style={{ color: accent }}>{value}</div>
-      <div className="dsh-stat-label font-pixel">{label}</div>
-    </motion.div>
-  );
-}
-
-function SectorCard({ tag, label, to, accent = YL }) {
-  return (
-    <Link to={to} className="dsh-sector group">
-      <CornerBrackets color={accent} inset={0} />
-      <div className="dsh-sector-inner">
-        <div className="dsh-sector-tag font-pixel" style={{ color: accent }}>{tag}</div>
-        <div className="dsh-sector-label font-pixel">{label}</div>
-        <div className="dsh-sector-enter font-pixel" style={{ color: PK }}>
-          ENTER <span className="inline-block transition-transform group-hover:translate-x-1">▶</span>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   ACTIVITY TIMELINE
-   ═══════════════════════════════════════════════════════════ */
-
-function ActivityTimeline({ since, lastLogin, updated }) {
-  const events = [];
-  if (since) events.push({ label: "ACCOUNT CREATED", ts: since, color: GR });
-  if (lastLogin) events.push({ label: "LAST LOGIN", ts: lastLogin, color: CY });
-  if (updated && updated !== since) events.push({ label: "PROFILE UPDATED", ts: updated, color: YL });
-  events.push({ label: "SESSION ACTIVE", ts: null, color: GR });
-
-  return (
-    <div className="dsh-timeline">
-      {events.map((ev, i) => (
-        <div key={`${ev.label}-${i}`} className="dsh-timeline-item">
-          <div className="dsh-timeline-dot" style={{ background: ev.color, boxShadow: `0 0 8px ${ev.color}66` }} />
-          <div className="dsh-timeline-line" aria-hidden="true" />
-          <div className="dsh-timeline-content">
-            <div className="dsh-timeline-label font-pixel" style={{ color: ev.color }}>{ev.label}</div>
-            {ev.ts ? (
-              <div className="dsh-timeline-ts font-mono">{fmtDate(ev.ts)} · {fmtTime(ev.ts)}</div>
-            ) : (
-              <div className="dsh-timeline-ts font-mono" style={{ color: GR, opacity: 0.6 }}>NOW</div>
-            )}
-          </div>
-        </div>
-      ))}
+    <div className="dsh-sec-row">
+      <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: CR, opacity: 0.45 }}>{label}</span>
+      <span className="dsh-sec-leader" aria-hidden="true" />
+      <span className="font-pixel text-[7px] tracking-[0.14em]" style={{ color: accent }}>{value || "—"}</span>
     </div>
   );
 }
 
 /* ═══════════════════════════════════════════════════════════
-   SYSTEM STATUS HUD
-   ═══════════════════════════════════════════════════════════ */
-
-function SystemStatus() {
-  const items = [
-    { label: "FHC NETWORK", value: "ONLINE", color: GR },
-    { label: "AUTH", value: "SECURE", color: CY },
-    { label: "DATABASE", value: "CONNECTED", color: GR },
-    { label: "SESSION", value: "ACTIVE", color: CY },
-  ];
-  return (
-    <div className="dsh-sysstatus">
-      {items.map((it) => (
-        <div key={it.label} className="dsh-sysstatus-item">
-          <Led color={it.color} blink={it.label === "SESSION"} />
-          <span className="font-pixel text-[5px] tracking-[0.2em] text-cream/30">{it.label}</span>
-          <span className="font-pixel text-[6px] tracking-[0.14em] ml-auto" style={{ color: it.color }}>{it.value}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   MAIN DASHBOARD
+   MAIN DASHBOARD — minimal member terminal
    ═══════════════════════════════════════════════════════════ */
 
 const ACCESS_LINKS = [
-  { label: "EVENTS", to: "/coming-soon", tag: "SECTOR_01" },
-  { label: "PROJECTS", to: "/coming-soon", tag: "SECTOR_02" },
-  { label: "GALLERY", to: "/gallery", tag: "SECTOR_03" },
-  { label: "ABOUT", to: "/about", tag: "CORE" },
+  { label: "EVENTS", to: "/coming-soon", desc: "CLUB OPERATIONS SCHEDULE" },
+  { label: "PROJECTS", to: "/coming-soon", desc: "HACKATHONS & DIVISION BUILDS" },
+  { label: "GALLERY", to: "/gallery", desc: "MEMORY ARCHIVE" },
+  { label: "ABOUT", to: "/about", desc: "HORIZON CORE RECORD" },
 ];
 
 export default function Dashboard() {
@@ -207,6 +115,11 @@ export default function Dashboard() {
   const [editUser, setEditUser] = useState("");
   const [editSaving, setEditSaving] = useState(false);
   const [editMsg, setEditMsg] = useState(null);
+
+  const [avatarBusy, setAvatarBusy] = useState(false);
+  const [avatarMsg, setAvatarMsg] = useState(null);
+  const [avatarVersion, setAvatarVersion] = useState(0);
+  const avatarInputRef = useRef(null);
 
   const [pwMode, setPwMode] = useState(false);
   const [pw1, setPw1] = useState("");
@@ -244,32 +157,142 @@ export default function Dashboard() {
     );
   }
 
-  /* ── data extraction ── */
+  /* ── data extraction (real profile fields only) ── */
   const name = profile?.full_name || user?.user_metadata?.full_name || "PLAYER";
   const email = profile?.email || user?.email || "";
   const username = profile?.username || user?.email || "";
   const seed = profile?.avatar_seed || user?.id || email || "fhc";
-  const since = profile?.created_at;
-  const lastLogin = profile?.last_login_at;
-  const updated = profile?.updated_at;
-  const shortId = user?.id ? user.id.slice(0, 8).toUpperCase() : "--------";
-  const displayName = name.split(" ")[0] || "PLAYER";
+  /* MEMBER SINCE: prefer profiles.created_at; fall back to the Supabase Auth
+     user's real created_at. No extra query, no fake/hardcoded date. */
+  const since = profile?.created_at || user?.created_at;
+  const cleanUser = username.startsWith("@") ? username.slice(1) : username;
+  const avatarUrl = profile?.avatar_url || "";
 
-  /* ── handlers (unchanged logic) ── */
+  /* ── handlers ── */
   const saveProfile = async () => {
     setEditSaving(true);
     setEditMsg(null);
-    const { error } = await supabase
-      .from("profiles")
-      .update({ full_name: editName.trim() || name, username: editUser.trim() || username })
-      .eq("id", user.id);
-    setEditSaving(false);
-    if (error) {
-      setEditMsg({ kind: "error", text: "[!] PROFILE UPDATE FAILED" });
-    } else {
+    try {
+      const uid = user?.id;
+      if (!uid) {
+        const err = new Error("No authenticated session.");
+        err.code = PROFILE_ERROR.NO_USER;
+        throw err;
+      }
+      /* Build the patch from ONLY the fields that actually changed. */
+      const patch = {};
+      const newName = editName.trim();
+      const newUser = editUser.trim().replace(/^@/, "");
+      if (newName && newName !== name) patch.full_name = newName;
+      if (newUser && newUser !== cleanUser) patch.username = newUser;
+
+      if (Object.keys(patch).length === 0) {
+        setEditMsg({ kind: "ok", text: "NO CHANGES DETECTED" });
+        setEditMode(false);
+        return;
+      }
+
+      const { error } = await updateProfileFields(uid, patch);
+      if (error) throw error;
+
       setEditMsg({ kind: "ok", text: "✓ PROFILE SYNCHRONIZED" });
+      await refreshProfile(uid); // refetch from DB — the source of truth
       setEditMode(false);
-      refreshProfile();
+    } catch (err) {
+      /* Real cause must never be hidden — always in the console. */
+      console.error("[FHC] Profile update failed:", err);
+      const cls = classifyProfileError(err);
+      const text =
+        cls === PROFILE_ERROR.DUPLICATE_USERNAME
+          ? "[!] USERNAME ALREADY TAKEN"
+          : cls === PROFILE_ERROR.RLS_DENIED
+            ? "[!] UPDATE BLOCKED — RLS PERMISSION"
+            : cls === PROFILE_ERROR.NOT_FOUND
+              ? "[!] PROFILE ROW NOT FOUND"
+              : "[!] PROFILE UPDATE FAILED";
+      setEditMsg({ kind: "error", text });
+    } finally {
+      setEditSaving(false);
+    }
+  };
+
+  /* ── avatar upload: LOCAL FILE → Cloudinary → secure_url → Supabase ── */
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files?.[0];
+    /* INPUT RESET: let a re-selected file (even the SAME one) fire onChange.
+       The File object is captured above, so clearing the control cannot
+       invalidate it. Done first — but only after capturing the file. */
+    e.target.value = "";
+    console.log("[FHC Avatar] file selected →", file?.name, file ? `${file.type} ${(file.size / 1024).toFixed(1)} KB` : "(none)");
+    if (!file || avatarBusy) return;
+
+    setAvatarMsg(null);
+    if (!isCloudinaryConfigured()) {
+      console.error("[FHC Avatar] not configured (VITE_CLOUDINARY_* missing).");
+      setAvatarMsg({
+        kind: "error",
+        text: "[!] AVATAR UPLOAD OFFLINE — NO CLOUD CHANNEL",
+      });
+      return;
+    }
+
+    const check = isValidAvatarFile(file);
+    if (!check.ok) {
+      const text =
+        check.reason === "TOO_LARGE"
+          ? "[!] IMAGE TOO LARGE — MAXIMUM SIZE IS 5 MB"
+          : "[!] INVALID IMAGE — PLEASE SELECT A JPG, PNG, OR WEBP IMAGE";
+      console.warn("[FHC Avatar] validation rejected →", check.reason);
+      setAvatarMsg({ kind: "error", text });
+      return;
+    }
+    console.log("[FHC Avatar] validation passed →", file.name);
+
+    /* busy → always released in finally below; the button/file input are
+       only disabled while a real upload/update is running. */
+    setAvatarBusy(true);
+    try {
+      const secureUrl = await uploadAvatarToCloudinary(file, user?.id);
+      console.log("[FHC Avatar] updating Supabase profile (avatar_url)…");
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .update({ avatar_url: secureUrl, updated_at: new Date().toISOString() })
+        .eq("id", user.id)
+        .select("avatar_url, updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      /* Do not trust it blindly — confirm what came back. */
+      console.log("[FHC Avatar] Supabase update successful →", data);
+      if (!data || data.avatar_url !== secureUrl) {
+        console.error("[FHC Avatar] Supabase returned unexpected avatar_url", data);
+        throw new Error("Supabase update confirmed but returned wrong avatar_url");
+      }
+
+      /* refresh profile/context state so dashboard AND navbar update now */
+      await refreshProfile(user.id);
+      setAvatarVersion((v) => v + 1); // display-only cache-buster
+      console.log("[FHC Avatar] local avatar state updated (version", avatarVersion + 1, ")");
+      setAvatarMsg({ kind: "ok", text: "AVATAR UPLOADED ✓" });
+    } catch (err) {
+      /* previous avatar stays — avatar_url is never cleared on failure */
+      console.error("[FHC Avatar] upload pipeline failed:", err);
+      const isCloudFail =
+        err.code === "CLOUDINARY_NOT_CONFIGURED" ||
+        err.code === "CLOUDINARY_NETWORK" ||
+        err.code === "CLOUDINARY_UPLOAD_FAILED" ||
+        err.code === "INVALID_IMAGE" ||
+        err.code === "IMAGE_TOO_LARGE";
+      setAvatarMsg({
+        kind: "error",
+        text: isCloudFail
+          ? "[!] AVATAR UPLOAD FAILED — CLOUDINARY UPLOAD FAILED"
+          : "[!] PROFILE UPDATE FAILED — AVATAR UPLOADED BUT COULD NOT SAVE THE PROFILE",
+      });
+    } finally {
+      console.log("[FHC Avatar] busy reset → false");
+      setAvatarBusy(false);
     }
   };
 
@@ -302,6 +325,9 @@ export default function Dashboard() {
       <div className="dsh-bg-glow dsh-bg-glow--pink" aria-hidden="true" />
       <div className="dsh-bg-glow dsh-bg-glow--cyan" aria-hidden="true" />
       <div className="dsh-bg-scanlines" aria-hidden="true" />
+      <div className="dsh-bg-noise" aria-hidden="true" />
+      <div className="dsh-bg-vignette" aria-hidden="true" />
+      <div className="dsh-bg-sweep" aria-hidden="true" />
 
       {/* ── logout overlay ── */}
       <AnimatePresence>
@@ -322,7 +348,7 @@ export default function Dashboard() {
       <div className="dsh-inner">
 
         {/* ═══════════════════════════════════════════════════════
-            SECTION 1 — PLAYER TERMINAL HERO
+            SECTION 1 — MEMBER IDENTITY
             ═══════════════════════════════════════════════════════ */}
         <motion.section
           className="dsh-hero"
@@ -331,43 +357,69 @@ export default function Dashboard() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <CornerBrackets color={PK} inset={-2} />
-
-          {/* hero scanline */}
           <div className="dsh-hero-scan" aria-hidden="true" />
 
           <div className="dsh-hero-inner">
-            {/* ── avatar column ── */}
             <div className="dsh-hero-avatar-col">
               <div className="dsh-hero-avatar-frame">
                 <CornerBrackets color={CY} inset={-3} />
                 <div className="dsh-hero-avatar-glow" aria-hidden="true" />
-                <PixelAvatar seed={seed} size={120} className="dsh-hero-avatar" />
+                {avatarUrl ? (
+                  <img
+                    /* display-only cache-buster — stored avatar_url stays clean */
+                    src={avatarVersion ? `${avatarUrl}?v=${avatarVersion}` : avatarUrl}
+                    alt={`${name} profile avatar`}
+                    width={120}
+                    height={120}
+                    className="dsh-hero-avatar dsh-hero-avatar-img"
+                  />
+                ) : (
+                  <PixelAvatar seed={seed} size={120} className="dsh-hero-avatar" />
+                )}
                 <div className="dsh-hero-avatar-scan" aria-hidden="true" />
-              </div>
-              <div className="dsh-hero-avatar-id font-pixel">
-                <span style={{ color: CY, opacity: 0.6 }}>ID://</span>
-                <span style={{ color: CR, opacity: 0.8 }}>{shortId}</span>
-              </div>
-              <div className="dsh-hero-avatar-badge">
-                <Led color={GR} blink size={4} />
-                <span className="font-pixel text-[5px] tracking-[0.2em]" style={{ color: GR }}>IDENTITY VERIFIED</span>
+                <input
+                  ref={avatarInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={handleAvatarChange}
+                  className="sr-only"
+                  tabIndex={-1}
+                  aria-hidden="true"
+                />
+                <button
+                  type="button"
+                  onClick={() => avatarInputRef.current?.click()}
+                  disabled={avatarBusy}
+                  className="dsh-avatar-change font-pixel"
+                  aria-label="Change avatar"
+                >
+                  {avatarBusy ? "UPLOADING..." : "[ CHANGE AVATAR ]"}
+                </button>
+                {avatarMsg && (
+                  <div
+                    className="dsh-avatar-msg font-pixel"
+                    role="status"
+                    style={{ color: avatarMsg.kind === "ok" ? GR : PK }}
+                  >
+                    {avatarMsg.text}
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* ── info column ── */}
             <div className="dsh-hero-info">
               <div className="dsh-hero-breadcrumb font-pixel">
                 <span style={{ color: PK }}>FHC</span>
                 <span style={{ color: CY, opacity: 0.4, margin: "0 6px" }}>//</span>
-                <span style={{ color: CR, opacity: 0.5 }}>PLAYER TERMINAL</span>
+                <span style={{ color: CR, opacity: 0.5 }}>MEMBER TERMINAL</span>
               </div>
 
               <h1 className="dsh-hero-name font-pixel">
-                {displayName}
+                {name}
               </h1>
 
               <div className="dsh-hero-username font-mono">
-                @{username.startsWith("@") ? username.slice(1) : username}
+                @{cleanUser}
               </div>
 
               <div className="dsh-hero-email font-mono">
@@ -382,95 +434,54 @@ export default function Dashboard() {
                   <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: GR }}>PLAYER ONLINE</span>
                 </div>
                 <div className="dsh-hero-meta-row">
-                  <Led color={CY} size={5} />
-                  <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: CY }}>ACCOUNT ACTIVE</span>
-                </div>
-                <div className="dsh-hero-meta-row">
                   <Led color={YL} size={5} />
                   <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: YL }}>
                     MEMBER SINCE {fmtDate(since)}
                   </span>
                 </div>
               </div>
-
-              <div className="dsh-hero-access">
-                <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: CR, opacity: 0.4 }}>ACCESS LEVEL</span>
-                <span className="font-pixel text-[8px] tracking-[0.16em]" style={{ color: YL, textShadow: `0 0 12px ${YL}44` }}>MEMBER</span>
-              </div>
-            </div>
-
-            {/* ── status column ── */}
-            <div className="dsh-hero-status">
-              <div className="dsh-hero-status-item">
-                <span className="font-pixel text-[5px] tracking-[0.2em] text-cream/30">SYS STATUS</span>
-                <span className="font-pixel text-[7px]" style={{ color: GR }}>ONLINE</span>
-              </div>
-              <div className="dsh-hero-status-item">
-                <span className="font-pixel text-[5px] tracking-[0.2em] text-cream/30">NETWORK</span>
-                <span className="font-pixel text-[7px]" style={{ color: CY }}>STABLE</span>
-              </div>
-              <div className="dsh-hero-status-item">
-                <span className="font-pixel text-[5px] tracking-[0.2em] text-cream/30">TERMINAL</span>
-                <span className="font-pixel text-[7px]" style={{ color: PK }}>FHC-01</span>
-              </div>
-              <div className="dsh-hero-status-item">
-                <span className="font-pixel text-[5px] tracking-[0.2em] text-cream/30">UPTIME</span>
-                <span className="font-mono text-[10px]" style={{ color: CR, opacity: 0.7 }}>ACTIVE</span>
-              </div>
             </div>
           </div>
         </motion.section>
 
         {/* ═══════════════════════════════════════════════════════
-            SECTION 2 — PLAYER STATS STRIP
-            ═══════════════════════════════════════════════════════ */}
-        <motion.div
-          className="dsh-stats"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <StatBlock label="EVENTS" value="00" accent={PK} icon="◈" />
-          <StatBlock label="PROJECTS" value="00" accent={CY} icon="⬡" />
-          <StatBlock label="ACHIEVEMENTS" value="00" accent={YL} icon="★" />
-          <StatBlock label="GALLERY" value="00" accent={GR} icon="▣" />
-          <StatBlock label="MEMBERSHIP" value="ACTIVE" accent={CY} icon="●" />
-        </motion.div>
-
-        {/* ═══════════════════════════════════════════════════════
-            SECTION 3 — MAIN GRID
+            SECTION 2 — QUICK ACCESS + ACCOUNT
             ═══════════════════════════════════════════════════════ */}
         <div className="dsh-grid">
 
-          {/* ── PLAYER PROFILE (wide) ── */}
-          <Panel id="profile" tag="PLAYER PROFILE" title="MODULE_01" accent={PK} wide>
-            <div className="dsh-profile">
-              <div className="dsh-profile-head">
-                <div className="dsh-profile-avatar-wrap">
-                  <PixelAvatar seed={seed} size={64} className="dsh-profile-avatar" />
-                  <div className="dsh-profile-avatar-ring" aria-hidden="true" />
-                </div>
-                <div className="dsh-profile-identity">
-                  <div className="font-mono text-[16px]" style={{ color: CR }}>{name}</div>
-                  <div className="font-mono text-[13px]" style={{ color: CY, opacity: 0.8 }}>@{username.startsWith("@") ? username.slice(1) : username}</div>
-                  <div className="font-pixel text-[5px] tracking-[0.2em] mt-1" style={{ color: GR, opacity: 0.7 }}>
-                    <Led color={GR} size={4} /> IDENTITY VERIFIED
+          <Panel tag="QUICK ACCESS" title="NAVIGATE" accent={YL} wide>
+            <div className="dsh-sectors">
+              {ACCESS_LINKS.map((l) => (
+                <Link key={l.label} to={l.to} className="dsh-sector group" aria-label={`${l.label} — enter`}>
+                  <CornerBrackets color={YL} inset={0} />
+                  <div className="dsh-sector-inner">
+                    <div className="dsh-sector-label font-pixel">{l.label}</div>
+                    <div className="dsh-sector-desc font-pixel">{l.desc}</div>
+                    <div className="dsh-sector-foot">
+                      <span className="dsh-sector-enter font-pixel" style={{ color: PK }}>
+                        ENTER <span className="inline-block transition-transform group-hover:translate-x-1">▶</span>
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </Link>
+              ))}
+            </div>
+          </Panel>
 
+          <Panel id="account" tag="ACCOUNT" title="CONTROL" accent={GR} wide>
+            <div className="dsh-account" style={{ maxWidth: 560 }}>
               {editMode ? (
                 <div className="dsh-profile-edit">
                   <div className="dsh-profile-edit-header font-pixel">
                     <span style={{ color: CY }}>▸</span> EDITING PLAYER DATA
                   </div>
-                  <label className="dsh-edit-label font-pixel">FULL NAME</label>
-                  <input className="dsh-edit-input font-mono" value={editName} onChange={(e) => setEditName(e.target.value)} autoFocus />
-                  <label className="dsh-edit-label font-pixel">USERNAME</label>
-                  <input className="dsh-edit-input font-mono" value={editUser} onChange={(e) => setEditUser(e.target.value)} />
+                  <label className="dsh-edit-label font-pixel" htmlFor="dsh-name">FULL NAME</label>
+                  <input id="dsh-name" className="dsh-edit-input font-mono" value={editName} onChange={(e) => setEditName(e.target.value)} autoFocus />
+                  <label className="dsh-edit-label font-pixel" htmlFor="dsh-user">USERNAME</label>
+                  <input id="dsh-user" className="dsh-edit-input font-mono" value={editUser} onChange={(e) => setEditUser(e.target.value)} />
                   <AnimatePresence>
                     {editMsg && (
-                      <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="dsh-edit-msg font-pixel" style={{ color: editMsg.kind === "ok" ? GR : PK }}>
+                      <motion.div role="status" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="dsh-edit-msg font-pixel" style={{ color: editMsg.kind === "ok" ? GR : PK }}>
                         {editMsg.text}
                       </motion.div>
                     )}
@@ -484,66 +495,15 @@ export default function Dashboard() {
                     </motion.button>
                   </div>
                 </div>
-              ) : (
-                <div className="dsh-profile-readonly">
-                  <DataField label="FULL NAME" value={name} accent={CR} mono={false} />
-                  <DataField label="EMAIL" value={email} accent={CY} />
-                  <DataField label="USERNAME" value={`@${username.startsWith("@") ? username.slice(1) : username}`} accent={CY} />
-                  <DataField label="MEMBER SINCE" value={fmtShort(since)} accent={CR} />
-                  <motion.button
-                    type="button"
-                    onClick={() => { setEditName(name); setEditUser(username.startsWith("@") ? username.slice(1) : username); setEditMsg(null); setEditMode(true); }}
-                    className="dsh-btn dsh-btn--accent"
-                    style={{ color: PK }}
-                    whileHover={{ y: -1 }}
-                    whileTap={{ y: 1 }}
-                  >
-                    [ EDIT PROFILE ]
-                  </motion.button>
-                </div>
-              )}
-            </div>
-          </Panel>
-
-          {/* ── ACTIVITY TIMELINE ── */}
-          <Panel tag="ACTIVITY STREAM" title="MODULE_02" accent={CY}>
-            <ActivityTimeline since={since} lastLogin={lastLogin} updated={updated} />
-          </Panel>
-
-          {/* ── FHC ACCESS (wide) ── */}
-          <Panel tag="FHC ACCESS" title="NAVIGATE" accent={YL} wide>
-            <div className="dsh-sectors">
-              {ACCESS_LINKS.map((l) => (
-                <SectorCard key={l.label} tag={l.tag} label={l.label} to={l.to} accent={YL} />
-              ))}
-            </div>
-          </Panel>
-
-          {/* ── ACCOUNT CONTROL ── */}
-          <Panel id="account" tag="ACCOUNT CONTROL" title="MODULE_03" accent={GR}>
-            <div className="dsh-account">
-              <div className="dsh-account-status">
-                <div className="dsh-account-status-row">
-                  <Led color={GR} blink size={5} />
-                  <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: GR }}>ACCOUNT STATUS</span>
-                  <span className="font-pixel text-[7px] ml-auto" style={{ color: GR }}>ACTIVE</span>
-                </div>
-                <div className="dsh-account-status-row">
-                  <Led color={CY} size={5} />
-                  <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: CY }}>AUTHENTICATION</span>
-                  <span className="font-pixel text-[7px] ml-auto" style={{ color: CY }}>SUPABASE // SECURE</span>
-                </div>
-              </div>
-
-              {pwMode ? (
+              ) : pwMode ? (
                 <div className="dsh-pw-form">
-                  <label className="dsh-edit-label font-pixel">NEW ACCESS CODE</label>
-                  <input type="password" className="dsh-edit-input font-mono" value={pw1} onChange={(e) => setPw1(e.target.value)} />
-                  <label className="dsh-edit-label font-pixel">CONFIRM NEW CODE</label>
-                  <input type="password" className="dsh-edit-input font-mono" value={pw2} onChange={(e) => setPw2(e.target.value)} />
+                  <label className="dsh-edit-label font-pixel" htmlFor="dsh-pw1">NEW ACCESS CODE</label>
+                  <input id="dsh-pw1" type="password" className="dsh-edit-input font-mono" value={pw1} onChange={(e) => setPw1(e.target.value)} />
+                  <label className="dsh-edit-label font-pixel" htmlFor="dsh-pw2">CONFIRM NEW CODE</label>
+                  <input id="dsh-pw2" type="password" className="dsh-edit-input font-mono" value={pw2} onChange={(e) => setPw2(e.target.value)} />
                   <AnimatePresence>
                     {pwMsg && (
-                      <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="dsh-edit-msg font-pixel" style={{ color: pwMsg.kind === "ok" ? GR : PK }}>
+                      <motion.div role="status" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="dsh-edit-msg font-pixel" style={{ color: pwMsg.kind === "ok" ? GR : PK }}>
                         {pwMsg.text}
                       </motion.div>
                     )}
@@ -558,35 +518,47 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div className="dsh-account-actions">
-                  <motion.button type="button" onClick={() => setPwMode(true)} className="dsh-btn dsh-btn--full" style={{ color: CY, borderColor: `${CY}44` }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-                    [ CHANGE ACCESS CODE ]
-                  </motion.button>
-                  <motion.button type="button" onClick={doLogout} className="dsh-btn dsh-btn--full dsh-btn--danger" style={{ color: PK, borderColor: `${PK}44` }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-                    [ LOG OUT ]
-                  </motion.button>
-                </div>
+                <>
+                  <div className="dsh-account-status">
+                    <SecRow label="ACCOUNT STATUS" value="ACTIVE" accent={GR} />
+                    <SecRow label="MEMBERSHIP" value="ACTIVE" accent={GR} />
+                    <SecRow label="ACCESS LEVEL" value="MEMBER" accent={YL} />
+                    <SecRow label="MEMBER SINCE" value={fmtDate(since)} accent={CY} />
+                  </div>
+                  <div className="dsh-account-actions">
+                    <motion.button
+                      type="button"
+                      onClick={() => { setEditName(name); setEditUser(cleanUser); setEditMsg(null); setEditMode(true); }}
+                      className="dsh-btn dsh-btn--accent dsh-btn-edit"
+                      style={{ color: PK }}
+                      whileHover={{ y: -1 }}
+                      whileTap={{ y: 1 }}
+                    >
+                      <span className="dsh-edit-swap-a">[ EDIT PROFILE ]</span>
+                      <span className="dsh-edit-swap-b">{">"} ACCESS PROFILE EDITOR</span>
+                    </motion.button>
+                    <motion.button type="button" onClick={() => setPwMode(true)} className="dsh-btn dsh-btn--full" style={{ color: CY, borderColor: `${CY}44` }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
+                      [ CHANGE ACCESS CODE ]
+                    </motion.button>
+                    <motion.button type="button" onClick={doLogout} className="dsh-btn dsh-btn--full dsh-btn--danger" style={{ color: PK, borderColor: `${PK}44` }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
+                      [ LOG OUT ]
+                    </motion.button>
+                  </div>
+                </>
               )}
             </div>
-          </Panel>
-
-          {/* ── SYSTEM STATUS ── */}
-          <Panel tag="SYSTEM STATUS" title="HUD" accent={CY}>
-            <SystemStatus />
           </Panel>
         </div>
 
         {/* ═══════════════════════════════════════════════════════
-            SECTION 4 — CONSOLE FOOTER
+            SECTION 3 — CONSOLE FOOTER
             ═══════════════════════════════════════════════════════ */}
         <div className="dsh-footer">
           <span className="dsh-footer-item">
-            <Led color={GR} size={4} /> <span style={{ color: GR }}>●</span>
+            <Led color={GR} size={4} />
           </span>
-          <span className="dsh-footer-item font-pixel" style={{ color: CY, opacity: 0.5 }}>FHC // PLAYER TERMINAL</span>
-          <span className="dsh-footer-item font-pixel" style={{ color: PK, opacity: 0.4 }}>AUTHENTICATED SESSION</span>
-          <span className="dsh-footer-item font-pixel" style={{ color: CR, opacity: 0.25 }}>v2.6</span>
-          <span className="dsh-footer-item font-pixel" style={{ color: CR, opacity: 0.2 }}>NODE_{shortId}</span>
+          <span className="dsh-footer-item font-pixel" style={{ color: CY, opacity: 0.5 }}>FHC // MEMBER TERMINAL</span>
+          <span className="dsh-footer-item font-pixel" style={{ color: PK, opacity: 0.4 }}>INTERNAL NETWORK</span>
         </div>
       </div>
     </div>

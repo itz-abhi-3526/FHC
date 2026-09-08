@@ -19,15 +19,17 @@ function seededRandom(seed) {
    ═══════════════════════════════════════════════ */
 function Grid({ scroll }) {
   const ref = useRef();
+  const tRef = useRef(0);
   const u = useMemo(() => ({
     uTime: { value: 0 },
     uScroll: { value: 0 },
     uColor: { value: CYAN.clone() },
   }), []);
 
-  useFrame((st) => {
+  useFrame((_, dt) => {
     if (!ref.current) return;
-    ref.current.uniforms.uTime.value = st.clock.elapsedTime;
+    tRef.current += dt;
+    ref.current.uniforms.uTime.value = tRef.current;
     ref.current.uniforms.uScroll.value = scroll.current;
   });
 
@@ -77,6 +79,7 @@ function Grid({ scroll }) {
    ═══════════════════════════════════════════════ */
 function Particles({ count = 80, scroll }) {
   const ref = useRef();
+  const tRef = useRef(0);
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
   const p = useMemo(() => {
@@ -92,9 +95,10 @@ function Particles({ count = 80, scroll }) {
     }));
   }, [count]);
 
-  useFrame((st) => {
+  useFrame((_, dt) => {
     if (!ref.current) return;
-    const t = st.clock.elapsedTime;
+    tRef.current += dt;
+    const t = tRef.current;
     const sy = scroll.current * 0.0008;
     for (let i = 0; i < count; i++) {
       const q = p[i];
@@ -136,6 +140,7 @@ function Particles({ count = 80, scroll }) {
    ═══════════════════════════════════════════════ */
 function Wireframes() {
   const g = useRef();
+  const tRef = useRef(0);
 
   const d = useMemo(() => [
     { p: [-9, 3.5, -14], g: "b", s: [1.3], c: PINK, v: 0.18 },
@@ -150,9 +155,10 @@ function Wireframes() {
     { p: [-8, 4, -8], g: "o", s: [0.5], c: PINK, v: 0.25 },
   ], []);
 
-  useFrame((st) => {
+  useFrame((_, dt) => {
     if (!g.current) return;
-    const t = st.clock.elapsedTime;
+    tRef.current += dt;
+    const t = tRef.current;
     g.current.children.forEach((ch, i) => {
       const o = d[i];
       ch.rotation.x = t * o.v * 0.3;
@@ -180,6 +186,7 @@ function Wireframes() {
    ═══════════════════════════════════════════════ */
 function GlowNodes() {
   const g = useRef();
+  const tRef = useRef(0);
 
   const d = useMemo(() => [
     { p: [-7, 1.5, -16], c: PINK, s: 0.09 },
@@ -191,9 +198,10 @@ function GlowNodes() {
     { p: [6, 8, -32], c: GREEN, s: 0.06 },
   ], []);
 
-  useFrame((st) => {
+  useFrame((_, dt) => {
     if (!g.current) return;
-    const t = st.clock.elapsedTime;
+    tRef.current += dt;
+    const t = tRef.current;
     g.current.children.forEach((ch, i) => {
       ch.material.opacity = 0.25 + 0.2 * Math.sin(t * 0.7 + i * 1.4);
       ch.scale.setScalar(d[i].s * (1 + 0.12 * Math.sin(t * 0.5 + i)));

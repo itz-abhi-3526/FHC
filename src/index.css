@@ -31,6 +31,11 @@
   --font-pixel: "Press Start 2P", monospace;
   --font-mono: "VT323", monospace;
 
+  /* Navbar geometry — used by page heroes to clear the FHC plaque
+     that hangs below the pink bar (bar 108px + badge overhang 65px). */
+  --fhc-navbar-height: 108px;
+  --fhc-badge-bleed: 65px;
+
   --animate-float: float 4.5s ease-in-out infinite;
   --animate-blink: blink 1s steps(1) infinite;
   --animate-twinkle: twinkle 2.4s ease-in-out infinite;
@@ -116,8 +121,21 @@ canvas {
 }
 
 /* Sky Blue Background */
-.hero-sky-bg {
-  background: #39BCEB;
+/* Background image (src/assets/FHC.png) is applied as a CSS background layer
+   on .hero-sky-bg via JS-injected inline style so Vite bundles the asset. */
+
+/* Responsive hero background — desktop/laptop/tablet keep the wide
+   FHC.png (inline style above, untouched). On phones (<768px) switch to
+   the vertical FHC 1.png composition. This rule ONLY activates in its
+   media block; the `!important` is what lets it override the inline
+   desktop background temporarily on small screens. */
+@media (max-width: 767px) {
+  .hero-sky-bg {
+    background-image: url("assets/FHC 1.png") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+  }
 }
 
 /* Grass is now rendered using the actual pixel-art PNG asset */
@@ -584,6 +602,15 @@ canvas {
   object-fit: contain;
   display: block;
   image-rendering: pixelated;
+}
+
+/* Desktop: nudge the left text column down so it starts clear of the
+   FHC plaque hanging off the navbar. Content-only — the art column,
+   sky, clouds and grass strip stay anchored. */
+@media (min-width: 901px) {
+  .hero-text-col {
+    margin-top: clamp(50px, 6vh, 70px);
+  }
 }
 
 @media (max-width: 900px) {
@@ -3836,7 +3863,7 @@ canvas {
 
 
 /* --------------------------------------------------------------------
-   PLAYER TERMINAL v2 � /dashboard
+   PLAYER TERMINAL v2 � /dashboard
    Premium cyberpunk console for authenticated members
    -------------------------------------------------------------------- */
 
@@ -3984,6 +4011,52 @@ canvas {
   padding: 3px 8px;
   border: 1px solid rgba(76, 255, 76, 0.18);
   background: rgba(76, 255, 76, 0.04);
+}
+/* uploaded Cloudinary avatar renders inside the same pixel frame */
+.dsh-hero-avatar-img {
+  display: block;
+  width: 120px; height: 120px;
+  object-fit: cover;
+  background: #0c0c12;
+}
+/* RETRO-TECH AVATAR EDIT — hover/focus reveals the control */
+.dsh-hero-avatar-frame {
+  cursor: pointer;
+}
+.dsh-avatar-change {
+  position: absolute; left: 6px; right: 6px; bottom: 6px;
+  z-index: 3;
+  display: flex; align-items: center; justify-content: center;
+  padding: 5px 8px;
+  font-size: 6px; letter-spacing: 0.2em;
+  color: #00e5ff;
+  background: rgba(5, 7, 16, 0.85);
+  border: 1px solid rgba(0, 229, 255, 0.45);
+  opacity: 0; transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease,
+    background-color 0.15s ease, color 0.15s ease;
+}
+.dsh-hero-avatar-frame:hover .dsh-avatar-change,
+.dsh-hero-avatar-frame:focus-within .dsh-avatar-change,
+.dsh-avatar-change:focus-visible {
+  opacity: 1; transform: translateY(0); pointer-events: auto;
+}
+.dsh-avatar-change:hover {
+  background: #00e5ff; color: #050710;
+}
+.dsh-avatar-change:disabled {
+  opacity: 0.65; pointer-events: auto; cursor: wait;
+}
+.dsh-avatar-msg {
+  position: absolute; left: 6px; right: 6px; top: 6px;
+  z-index: 3;
+  padding: 4px 6px;
+  font-size: 5.5px; letter-spacing: 0.16em;
+  text-align: center;
+  background: rgba(5, 7, 16, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  pointer-events: none;
 }
 
 /* info column */
@@ -4367,7 +4440,7 @@ canvas {
 }
 
 /* -----------------------------------------------------------
-   RESPONSIVE � MOBILE
+   RESPONSIVE � MOBILE
    ----------------------------------------------------------- */
 @media (max-width: 1024px) {
   .dsh-stats { grid-template-columns: repeat(3, 1fr); }
@@ -4404,7 +4477,7 @@ canvas {
   .dsh-blink, .dash-blink { animation: none; }
 }
 /* --------------------------------------------------------------------
-   NAVBAR � player avatar + terminal dropdown (authenticated)
+   NAVBAR � player avatar + terminal dropdown (authenticated)
    -------------------------------------------------------------------- */
 .nav-player {
   position: relative;
@@ -4433,6 +4506,11 @@ canvas {
 }
 .nav-player-avatar {
   border: 1px solid rgba(30, 215, 232, 0.5);
+}
+.nav-player-avatar-img {
+  object-fit: cover;
+  background: #0c0c12;
+  flex-shrink: 0;
 }
 .nav-player-name {
   font-size: 10px;
@@ -4550,4 +4628,1395 @@ canvas {
   letter-spacing: 0.18em;
   color: rgba(255, 247, 229, 0.35);
   background: rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   TEAMS // PLAYERS ARENA
+   FHC internal-network roster experience.
+   Dark, angular, HUD-driven. Reuses the global
+   FHC palette (pink #FF1687, cyan #1ED7E8,
+   green #36D65A, yellow #FFD21A).
+   ============================================ */
+
+/* ============================================
+   FHC PLAYER ARENA — ARCADE COMMAND CENTER
+   ============================================ */
+
+/* — Shared keyframes — */
+@keyframes arena-led-kf {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+@keyframes arena-blink-step {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes arena-line-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes arena-shimmer {
+  to { transform: translateX(100%); }
+}
+@keyframes arena-noise-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-1px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes arena-scan-sweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(800%); }
+}
+@keyframes arena-glow-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+@keyframes arena-border-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(255,22,135,0.15), inset 0 0 12px rgba(255,22,135,0.05); }
+  50% { box-shadow: 0 0 24px rgba(255,22,135,0.3), inset 0 0 24px rgba(255,22,135,0.1); }
+}
+@keyframes arena-photo-reveal {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes arena-card-scan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(200%); opacity: 0; }
+}
+@keyframes arena-loading-type {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes arena-status-pulse {
+  0%, 100% { box-shadow: 0 0 4px currentColor; }
+  50% { box-shadow: 0 0 10px currentColor, 0 0 20px currentColor; }
+}
+@keyframes arena-flicker {
+  0%, 90%, 100% { opacity: 1; }
+  92% { opacity: 0.7; }
+  94% { opacity: 0.9; }
+  96% { opacity: 0.6; }
+}
+@keyframes arena-tab-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,22,135,0.3), inset 0 0 8px rgba(255,22,135,0.1); }
+  50% { box-shadow: 0 0 16px rgba(255,22,135,0.5), inset 0 0 16px rgba(255,22,135,0.15); }
+}
+@keyframes arena-dossier-scan {
+  0% { top: -2px; }
+  100% { top: calc(100% + 2px); }
+}
+
+/* — LED — */
+.arena-led {
+  border-radius: 50%;
+  animation: arena-led-kf 1.8s ease-in-out infinite;
+}
+
+/* — Blinking cursor — */
+.arena-cursor {
+  display: inline-block;
+  color: #FF1687;
+  animation: arena-blink-step 1s steps(1) infinite;
+}
+
+/* ============================================
+   BACKGROUND SYSTEM
+   ============================================ */
+.arena-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.arena-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(30,215,232,0.025) 0px, rgba(30,215,232,0.025) 1px, transparent 1px, transparent 48px),
+    repeating-linear-gradient(90deg, rgba(30,215,232,0.025) 0px, rgba(30,215,232,0.025) 1px, transparent 1px, transparent 48px);
+  -webkit-mask-image: radial-gradient(140% 120% at 50% 0%, black 10%, transparent 85%);
+  mask-image: radial-gradient(140% 120% at 50% 0%, black 10%, transparent 85%);
+}
+.arena-bg-scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.013) 0px, rgba(255,255,255,0.013) 1px, transparent 1px, transparent 3px);
+}
+.arena-bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+}
+.arena-bg-glow-cyan {
+  width: 500px;
+  height: 500px;
+  top: -200px;
+  right: -160px;
+  background: radial-gradient(circle, rgba(30,215,232,0.06) 0%, transparent 70%);
+}
+.arena-bg-glow-pink {
+  width: 560px;
+  height: 560px;
+  bottom: -260px;
+  left: -200px;
+  background: radial-gradient(circle, rgba(255,22,135,0.06) 0%, transparent 70%);
+}
+.arena-bg-sweep {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(30,215,232,0.06), transparent);
+  animation: arena-scan-sweep 8s linear infinite;
+  pointer-events: none;
+}
+.arena-bg-noise {
+  position: absolute;
+  inset: -2px;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: arena-noise-shift 0.5s steps(4) infinite;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.arena-hero {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 12px;
+}
+/* Desktop: pull the Teams hero up tighter below the fixed navbar.
+   Still clears the FHC plaque (keeps content clear of it on every
+   width) but trims the former extra 20-44px plus part of the badge
+   bleed, netting roughly 80-120px less dead space above the registry.
+   fhc-hero-pad handles mobile in its own media query below. */
+@media (min-width: 768px) {
+  .arena-hero {
+    padding-top: calc(var(--fhc-navbar-height) + var(--fhc-badge-bleed) + clamp(-60px, -5vw, -24px));
+  }
+}
+/* Mobile: scale the same tightening down so the hero still clears the
+   plaque but sits higher than the shared fhc-hero-pad default. */
+@media (max-width: 767px) {
+  .arena-hero {
+    padding-top: clamp(64px, 7vh, 88px);
+  }
+}
+.arena-hero::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(30,215,232,0.18), transparent);
+}
+.arena-hero-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(30,215,232,0.032) 0px, rgba(30,215,232,0.032) 1px, transparent 1px, transparent 42px),
+    repeating-linear-gradient(90deg, rgba(30,215,232,0.032) 0px, rgba(30,215,232,0.032) 1px, transparent 1px, transparent 42px);
+  -webkit-mask-image: radial-gradient(130% 100% at 50% 0%, black 15%, transparent 95%);
+  mask-image: radial-gradient(130% 100% at 50% 0%, black 15%, transparent 95%);
+}
+
+/* Telemetry chips */
+.arena-chip {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid rgba(30,215,232,0.22);
+  background: linear-gradient(135deg, #060a14 0%, #04070d 100%);
+  position: relative;
+}
+.arena-chip::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 6px;
+  height: 1px;
+  background: #FF1687;
+  pointer-events: none;
+}
+.arena-chip::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 6px;
+  height: 1px;
+  background: #1ED7E8;
+  pointer-events: none;
+}
+.arena-chip-key {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  letter-spacing: 0.16em;
+  color: rgba(255,247,229,0.45);
+  padding: 10px 11px;
+  border-right: 1px solid rgba(30,215,232,0.15);
+  white-space: nowrap;
+}
+.arena-chip-val {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #1ED7E8;
+  padding: 10px 13px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* Roster terminal */
+.arena-roster {
+  overflow: hidden;
+}
+.arena-roster-head {
+  background: rgba(0,0,0,0.45);
+}
+.arena-roster-row {
+  font-size: 17px;
+  transition: color 0.15s;
+}
+.arena-roster-row:hover {
+  color: #fff;
+}
+
+/* Scanline overlay */
+.arena-scan-overlay {
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.022) 0px, rgba(255,255,255,0.022) 1px, transparent 1px, transparent 3px);
+}
+
+/* Pixel tag */
+.arena-pixel-tag {
+  border: 1px solid;
+  background: rgba(4,6,12,0.65);
+}
+
+/* ============================================
+   NETWORK STATUS BAR
+   ============================================ */
+.arena-net-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 36px;
+  row-gap: 10px;
+}
+@media (min-width: 640px) {
+  .arena-net-inner {
+    justify-content: space-between;
+  }
+}
+.arena-net-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.arena-net-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: arena-led-kf 1.8s ease-in-out infinite;
+}
+.arena-net-label {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  letter-spacing: 0.16em;
+  color: rgba(255,247,229,0.38);
+}
+.arena-net-state {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+}
+
+/* ============================================
+   SECTOR FILTER / TEAM SELECTOR
+   ============================================ */
+/* SECTOR SELECT — horizontal slider. Only this strip scrolls. */
+.arena-select-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  cursor: grab;
+  padding: 2px 2px 8px;
+}
+.arena-select-scroll::-webkit-scrollbar { display: none; }
+.arena-select-scroll:focus-visible {
+  outline: 2px solid #1ED7E8;
+  outline-offset: 3px;
+}
+.arena-select-scroll:active { cursor: grabbing; }
+.arena-select-scroll > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* Sector counter ("SECTOR 01 OF 10") */
+.arena-select-progress {
+  font-variant-numeric: tabular-nums;
+  padding-bottom: 2px;
+}
+
+/* Arrow navigation flanking the sector strip — pixel/terminal UI */
+.arena-select-row {
+  gap: 10px;
+}
+.arena-arrow {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: #05070d;
+  border: 1px solid rgba(30,215,232,0.3);
+  color: rgba(30,215,232,0.95);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease,
+    box-shadow 0.15s ease, transform 0.1s ease;
+  clip-path: polygon(
+    0 6px, 3px 3px, 6px 0,
+    calc(100% - 6px) 0, calc(100% - 3px) 3px, 100% 6px,
+    100% calc(100% - 6px), calc(100% - 3px) calc(100% - 3px), calc(100% - 6px) 100%,
+    6px 100%, 3px calc(100% - 3px), 0 calc(100% - 6px)
+  );
+}
+.arena-arrow:hover:not(:disabled) {
+  color: #FFF7E5;
+  border-color: rgba(255,22,135,0.7);
+  background: rgba(255,22,135,0.08);
+  box-shadow: 0 0 14px rgba(255,22,135,0.25);
+  transform: translateY(-1px);
+}
+.arena-arrow:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.arena-arrow:focus-visible {
+  outline: 2px solid #1ED7E8;
+  outline-offset: 2px;
+}
+.arena-arrow:disabled {
+  cursor: default;
+  color: rgba(255,247,229,0.16);
+  border-color: rgba(255,247,229,0.08);
+  opacity: 0.5;
+}
+.arena-arrow-left span {
+  display: inline-block;
+  transform: none;
+}
+@media (max-width: 639px) {
+  .arena-arrow {
+    width: 34px;
+    height: 38px;
+    font-size: 11px;
+  }
+}
+
+/* Scan sweep replayed on every sector switch */
+.arena-switch-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  z-index: 6;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, #1ED7E8, #FF1687, transparent);
+  opacity: 0.5;
+  animation: arena-switch-scan-kf 0.5s cubic-bezier(0.22, 1, 0.36, 1) 1;
+}
+@keyframes arena-switch-scan-kf {
+  0% { transform: translateX(-100%); opacity: 0; }
+  18% { opacity: 0.55; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+.arena-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #05070d;
+  border: 1px solid rgba(30,215,232,0.16);
+  color: rgba(255,247,229,0.55);
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 10px 18px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.22,1,0.36,1);
+}
+.arena-tab:hover {
+  color: #FFF7E5;
+  border-color: rgba(30,215,232,0.45);
+  background: rgba(30,215,232,0.04);
+}
+.arena-tab:focus-visible {
+  outline: 2px solid #1ED7E8;
+  outline-offset: 2px;
+}
+.arena-tab-active {
+  color: #FFF;
+  background: linear-gradient(135deg, #FF1687 0%, #c4106a 100%);
+  border-color: #FF1687;
+  box-shadow: 0 0 20px rgba(255,22,135,0.35), 0 0 40px rgba(255,22,135,0.1);
+  animation: arena-tab-glow 3s ease-in-out infinite;
+}
+.arena-tab-px {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: rgba(30,215,232,0.5);
+  transition: background 0.2s;
+}
+.arena-tab-px-on {
+  background: #FFF;
+}
+
+/* ============================================
+   PLAYER GRID
+   ============================================ */
+.arena-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+}
+@media (min-width: 480px) {
+  .arena-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+}
+@media (min-width: 1024px) {
+  .arena-grid { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+}
+@media (min-width: 1440px) {
+  .arena-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (min-width: 1700px) {
+  .arena-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+/* ============================================
+   PLAYER CARD — ARCADE CHARACTER SELECT
+   ============================================ */
+.arena-card {
+  position: relative;
+}
+.arena-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid transparent;
+  pointer-events: none;
+  z-index: 5;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.arena-card:hover::before {
+  border-color: rgba(255,22,135,0.5);
+  box-shadow: 0 0 20px rgba(255,22,135,0.12), 0 0 40px rgba(255,22,135,0.06);
+}
+.arena-card-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  background: linear-gradient(180deg, #060a14 0%, #04070d 100%);
+  border: 1px solid rgba(30,215,232,0.14);
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease;
+}
+.arena-card:hover .arena-card-btn,
+.arena-card:focus-within .arena-card-btn {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(255,22,135,0.08);
+}
+.arena-card-btn:focus-visible {
+  outline: 2px solid #1ED7E8;
+  outline-offset: 3px;
+}
+.arena-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(30,215,232,0.1);
+  background: rgba(0,0,0,0.25);
+}
+.arena-card-pid {
+  color: rgba(30,215,232,0.8);
+}
+.arena-card-status {
+  display: inline-flex;
+  align-items: center;
+  color: #36D65A;
+}
+.arena-card-photo-wrap {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #03050a;
+}
+/* Card scanline sweep on hover */
+.arena-card-photo-wrap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(30,215,232,0.04), transparent);
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.arena-card:hover .arena-card-photo-wrap::after,
+.arena-card:focus-within .arena-card-photo-wrap::after {
+  opacity: 1;
+  animation: arena-card-scan 1.8s ease-in-out infinite;
+}
+.arena-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 14px 17px;
+}
+.arena-card-name {
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+.arena-card-role {
+  letter-spacing: 0.14em;
+  transition: color 0.2s;
+}
+.arena-card:hover .arena-card-role {
+  color: #FF1687 !important;
+}
+.arena-card-divide {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(30,215,232,0.35), transparent);
+  margin: 14px 0 12px;
+}
+.arena-card-team {
+  letter-spacing: 0.16em;
+}
+.arena-card-node {
+  letter-spacing: 0.14em;
+}
+.arena-card-open {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease;
+}
+.arena-card:hover .arena-card-open,
+.arena-card:focus-within .arena-card-open {
+  opacity: 1;
+  transform: none;
+  color: #1ED7E8;
+}
+
+/* Mobile: always show access hint since no hover */
+@media (hover: none) {
+  .arena-card-open {
+    opacity: 0.5;
+    transform: none;
+  }
+}
+
+/* ============================================
+   PHOTOGRAPH TREATMENT
+   ============================================ */
+.arena-photo-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #03050a;
+  overflow: hidden;
+}
+.arena-photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.85) contrast(1.06) brightness(0.92);
+  transition: filter 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.arena-card:hover .arena-photo-img,
+.arena-card:focus-within .arena-photo-img {
+  filter: grayscale(0.15) contrast(1.08) brightness(1.05);
+  transform: scale(1.06);
+}
+.arena-photo-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: repeating-linear-gradient(to bottom, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 4px);
+  transition: background 0.4s ease;
+}
+.arena-card:hover .arena-photo-scan,
+.arena-card:focus-within .arena-photo-scan {
+  background: repeating-linear-gradient(to bottom, rgba(0,229,255,0.03) 0px, rgba(0,229,255,0.03) 1px, transparent 1px, transparent 4px);
+}
+.arena-photo-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 12px;
+  background: radial-gradient(130% 110% at 50% 0%, #0a0e18 0%, #04060c 70%);
+}
+.arena-photo-fallback svg {
+  width: 66px;
+  height: 66px;
+  border: 1px solid rgba(30,215,232,0.22);
+  opacity: 0.9;
+}
+.arena-photo-fallback-label {
+  letter-spacing: 0.24em;
+}
+
+/* ============================================
+   TEAM SECTION HEADER
+   ============================================ */
+.arena-sector-num {
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.arena-seat-count {
+  white-space: nowrap;
+}
+.arena-sep {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.arena-sep-dot {
+  width: 6px;
+  height: 6px;
+  background: #FF1687;
+  box-shadow: 0 0 8px rgba(255,22,135,0.5);
+  flex-shrink: 0;
+}
+.arena-sep-line {
+  flex: 1;
+  height: 1px;
+}
+.arena-sep > span:nth-child(1) {
+  background: linear-gradient(90deg, rgba(255,22,135,0.45), transparent);
+}
+.arena-sep > span:nth-child(3) {
+  background: linear-gradient(90deg, transparent, rgba(30,215,232,0.12));
+}
+.arena-sep > span:nth-child(4) {
+  padding: 0 4px;
+  letter-spacing: 0.2em;
+}
+.arena-sep > span:nth-child(5) {
+  background: linear-gradient(90deg, transparent, rgba(30,215,232,0.45));
+}
+
+/* ============================================
+   DOSSIER MODAL
+   ============================================ */
+.arena-overlay-bg {
+  background: rgba(2,4,8,0.88);
+  -webkit-backdrop-filter: blur(8px) saturate(1.2);
+  backdrop-filter: blur(8px) saturate(1.2);
+}
+.arena-dossier {
+  border: 1px solid rgba(0,229,255,0.28);
+  background: linear-gradient(180deg, #05080f 0%, #03050a 100%);
+  box-shadow: 0 0 60px rgba(0,0,0,0.6), 0 0 30px rgba(30,215,232,0.05);
+}
+.arena-dossier::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,22,135,0.4), transparent);
+  z-index: 5;
+}
+.arena-dossier-close {
+  color: #FFF7E5;
+  background: #060a14;
+  border: 1px solid rgba(255,22,135,0.45);
+  transition: all 0.18s ease;
+}
+.arena-dossier-close:hover {
+  background: #FF1687;
+  color: #060a14;
+  border-color: #FF1687;
+  box-shadow: 0 0 16px rgba(255,22,135,0.35);
+}
+.arena-dossier-close:focus-visible {
+  outline: 2px solid #1ED7E8;
+  outline-offset: 2px;
+}
+/* Mobile: dossier reads as a near-fullscreen bottom sheet */
+@media (max-width: 639px) {
+  .arena-overlay {
+    align-items: flex-end;
+    padding: 0 !important;
+  }
+  .arena-dossier {
+    width: 100%;
+    max-width: 100vw;
+    max-height: 94dvh;
+    border-width: 1px 0 0 0;
+    border-radius: 0;
+  }
+}
+.arena-dossier-photo {
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+}
+.arena-dossier-photo-cap {
+  letter-spacing: 0.3em;
+}
+.arena-dossier-row-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 640px) {
+  .arena-dossier-row-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.arena-dossier-key {
+  letter-spacing: 0.22em;
+}
+.arena-social {
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+.arena-social:hover {
+  background: rgba(255,22,135,0.1);
+  border-color: rgba(255,22,135,0.5);
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+.arena-loading-line {
+  opacity: 0;
+}
+.arena-loading-line:nth-child(1) { animation: arena-line-in 0.3s ease 0.15s forwards; }
+.arena-loading-line:nth-child(2) { animation: arena-line-in 0.3s ease 0.7s forwards; }
+.arena-loading-line:nth-child(3) { animation: arena-line-in 0.3s ease 1.25s forwards; }
+.arena-loading-line:nth-child(4) { animation: arena-line-in 0.3s ease 1.8s forwards; }
+
+.arena-skel {
+  aspect-ratio: auto;
+}
+.arena-skel-bar {
+  display: block;
+  height: 10px;
+  background: #0a0e18;
+}
+.arena-skel-photo {
+  aspect-ratio: 3 / 4;
+  background: #080b12;
+}
+.arena-skel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 38%, rgba(30,215,232,0.06) 50%, transparent 62%);
+  transform: translateX(-100%);
+  animation: arena-shimmer 1.8s ease infinite;
+  pointer-events: none;
+}
+
+/* ============================================
+   CTA
+   ============================================ */
+.arena-cta-glows {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.arena-cta-glows::before {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  filter: blur(90px);
+  background: radial-gradient(circle, rgba(255,22,135,0.1), transparent 70%);
+  top: -160px;
+  right: -100px;
+}
+.arena-cta-glows::after {
+  content: "";
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  filter: blur(90px);
+  background: radial-gradient(circle, rgba(30,215,232,0.08), transparent 70%);
+  bottom: -140px;
+  left: -80px;
+}
+
+/* ============================================
+   ERROR & EMPTY STATES
+   ============================================ */
+.arena-error,
+.arena-empty {
+  position: relative;
+  z-index: 10;
+}
+.arena-error-frame,
+.arena-empty-frame {
+  position: relative;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .arena-led,
+  .arena-cursor,
+  .arena-net-dot,
+  .arena-skel::after,
+  .arena-loading-line,
+  .arena-bg-noise,
+  .arena-bg-sweep,
+  .arena-tab-active {
+    animation: none !important;
+  }
+  .arena-select-scroll {
+    scroll-behavior: auto;
+  }
+  .arena-switch-scan {
+    display: none;
+  }
+  .arena-arrow:hover:not(:disabled),
+  .arena-arrow:active:not(:disabled) {
+    transform: none;
+  }
+  .arena-loading-line {
+    opacity: 1 !important;
+  }
+  .arena-card:hover .arena-card-btn,
+  .arena-card:focus-within .arena-card-btn,
+  .arena-card:hover .arena-photo-img,
+  .arena-card:focus-within .arena-photo-img {
+    transform: none;
+  }
+  .arena-card-open {
+    opacity: 1;
+    transform: none;
+  }
+  .arena-photo-img {
+    filter: none;
+  }
+  .arena-card:hover .arena-photo-wrap::after,
+  .arena-card:focus-within .arena-photo-wrap::after {
+    animation: none;
+  }
+}
+
+/* ============================================
+   MOBILE REFINEMENTS
+   ============================================ */
+@media (max-width: 639px) {
+  .arena-grid {
+    gap: 16px;
+  }
+  .arena-tab {
+    padding: 8px 14px;
+    font-size: 8px;
+  }
+  .arena-chip {
+    font-size: 6px;
+  }
+  .arena-chip-key {
+    padding: 8px 8px;
+    font-size: 6px;
+  }
+  .arena-chip-val {
+    padding: 8px 10px;
+    font-size: 9px;
+  }
+  .arena-card-name {
+    font-size: 10px !important;
+  }
+}
+
+/* ============================================================
+   TEAMS // PLAYERS ARENA — RESPONSIVE REFINEMENTS
+   Laptop/desktop (≥1024px) visual composition is LOCKED; every rule
+   here only reflows/compacts the existing arena for smaller widths.
+   ============================================================ */
+
+/* Tablet down: nothing inside the arena may force the layout wider
+   than the viewport — allow every block to shrink/reflow naturally. */
+@media (max-width: 1023px) {
+  .arena-hero .grid,
+  .arena-net,
+  .arena-select-row,
+  .arena-team-section {
+    min-width: 0;
+  }
+  .arena-roster {
+    min-width: 0;
+  }
+  .arena-grid > .arena-card {
+    min-width: 0;
+  }
+}
+
+/* Phones: keep the PLAYERS ARENA lockup strong but compact — same
+   viewport-relative slope as desktop, only a lower small-screen floor. */
+@media (max-width: 767px) {
+  .arena-hero h1 span {
+    font-size: clamp(26px, 6.5vw, 80px) !important;
+  }
+}
+
+/* Small phones: tuck secondary detail so only the essentials dominate. */
+@media (max-width: 479px) {
+  /* Fold the dossier photo into a capped block so identity stays visible */
+  .arena-dossier-photo {
+    max-width: 260px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ============================================================
+   DASHBOARD // FHC PLAYER OPERATING SYSTEM — POLISH PASS
+   Preserves the existing FHC arcade visual language. Adds the
+   layers that make the dashboard read as the club's own OS.
+   ============================================================ */
+@keyframes dsh-scan-crawl {
+  from { background-position-y: 0; }
+  to { background-position-y: 3px; }
+}
+@keyframes dsh-sweep-kf {
+  0%   { top: -2%; opacity: 0; }
+  12%  { opacity: 0.55; }
+  88%  { opacity: 0.45; }
+  100% { top: 100%; opacity: 0; }
+}
+@keyframes dsh-noise-shift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-1px, 1px); }
+  50%  { transform: translate(1px, -1px); }
+  75%  { transform: translate(-1px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes dsh-dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.28; }
+}
+@keyframes dsh-boot-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------------------
+   BACKGROUND LAYERS — felt, not noticed
+   ------------------------------------------------------------ */
+.dsh-bg-noise {
+  position: absolute; inset: -2px; pointer-events: none; z-index: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: dsh-noise-shift 0.6s steps(4) infinite;
+}
+.dsh-bg-vignette {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(120% 90% at 50% 30%, transparent 55%, rgba(3, 5, 10, 0.5) 100%);
+}
+.dsh-bg-sweep {
+  position: absolute; left: 0; right: 0; height: 2px; pointer-events: none; z-index: 0;
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.07), transparent);
+  animation: dsh-sweep-kf 14s linear infinite;
+}
+.dsh-bg-scanlines {
+  animation: dsh-scan-crawl 26s linear infinite;
+}
+
+/* ------------------------------------------------------------
+   DASHBOARD INIT STRIP — quick boot line, non-blocking
+   ------------------------------------------------------------ */
+.dsh-boot {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+  padding: 10px clamp(16px, 4vw, 48px);
+  background: linear-gradient(180deg, rgba(0, 229, 255, 0.05), transparent);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.12);
+  display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none;
+}
+.dsh-boot-line {
+  display: flex; flex-direction: column; gap: 3px;
+  font-size: 7px; letter-spacing: 0.18em; color: #00E5FF;
+}
+.dsh-boot-l {
+  opacity: 0;
+  animation: dsh-boot-in 0.25s ease both;
+}
+.dsh-boot-bar {
+  width: 150px; height: 2px;
+  background: rgba(0, 229, 255, 0.15);
+  position: relative; overflow: hidden;
+}
+.dsh-boot-bar > span {
+  display: block; height: 100%;
+  background: #00E5FF;
+  box-shadow: 0 0 10px #00E5FF;
+  transition: width 0.2s ease;
+}
+
+/* ------------------------------------------------------------
+   STATUS DOTS — subtle animated telemetry
+   ------------------------------------------------------------ */
+.dsh-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dsh-dot--pulse {
+  animation: dsh-dot-pulse 2.4s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------
+   HERO — system identity terminal
+   ------------------------------------------------------------ */
+.dsh-hero-name {
+  font-size: clamp(20px, 3.2vw, 34px);
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+.dsh-hero-sub {
+  font-size: 6px; letter-spacing: 0.2em;
+  margin-top: -6px; margin-bottom: 12px;
+}
+.dsh-avatar-boot {
+  position: absolute; inset: 0; z-index: 3;
+  display: grid; place-items: center;
+  background: rgba(5, 7, 16, 0.84);
+  animation: dsh-boot-in 0.3s ease both;
+}
+.dsh-avatar-boot-line {
+  font-size: 5px; letter-spacing: 0.14em;
+  color: #00E5FF; text-align: center; line-height: 1.6;
+  padding: 0 6px; white-space: nowrap;
+}
+
+/* telemetry column */
+.dsh-hero-status-title {
+  font-size: 6px; letter-spacing: 0.24em;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 247, 229, 0.06);
+}
+.dsh-hero-status-val {
+  display: flex; align-items: center; gap: 7px;
+  margin-top: 3px; min-width: 0;
+}
+.dsh-hero-id-block {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255, 247, 229, 0.10);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.dsh-hero-id-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+
+/* ------------------------------------------------------------
+   STAT MODULES — selectable arcade terminals
+   ------------------------------------------------------------ */
+.dsh-stats {
+  grid-template-columns: repeat(6, 1fr);
+}
+.dsh-stat {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease;
+}
+.dsh-stat-id {
+  position: absolute; top: 6px; left: 8px;
+  font-size: 5px; letter-spacing: 0.18em;
+  opacity: 0.7;
+}
+.dsh-stat-desc {
+  font-size: 5px; letter-spacing: 0.18em;
+  color: rgba(255, 247, 229, 0.30);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+.dsh-stat-value--sm {
+  font-size: clamp(7px, 1.1vw, 9px);
+  letter-spacing: 0.16em;
+}
+.dsh-stat-enter {
+  position: relative;
+  display: inline-block;
+  font-size: 6px; letter-spacing: 0.2em;
+  margin-top: 10px;
+  opacity: 0.65;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.dsh-stat-arrow {
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+.dsh-stat:hover .dsh-stat-enter {
+  opacity: 1;
+}
+.dsh-stat:hover .dsh-stat-arrow {
+  transform: translateX(2px);
+}
+.dsh-stat:hover {
+  border-color: var(--stat-c);
+  box-shadow: 0 0 18px var(--stat-c33), inset 0 0 24px var(--stat-c12);
+}
+.dsh-stat:active {
+  transform: translateY(1px);
+}
+.dsh-stat:focus-visible {
+  outline: 2px solid var(--stat-c);
+  outline-offset: 2px;
+}
+.dsh-stat-scan {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--stat-c), transparent);
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 0.2s ease, transform 0.7s ease;
+  pointer-events: none;
+}
+.dsh-stat:hover .dsh-stat-scan {
+  opacity: 0.7;
+  transform: translateX(100%);
+}
+
+/* ------------------------------------------------------------
+   ACTIVITY STREAM — system log
+   ------------------------------------------------------------ */
+.dsh-log {
+  display: flex; flex-direction: column; gap: 9px;
+}
+.dsh-log-caption {
+  font-size: 6px; letter-spacing: 0.2em;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 247, 229, 0.06);
+}
+.dsh-log-row {
+  display: flex; align-items: baseline; gap: 10px;
+  min-width: 0;
+}
+.dsh-log-time {
+  font-size: 13px;
+  color: rgba(0, 229, 255, 0.55);
+  white-space: nowrap;
+}
+.dsh-log-label {
+  font-size: 7px; letter-spacing: 0.14em; line-height: 1.5;
+}
+.dsh-log-state {
+  margin-left: auto;
+  font-size: 6px; line-height: 1;
+  transform: translateY(-1px);
+}
+.dsh-log-row--record .dsh-log-time {
+  color: rgba(255, 247, 229, 0.32);
+  font-size: 12px;
+}
+.dsh-log-row--now {
+  border-top: 1px dashed rgba(76, 255, 76, 0.2);
+  padding-top: 8px;
+}
+.dsh-log-divider {
+  font-size: 5px; letter-spacing: 0.2em;
+  color: rgba(255, 247, 229, 0.18);
+  margin: 2px 0;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------
+   SECTOR CARDS — network sectors
+   ------------------------------------------------------------ */
+.dsh-sector {
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, transform 0.12s ease;
+}
+.dsh-sector-desc {
+  font-size: 6px; letter-spacing: 0.16em;
+  color: rgba(255, 247, 229, 0.35);
+  line-height: 1.6;
+}
+.dsh-sector-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 8px;
+}
+.dsh-sector-state {
+  display: inline-flex; align-items: center;
+}
+.dsh-sector:active {
+  transform: translateY(1px);
+}
+.dsh-sector:focus-visible {
+  outline: 2px solid #FFD21A;
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------
+   PROFILE — personnel record
+   ------------------------------------------------------------ */
+.dsh-profile-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid rgba(76, 255, 76, 0.18);
+  background: rgba(76, 255, 76, 0.04);
+  width: fit-content;
+}
+.dsh-btn-edit {
+  position: relative; overflow: hidden;
+}
+.dsh-btn-edit .dsh-edit-swap-b {
+  display: none; color: #00E5FF;
+}
+.dsh-btn-edit:hover .dsh-edit-swap-b { display: inline; }
+.dsh-btn-edit:hover .dsh-edit-swap-a { display: none; }
+
+/* ------------------------------------------------------------
+   ACCOUNT CONTROL — security console
+   ------------------------------------------------------------ */
+.dsh-sec-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 0;
+}
+.dsh-sec-leader {
+  flex: 1; min-width: 12px;
+  border-bottom: 1px dotted rgba(255, 247, 229, 0.18);
+  transform: translateY(-3px);
+}
+
+/* ------------------------------------------------------------
+   SYSTEM STATUS notes
+   ------------------------------------------------------------ */
+.dsh-sysstatus-note {
+  margin-top: 8px;
+  font-size: 5px; letter-spacing: 0.18em;
+  text-align: center;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255, 247, 229, 0.08);
+}
+
+/* ------------------------------------------------------------
+   BUTTON MICRO-INTERACTIONS
+   ------------------------------------------------------------ */
+.dsh-btn:active {
+  transform: translateY(1px);
+}
+.dsh-btn:focus-visible {
+  outline: 2px solid #00E5FF;
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------
+   RESPONSIVE REFINEMENTS
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .dsh-hero-status {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+  .dsh-hero-status-val {
+    justify-content: space-between;
+  }
+  .dsh-boot-line { font-size: 6px; }
+}
+@media (max-width: 480px) {
+  .dsh-stat { padding: 12px 6px; }
+}
+
+/* ------------------------------------------------------------
+   REDUCED MOTION — dashboard layers settle to static
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .dsh-bg-scanlines,
+  .dsh-bg-sweep,
+  .dsh-bg-noise,
+  .dsh-dot--pulse,
+  .dsh-boot-l {
+    animation: none !important;
+  }
+  .dsh-boot-l { opacity: 1 !important; }
+  .dsh-boot-bar > span { width: 100% !important; transition: none; }
+  .dsh-stat-scan { display: none; }
+  .dsh-stat:hover { transform: none; }
+  .dsh-sector:active { transform: none; }
+  .dsh-btn:active { transform: none; }
+}
+
+/* ------------------------------------------------------------
+   NAVBAR — desktop links: established structure, subtle active underline only
+   ------------------------------------------------------------ */
+.nav-link-active {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 6px;
+  height: 2px;
+  background: #FFF7E5;
+  box-shadow: 0 0 8px rgba(255, 247, 229, 0.45);
+}
+
+/* mobile active highlight */
+.nav-link-mob.is-active {
+  background: #FF1687;
+  color: #08090B;
+  border-color: #08090B;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-link-active { transition: none; }
 }

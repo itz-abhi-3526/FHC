@@ -4,6 +4,11 @@ import PlayerPreviewViewport from "../components/arcade/PlayerPreviewViewport";
 import PageFrame from "../components/PageFrame";
 import JoinBackground from "../components/arcade/JoinBackground";
 import HolographicPortal from "../components/arcade/HolographicPortal";
+import {
+  submitJoinApplication,
+  isDuplicateApplicationError,
+  JOIN_SUBMIT_STATE,
+} from "../lib/joinApplication";
 
 import fhcController from "../assets/fhc-controller.png";
 import fhcHeart from "../assets/fhc-heart.png";
@@ -791,7 +796,7 @@ function CreateProfile({ onSubmit, form, setForm }) {
    SCENE 03 — READY TO LEVEL UP
    RETRO 8-BIT ARCADE / GAME START SCREEN
    ═══════════════════════════════════════════════════════════════ */
-function ReadyToLevelUp() {
+function ReadyToLevelUp({ submitting = false }) {
   const BG = "#060a18";
   const PK = "#FF007F";
   const CY = "#00D4FF";
@@ -923,6 +928,7 @@ function ReadyToLevelUp() {
               <button
                 type="submit"
                 form="join-form"
+                disabled={submitting}
                 className="relative inline-flex items-center gap-3 cursor-pointer"
                 style={{
                   fontFamily: "var(--font-pixel)", fontSize: 15, fontWeight: 700, letterSpacing: 2,
@@ -933,19 +939,26 @@ function ReadyToLevelUp() {
                   outline: "none", minWidth: 380, justifyContent: "center",
                   transition: "transform 0.08s steps(2), box-shadow 0.15s, background 0.15s",
                   clipPath: pixelClip,
+                  opacity: submitting ? 0.55 : 1,
+                  cursor: submitting ? "wait" : "pointer",
                 }}
                 onMouseEnter={(e) => {
+                  if (submitting) return;
                   e.currentTarget.style.transform = "translateY(-2px)";
                   e.currentTarget.style.background = "#0f0f1a";
                   e.currentTarget.style.boxShadow = `inset 0 0 0 4px #0a0a14, inset 0 0 0 5px ${PK}, 0 0 0 1px ${BLUE}50, 0 0 30px ${PK}20, 0 0 60px ${PK}08`;
                 }}
                 onMouseLeave={(e) => {
+                  if (submitting) return;
                   e.currentTarget.style.transform = "";
                   e.currentTarget.style.background = "#0a0a14";
                   e.currentTarget.style.boxShadow = `inset 0 0 0 4px #0a0a14, inset 0 0 0 5px ${PK}50, 0 0 0 1px ${BLUE}30, 0 0 20px ${PK}10`;
                 }}
               >
-                <span style={{ color: PK, fontSize: 18 }}>&#x25B6;</span> SUBMIT & JOIN FHC
+                <span style={{ color: PK, fontSize: 18 }}>
+                  {submitting ? <span className="term-blink">&#x258C;</span> : <span>&#x25B6;</span>}
+                </span>
+                {submitting ? "TRANSMITTING..." : "SUBMIT & JOIN FHC"}
               </button>
             </div>
 
@@ -1016,15 +1029,21 @@ function ReadyToLevelUp() {
           <button
             type="submit"
             form="join-form"
+            disabled={submitting}
             className="relative inline-flex items-center gap-2 cursor-pointer"
             style={{
               fontFamily: "var(--font-pixel)", fontSize: 12, fontWeight: 700, letterSpacing: 1.5,
               color: CR, background: "#0a0a14", border: `2px solid ${PK}`,
               boxShadow: `inset 0 0 0 3px #0a0a14, inset 0 0 0 4px ${PK}50`,
               padding: "16px 32px", clipPath: pixelClip, justifyContent: "center",
+              opacity: submitting ? 0.55 : 1,
+              cursor: submitting ? "wait" : "pointer",
             }}
           >
-            <span style={{ color: PK, fontSize: 14 }}>&#x25B6;</span> SUBMIT & JOIN FHC
+            <span style={{ color: PK, fontSize: 14 }}>
+              {submitting ? <span className="term-blink">&#x258C;</span> : <span>&#x25B6;</span>}
+            </span>
+            {submitting ? "TRANSMITTING..." : "SUBMIT & JOIN FHC"}
           </button>
 
           {/* Speech bubble (mobile) */}
@@ -1077,17 +1096,72 @@ export default function Join() {
     email: "", phone: "", about: "", domain: "",
   });
   const [toast, setToast] = useState(null);
+  const [submitState, setSubmitState] = useState(JOIN_SUBMIT_STATE.IDLE);
+  const submitting = submitState === JOIN_SUBMIT_STATE.SUBMITTING;
 
   useEffect(() => {
     if (!toast) return undefined;
-    const t = setTimeout(() => setToast(null), 5000);
+    const t = setTimeout(() => setToast(null), toast.kind === "error" ? 12000 : 5000);
     return () => clearTimeout(t);
   }, [toast]);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log("FHC join payload:", form);
-    setToast(form.name);
+    if (submitting) return;
+
+    setSubmitState(JOIN_SUBMIT_STATE.SUBMITTING);
+
+    try {
+      await submitJoinApplication(form);
+      setSubmitState(JOIN_SUBMIT_STATE.SUCCESS);
+      setToast({
+        kind: "success",
+        title: "APPLICATION RECEIVED!",
+        lineage: "FHC_",
+        detail: "YOUR APPLICATION IS IN.",
+        note: form.name,
+      });
+    } catch (err) {
+      console.error("[FHC] Join application submission failed:", err);
+      setSubmitState(JOIN_SUBMIT_STATE.ERROR);
+      if (isDuplicateApplicationError(err)) {
+        setToast({
+          kind: "error",
+          title: "APPLICATION ALREADY EXISTS",
+          lineage: "FHC_",
+          detail: "AN APPLICATION WITH THIS REGISTER NUMBER HAS ALREADY BEEN SUBMITTED.",
+          note: "PLEASE DO NOT SUBMIT ANOTHER APPLICATION",
+        });
+      } else if (err.code === "FHC_VALIDATION") {
+        setToast({
+          kind: "error",
+          title: "INPUT ERROR",
+          lineage: "SIGNAL LOST",
+          detail: err.message,
+          note: "COMPLETE ALL REQUIRED FIELDS",
+        });
+      } else if (/^(PGRST|23[0-9][0-9])/.test(String(err.code || ""))) {
+        /* A real database rejection (constraint/RI/PostgREST), not a
+           network failure — surface it honestly instead of a fake
+           "CONNECTION LOST". Raw error is always in the console above. */
+        console.error("[FHC] Join submission rejected by database:", err);
+        setToast({
+          kind: "error",
+          title: "SUBMISSION REJECTED",
+          lineage: "FHC_ERR",
+          detail: "THE SERVER REJECTED THE APPLICATION.",
+          note: (String(err.message || "CHECK CONSOLE").slice(0, 84)).toUpperCase() + "|CONSOLE",
+        });
+      } else {
+        setToast({
+          kind: "error",
+          title: "SYSTEM ERROR",
+          lineage: "CONNECTION LOST",
+          detail: "THE NETWORK UPLINK FAILED. TRY AGAIN SOON.",
+          note: "FHC_ERR",
+        });
+      }
+    }
   }
 
   return (
@@ -1097,39 +1171,44 @@ export default function Join() {
         <SectionDivider leftLabel="FHC // PLAYER ENTRY" rightLabel="SECTION 01" />
         <CreateProfile onSubmit={handleSubmit} form={form} setForm={setForm} />
         <SectionDivider leftLabel="FHC // PLAYER CREATION" rightLabel="STAGE 02" />
-        <ReadyToLevelUp />
+        <ReadyToLevelUp submitting={submitting} />
         <div className="mx-[10px]"><Footer /></div>
       </MasterJoinFrame>
 
-      {/* Success toast */}
-      {toast && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center" style={{ background: "rgba(8,9,11,0.92)" }}>
-          <div className="relative max-w-md w-full mx-4">
-            <div className="absolute inset-0" style={{ background: GR, transform: "translate(8px, 8px)", clipPath: "polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px))", opacity: 0.2 }} />
-            <div className="relative p-8 text-center" style={{ background: DP, border: `3px solid ${GR}`, clipPath: "polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px))" }}>
-              <div className="text-4xl mb-4">🎉</div>
-              <p className="font-pixel text-[11px] mb-2" style={{ color: GR }}>PLAYER CREATED!</p>
-              <p className="font-pixel text-lg mb-4" style={{ color: CR }}>FHC_</p>
-              <p className="font-mono text-sm mb-4" style={{ color: `${CR}CC` }}>WELCOME TO THE HORIZON.</p>
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <div className="px-3 py-2" style={{ background: INK, border: `2px solid ${GR}30` }}>
-                  <p className="font-pixel text-[6px] tracking-widest" style={{ color: `${GR}60` }}>STATUS</p>
-                  <p className="font-pixel text-[9px] font-bold" style={{ color: YL }}>READY</p>
+      {/* Status toast */}
+      {toast && (() => {
+        const isErr = toast.kind === "error";
+        const accent = isErr ? PK : GR;
+        return (
+          <div className="fixed inset-0 z-[999] flex items-center justify-center" style={{ background: "rgba(8,9,11,0.92)" }}>
+            <div className="relative max-w-md w-full mx-4">
+              <div className="absolute inset-0" style={{ background: accent, transform: "translate(8px, 8px)", clipPath: "polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px))", opacity: 0.2 }} />
+              <div className="relative p-8 text-center" style={{ background: DP, border: `3px solid ${accent}`, clipPath: "polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px))" }}>
+                <div className="text-4xl mb-4">{isErr ? "⚠️" : "🎉"}</div>
+                <p className="font-pixel text-[11px] mb-2" style={{ color: accent }}>{toast.title}</p>
+                <p className="font-pixel text-lg mb-2" style={{ color: CR }}>{toast.lineage}</p>
+                <p className="font-mono text-sm mb-4" style={{ color: `${CR}CC` }}>{toast.detail}</p>
+                <p className="font-pixel text-[9px] mb-4" style={{ color: isErr ? `${PK}AA` : GR, opacity: 0.8 }}>{toast.note}</p>
+                <div className="flex items-center justify-center gap-4 mb-4">
+                  <div className="px-3 py-2" style={{ background: INK, border: `2px solid ${accent}30` }}>
+                    <p className="font-pixel text-[6px] tracking-widest" style={{ color: `${accent}60` }}>STATUS</p>
+                    <p className="font-pixel text-[9px] font-bold" style={{ color: isErr ? PK : YL }}>{isErr ? "OFFLINE" : "APPLIED"}</p>
+                  </div>
+                  <div className="px-3 py-2" style={{ background: INK, border: `2px solid ${accent}30` }}>
+                    <p className="font-pixel text-[6px] tracking-widest" style={{ color: `${accent}60` }}>MISSION</p>
+                    <p className="font-pixel text-[9px] font-bold" style={{ color: PK }}>{isErr ? "BLOCKED" : "UNDER REVIEW"}</p>
+                  </div>
                 </div>
-                <div className="px-3 py-2" style={{ background: INK, border: `2px solid ${GR}30` }}>
-                  <p className="font-pixel text-[6px] tracking-widest" style={{ color: `${GR}60` }}>MISSION</p>
-                  <p className="font-pixel text-[9px] font-bold" style={{ color: PK }}>STARTED</p>
-                </div>
+                <button onClick={() => setToast(null)} className="font-pixel text-[10px] cursor-pointer transition-colors hover:text-cream" style={{ color: PK }}>{isErr ? "▶ RETRY" : "▶ CONTINUE"}</button>
               </div>
-              <button onClick={() => setToast(null)} className="font-pixel text-[10px] cursor-pointer transition-colors hover:text-cream" style={{ color: PK }}>▶ CONTINUE</button>
+              <div className="absolute top-[6px] left-[6px] w-3 h-3 border-t-2 border-l-2" style={{ borderColor: accent }} />
+              <div className="absolute top-[6px] right-[6px] w-3 h-3 border-t-2 border-r-2" style={{ borderColor: accent }} />
+              <div className="absolute bottom-[6px] left-[6px] w-3 h-3 border-b-2 border-l-2" style={{ borderColor: accent }} />
+              <div className="absolute bottom-[6px] right-[6px] w-3 h-3 border-b-2 border-r-2" style={{ borderColor: accent }} />
             </div>
-            <div className="absolute top-[6px] left-[6px] w-3 h-3 border-t-2 border-l-2" style={{ borderColor: GR }} />
-            <div className="absolute top-[6px] right-[6px] w-3 h-3 border-t-2 border-r-2" style={{ borderColor: GR }} />
-            <div className="absolute bottom-[6px] left-[6px] w-3 h-3 border-b-2 border-l-2" style={{ borderColor: GR }} />
-            <div className="absolute bottom-[6px] right-[6px] w-3 h-3 border-b-2 border-r-2" style={{ borderColor: GR }} />
           </div>
-        </div>
-      )}
+        );
+      })()}
     </>
   );
 }

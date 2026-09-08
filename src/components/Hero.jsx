@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import fhcMain from "../assets/FHC Main.png";
+import fhcBg from "../assets/FHC.png";
 import heroCloud from "../assets/hero-cloud.png";
 import heroGrass from "../assets/hero-grass-clean.png";
 
@@ -146,7 +147,16 @@ function HeroArt() {
 export default function Hero() {
   return (
     <section id="home" className="hero-window-frame">
-      <div className="hero-sky-bg relative overflow-hidden" style={{ minHeight: 680 }}>
+      <div
+        className="hero-sky-bg relative overflow-hidden"
+        style={{
+          minHeight: 680,
+          backgroundImage: `url(${fhcBg})`,
+          backgroundSize: "100% 100%",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <HeroScanlines />
         <HeroSparks />
         <HeroClouds />

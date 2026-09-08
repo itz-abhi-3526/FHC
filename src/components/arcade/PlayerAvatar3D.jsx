@@ -137,7 +137,6 @@ function scanFacet(color, base) {
     depthTest: true,
     blending: THREE.AdditiveBlending,
     side: THREE.DoubleSide,
-    renderOrder: 4,
   });
 }
 
@@ -150,37 +149,37 @@ const MAINS = [
 
 const DARK = new THREE.MeshBasicMaterial({
   color: "#04131c", transparent: true, opacity: 0.6, depthWrite: false,
-  side: THREE.DoubleSide, renderOrder: 1, toneMapped: false,
+  side: THREE.DoubleSide, toneMapped: false,
 });
 const DIM = new THREE.MeshBasicMaterial({
   color: "#0e8499", transparent: true, opacity: 0.32, depthWrite: false,
-  blending: THREE.AdditiveBlending, side: THREE.DoubleSide, renderOrder: 2, toneMapped: false,
+  blending: THREE.AdditiveBlending, side: THREE.DoubleSide, toneMapped: false,
 });
 const HIGHLIGHT = new THREE.MeshBasicMaterial({
   color: "#aef7ff", transparent: true, opacity: 0.8, depthWrite: false,
-  blending: THREE.AdditiveBlending, side: THREE.DoubleSide, renderOrder: 7, toneMapped: false,
+  blending: THREE.AdditiveBlending, side: THREE.DoubleSide, toneMapped: false,
 });
 const MAGENTA = new THREE.MeshBasicMaterial({
   color: "#FF1687", transparent: true, opacity: 0.5, depthWrite: false,
-  blending: THREE.AdditiveBlending, side: THREE.DoubleSide, renderOrder: 8, toneMapped: false,
+  blending: THREE.AdditiveBlending, side: THREE.DoubleSide, toneMapped: false,
 });
 
 const EDGE_FRONT = new THREE.LineBasicMaterial({
   color: "#46e8ff", transparent: true, opacity: 0.55, depthWrite: false,
-  blending: THREE.AdditiveBlending, renderOrder: 6, toneMapped: false,
+  blending: THREE.AdditiveBlending, toneMapped: false,
 });
 const EDGE_BACK = new THREE.LineBasicMaterial({
   color: "#1ED7E8", transparent: true, opacity: 0.16, depthWrite: false,
-  blending: THREE.AdditiveBlending, renderOrder: 2, toneMapped: false,
+  blending: THREE.AdditiveBlending, toneMapped: false,
 });
 const EDGE_STRUT = new THREE.LineBasicMaterial({
   color: "#37d9ff", transparent: true, opacity: 0.13, depthWrite: false,
-  blending: THREE.AdditiveBlending, renderOrder: 3, toneMapped: false,
+  blending: THREE.AdditiveBlending, toneMapped: false,
 });
 
 const VISOR_MAT = new THREE.MeshBasicMaterial({
   color: "#041019", transparent: true, opacity: 0.82, depthWrite: false,
-  side: THREE.DoubleSide, renderOrder: 5, toneMapped: false,
+  side: THREE.DoubleSide, toneMapped: false,
 });
 
 /* ── cute rounded robot blueprint — flat front-view shapes (y up, feet ~0) ── */
@@ -255,7 +254,7 @@ const SHELFS = polylineGeom([
 ]);
 const SHELF_MAT = new THREE.LineBasicMaterial({
   color: "#1ED7E8", transparent: true, opacity: 0.09, depthWrite: false,
-  blending: THREE.AdditiveBlending, renderOrder: 6, toneMapped: false,
+  blending: THREE.AdditiveBlending, toneMapped: false,
 });
 
 /* ── one flat facet stack: dark interior + translucent fills +
@@ -301,14 +300,14 @@ const RETICLE_X = polylineGeom([[[-0.96, 0, 0], [0.96, 0, 0]]]);
 const RETICLE_Y = polylineGeom([[[0, -0.96, 0], [0, 0.96, 0]]]);
 const RETICLE_MAT = new THREE.LineBasicMaterial({
   color: "#1ED7E8", transparent: true, opacity: 0.08, depthWrite: false,
-  blending: THREE.AdditiveBlending, renderOrder: 0, toneMapped: false,
+  blending: THREE.AdditiveBlending, toneMapped: false,
 });
 
 function BackReticle() {
   const rings = useMemo(() =>
     [0.13, 0.1, 0.07, 0.05].map((o) => new THREE.MeshBasicMaterial({
       color: "#26E4FF", transparent: true, opacity: o, depthWrite: false,
-      blending: THREE.AdditiveBlending, side: THREE.DoubleSide, renderOrder: 0, toneMapped: false,
+      blending: THREE.AdditiveBlending, side: THREE.DoubleSide, toneMapped: false,
     })), []);
   return (
     <group position={[-0.10, 0.36, -0.14]}>
@@ -393,14 +392,14 @@ function HoloFragments({ time }) {
         <planeGeometry args={[0.05, 0.05]} />
         <meshBasicMaterial
           color="#52e9ff" transparent opacity={0.4} depthWrite={false}
-          blending={THREE.AdditiveBlending} side={THREE.DoubleSide} renderOrder={8} toneMapped={false}
+          blending={THREE.AdditiveBlending} side={THREE.DoubleSide} toneMapped={false}
         />
       </instancedMesh>
       <instancedMesh ref={magRef} args={[undefined, undefined, 8]}>
         <planeGeometry args={[0.035, 0.035]} />
         <meshBasicMaterial
           color="#FF1687" transparent opacity={0.4} depthWrite={false}
-          blending={THREE.AdditiveBlending} side={THREE.DoubleSide} renderOrder={8} toneMapped={false}
+          blending={THREE.AdditiveBlending} side={THREE.DoubleSide} toneMapped={false}
         />
       </instancedMesh>
     </group>
@@ -413,7 +412,7 @@ function ProjectionFloor({ time }) {
   const halo = useRef();
   const ringMats = useMemo(() => [0.2, 0.13, 0.09].map((o) => new THREE.MeshBasicMaterial({
     color: "#1ED7E8", transparent: true, opacity: o, depthWrite: false,
-    blending: THREE.AdditiveBlending, side: THREE.DoubleSide, renderOrder: 0, toneMapped: false,
+    blending: THREE.AdditiveBlending, side: THREE.DoubleSide, toneMapped: false,
   })), []);
 
   useFrame((_, dt) => {
@@ -439,7 +438,7 @@ function ProjectionFloor({ time }) {
         <circleGeometry args={[0.58, 48]} />
         <meshBasicMaterial
           color="#0fd0e6" transparent opacity={0.7} depthWrite={false}
-          blending={THREE.AdditiveBlending} side={THREE.DoubleSide} renderOrder={0} toneMapped={false}
+          blending={THREE.AdditiveBlending} side={THREE.DoubleSide} toneMapped={false}
         />
       </mesh>
     </group>
@@ -456,15 +455,15 @@ function HoloRobot({ variant = 0, accent = "cyan", time }) {
     scan: scanFacet(ac, 0.55),
     bright: new THREE.MeshBasicMaterial({
       color: ac, transparent: true, opacity: 0.9, depthWrite: false,
-      blending: THREE.AdditiveBlending, side: THREE.DoubleSide, renderOrder: 7, toneMapped: false,
+      blending: THREE.AdditiveBlending, side: THREE.DoubleSide, toneMapped: false,
     }),
     halo: new THREE.MeshBasicMaterial({
       color: ac, transparent: true, opacity: 0.22, depthWrite: false,
-      blending: THREE.AdditiveBlending, side: THREE.DoubleSide, renderOrder: 7, toneMapped: false,
+      blending: THREE.AdditiveBlending, side: THREE.DoubleSide, toneMapped: false,
     }),
     edge: new THREE.LineBasicMaterial({
       color: ac, transparent: true, opacity: 0.6, depthWrite: false,
-      blending: THREE.AdditiveBlending, renderOrder: 8, toneMapped: false,
+      blending: THREE.AdditiveBlending, toneMapped: false,
     }),
   }), [ac]);
 
@@ -611,7 +610,7 @@ function BackGlow() {
       <planeGeometry args={[1.7, 2.3]} />
       <meshBasicMaterial
         map={GLOW_TEX} transparent depthWrite={false} toneMapped={false}
-        blending={THREE.AdditiveBlending} renderOrder={0}
+        blending={THREE.AdditiveBlending}
       />
     </mesh>
   );
@@ -638,7 +637,7 @@ function OrbitalHoloRings() {
             <torusGeometry args={[c.r, 0.0035, 8, 120]} />
             <meshBasicMaterial
               color="#1ED7E8" transparent opacity={c.o} depthWrite={false}
-              blending={THREE.AdditiveBlending} renderOrder={0} toneMapped={false}
+              blending={THREE.AdditiveBlending} toneMapped={false}
             />
           </mesh>
         </group>

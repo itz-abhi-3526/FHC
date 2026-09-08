@@ -19,9 +19,11 @@ function seededRandom(seed) {
    ═══════════════════════════════════════════════ */
 function PerspectiveGrid() {
   const ref = useRef();
-  useFrame((st) => {
+  const tRef = useRef(0);
+  useFrame((_, dt) => {
     if (ref.current) {
-      ref.current.uniforms.uTime.value = st.clock.elapsedTime;
+      tRef.current += dt;
+      ref.current.uniforms.uTime.value = tRef.current;
     }
   });
 
@@ -70,6 +72,7 @@ function PerspectiveGrid() {
    ═══════════════════════════════════════════════ */
 function FloatingParticles({ count = 100 }) {
   const ref = useRef();
+  const tRef = useRef(0);
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
   const p = useMemo(() => {
@@ -86,9 +89,10 @@ function FloatingParticles({ count = 100 }) {
     }));
   }, [count]);
 
-  useFrame((st) => {
+  useFrame((_, dt) => {
     if (!ref.current) return;
-    const t = st.clock.elapsedTime;
+    tRef.current += dt;
+    const t = tRef.current;
     for (let i = 0; i < count; i++) {
       const q = p[i];
       dummy.position.set(
@@ -129,6 +133,7 @@ function FloatingParticles({ count = 100 }) {
    ═══════════════════════════════════════════════ */
 function WireframeObjects() {
   const g = useRef();
+  const tRef = useRef(0);
 
   const d = useMemo(() => [
     { p: [-10, 4, -16], g: "b", s: [1.2], c: PINK, v: 0.15 },
@@ -145,9 +150,10 @@ function WireframeObjects() {
     { p: [-12, 2, -18], g: "o", s: [0.7], c: PINK, v: 0.17 },
   ], []);
 
-  useFrame((st) => {
+  useFrame((_, dt) => {
     if (!g.current) return;
-    const t = st.clock.elapsedTime;
+    tRef.current += dt;
+    const t = tRef.current;
     g.current.children.forEach((ch, i) => {
       const o = d[i];
       ch.rotation.x = t * o.v * 0.3;
@@ -175,6 +181,7 @@ function WireframeObjects() {
    ═══════════════════════════════════════════════ */
 function GlowMarkers() {
   const g = useRef();
+  const tRef = useRef(0);
 
   const d = useMemo(() => [
     { p: [-8, 2, -18], c: PINK, s: 0.08 },
@@ -188,9 +195,10 @@ function GlowMarkers() {
     { p: [20, 3, -28], c: PINK, s: 0.05 },
   ], []);
 
-  useFrame((st) => {
+  useFrame((_, dt) => {
     if (!g.current) return;
-    const t = st.clock.elapsedTime;
+    tRef.current += dt;
+    const t = tRef.current;
     g.current.children.forEach((ch, i) => {
       ch.material.opacity = 0.2 + 0.15 * Math.sin(t * 0.6 + i * 1.3);
       ch.scale.setScalar(d[i].s * (1 + 0.1 * Math.sin(t * 0.4 + i)));
@@ -215,8 +223,10 @@ function GlowMarkers() {
 function OrbitalRings() {
   const r1 = useRef();
   const r2 = useRef();
-  useFrame((st) => {
-    const t = st.clock.elapsedTime;
+  const tRef = useRef(0);
+  useFrame((_, dt) => {
+    tRef.current += dt;
+    const t = tRef.current;
     if (r1.current) r1.current.rotation.z = t * 0.04;
     if (r2.current) r2.current.rotation.z = -t * 0.03;
   });

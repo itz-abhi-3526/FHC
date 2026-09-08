@@ -39,8 +39,26 @@ export function AuthProvider({ children }) {
       setProfile(data);
       return data;
     }
-    console.warn("[FHC] No profile found for uid:", uid);
-    return null;
+
+    /* No profile row yet (e.g. created before this schema, or the signup
+       trigger missed). RLS lets the user INSERT their own row, so repair
+       it in place — never touches any other user's data. */
+    console.warn("[FHC] No profile found for uid — self-healing create:", uid);
+    const { data: userAuth } = await supabase.auth.getUser();
+    const metaName = userAuth?.user?.user_metadata?.full_name || "";
+    const created = {
+      id: uid,
+      full_name: metaName,
+      avatar_url: null,
+      avatar_seed: uid,
+    };
+    const { error: insErr } = await supabase.from("profiles").insert(created);
+    if (insErr) {
+      console.warn("[FHC] Profile self-heal create failed:", insErr.message);
+      return null;
+    }
+    setProfile(created);
+    return created;
   }, []);
 
   useEffect(() => {
