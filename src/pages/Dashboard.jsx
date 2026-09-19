@@ -106,13 +106,12 @@ const ACCESS_LINKS = [
 ];
 
 export default function Dashboard() {
-  const { user, profile, status, refreshProfile, signOut, supabase } = useAuth();
+  const { user, profile, status, refreshProfile, signOut, supabase, isMedia } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const [editMode, setEditMode] = useState(false);
   const [editName, setEditName] = useState("");
-  const [editUser, setEditUser] = useState("");
   const [editSaving, setEditSaving] = useState(false);
   const [editMsg, setEditMsg] = useState(null);
 
@@ -160,12 +159,10 @@ export default function Dashboard() {
   /* ── data extraction (real profile fields only) ── */
   const name = profile?.full_name || user?.user_metadata?.full_name || "PLAYER";
   const email = profile?.email || user?.email || "";
-  const username = profile?.username || user?.email || "";
   const seed = profile?.avatar_seed || user?.id || email || "fhc";
   /* MEMBER SINCE: prefer profiles.created_at; fall back to the Supabase Auth
      user's real created_at. No extra query, no fake/hardcoded date. */
   const since = profile?.created_at || user?.created_at;
-  const cleanUser = username.startsWith("@") ? username.slice(1) : username;
   const avatarUrl = profile?.avatar_url || "";
 
   /* ── handlers ── */
@@ -179,12 +176,12 @@ export default function Dashboard() {
         err.code = PROFILE_ERROR.NO_USER;
         throw err;
       }
-      /* Build the patch from ONLY the fields that actually changed. */
+      /* Build the patch from ONLY the fields that actually changed.
+         Only columns present in the live profiles schema ship: full_name,
+         avatar_url. Username is NOT a live column — writing it would 400. */
       const patch = {};
       const newName = editName.trim();
-      const newUser = editUser.trim().replace(/^@/, "");
       if (newName && newName !== name) patch.full_name = newName;
-      if (newUser && newUser !== cleanUser) patch.username = newUser;
 
       if (Object.keys(patch).length === 0) {
         setEditMsg({ kind: "ok", text: "NO CHANGES DETECTED" });
@@ -318,6 +315,16 @@ export default function Dashboard() {
     navigate("/", { replace: true });
   };
 
+  /* MEDIA-only entry point: media users manage albums/uploads from the
+     public MEDIA CONSOLE (/media). Normal members see nothing; admins
+     keep their existing /admin/gallery workflow. */
+  const accessLinks = isMedia
+    ? [
+        ...ACCESS_LINKS,
+        { label: "MEDIA CONSOLE", to: "/media", desc: "MANAGE ALBUMS + UPLOAD EVENT MEDIA" },
+      ]
+    : ACCESS_LINKS;
+
   return (
     <div className="dsh-root">
       {/* ── ambient layers ── */}
@@ -418,10 +425,6 @@ export default function Dashboard() {
                 {name}
               </h1>
 
-              <div className="dsh-hero-username font-mono">
-                @{cleanUser}
-              </div>
-
               <div className="dsh-hero-email font-mono">
                 {email}
               </div>
@@ -451,7 +454,7 @@ export default function Dashboard() {
 
           <Panel tag="QUICK ACCESS" title="NAVIGATE" accent={YL} wide>
             <div className="dsh-sectors">
-              {ACCESS_LINKS.map((l) => (
+              {accessLinks.map((l) => (
                 <Link key={l.label} to={l.to} className="dsh-sector group" aria-label={`${l.label} — enter`}>
                   <CornerBrackets color={YL} inset={0} />
                   <div className="dsh-sector-inner">
@@ -477,8 +480,6 @@ export default function Dashboard() {
                   </div>
                   <label className="dsh-edit-label font-pixel" htmlFor="dsh-name">FULL NAME</label>
                   <input id="dsh-name" className="dsh-edit-input font-mono" value={editName} onChange={(e) => setEditName(e.target.value)} autoFocus />
-                  <label className="dsh-edit-label font-pixel" htmlFor="dsh-user">USERNAME</label>
-                  <input id="dsh-user" className="dsh-edit-input font-mono" value={editUser} onChange={(e) => setEditUser(e.target.value)} />
                   <AnimatePresence>
                     {editMsg && (
                       <motion.div role="status" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="dsh-edit-msg font-pixel" style={{ color: editMsg.kind === "ok" ? GR : PK }}>
@@ -528,7 +529,7 @@ export default function Dashboard() {
                   <div className="dsh-account-actions">
                     <motion.button
                       type="button"
-                      onClick={() => { setEditName(name); setEditUser(cleanUser); setEditMsg(null); setEditMode(true); }}
+                      onClick={() => { setEditName(name); setEditMsg(null); setEditMode(true); }}
                       className="dsh-btn dsh-btn--accent dsh-btn-edit"
                       style={{ color: PK }}
                       whileHover={{ y: -1 }}

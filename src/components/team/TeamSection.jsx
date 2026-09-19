@@ -13,7 +13,7 @@ export default function TeamSection({ group, globalStart, onOpen }) {
       <span className="arena-switch-scan" aria-hidden="true" />
 
       {/* Section header */}
-      <div className="mb-6">
+      <div className="mb-4 md:mb-6">
         <motion.div
           className="flex flex-wrap items-center justify-between gap-3"
           initial={{ opacity: 0, y: 16 }}
@@ -43,7 +43,7 @@ export default function TeamSection({ group, globalStart, onOpen }) {
           </div>
         </motion.div>
 
-        <div className="arena-sep mt-4">
+        <div className="arena-sep mt-3 md:mt-4">
           <span className="arena-sep-line" />
           <span className="arena-sep-dot" />
           <span className="arena-sep-line" />

@@ -4,48 +4,7 @@ import Footer from "../components/Footer";
 import PixelButton from "../components/PixelButton";
 import SectionEyebrow from "../components/SectionEyebrow";
 
-const STATS = [
-  { icon: "★", value: "25+", label: "EVENTS" },
-  { icon: "☺", value: "100+", label: "MEMBERS" },
-  { icon: "</>", value: "15+", label: "PROJECTS" },
-];
-
-const ACHIEVEMENTS = [
-  { icon: "🏆", title: "BEST CLUB 2023" },
-  { icon: "🎖️", title: "ACTIVE COMMUNITY" },
-  { icon: "⚡", title: "INNOVATION DRIVEN" },
-  { icon: "♥", title: "MADE BY STUDENTS" },
-];
-
 const STAT_ACCENTS = ["#ff2e8c", "#5ab8ff", "#39ff6a"];
-const ACHIEV_ACCENTS = ["#ffd400", "#5ab8ff", "#ff2e8c", "#39ff6a"];
-
-const EVENTS = [
-  {
-    day: "JUN 15",
-    icon: "🖥️",
-    title: "WEB DEV WORKSHOP",
-    desc: "Learn modern web dev technologies and build real-world projects.",
-  },
-  {
-    day: "JUN 28",
-    icon: "🧠",
-    title: "AI EXPLORER TALK",
-    desc: "A session on the future of AI and its real-world applications.",
-  },
-  {
-    day: "JUL 10",
-    icon: "⌨️",
-    title: "CODE HORIZON 3.0",
-    desc: "Intra-college coding competition. Solve. Code. Win. Repeat.",
-  },
-  {
-    day: "JUL 24",
-    icon: "🎤",
-    title: "TECH TALK",
-    desc: "Talk by industry experts on emerging tech and career guidance.",
-  },
-];
 
 const PROJECTS = [
   {
@@ -117,7 +76,7 @@ const WHY_JOIN = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════
-   STATS + ACHIEVEMENTS — FHC Arcade Poster Showcase
+   STATS + PLAYER MISSION PROTOCOL — FHC Arcade Poster Showcase
    ═══════════════════════════════════════════════════════════════════ */
 function StatsAchievements() {
   const PK = "#ff2e8c";
@@ -128,16 +87,16 @@ function StatsAchievements() {
   const INK = "#0c0c0f";
 
   const stats = [
-    { val: "25+", label: "EVENTS", accent: PK, icon: "★" },
-    { val: "300+", label: "MEMBERS", accent: BL, icon: "☺" },
-    { val: "15+", label: "PROJECTS", accent: GR, icon: "</>" },
+    { val: "8+", label: "EVENTS", accent: BL, icon: "★" },
+    { val: "70+", label: "ACTIVE MEMBERS", accent: GR, icon: "☺" },
+    { val: "6+", label: "PROJECTS", accent: PK, icon: "◫" },
   ];
 
   const achievements = [
-    { icon: "🏆", title: "BEST CLUB 2023", accent: YL },
-    { icon: "🎖️", title: "ACTIVE COMMUNITY", accent: BL },
-    { icon: "⚡", title: "INNOVATION DRIVEN", accent: PK },
-    { icon: "♥", title: "MADE BY STUDENTS", accent: GR },
+    { icon: "01", title: "LEARN", subtitle: "SKILLS • IDEAS • CURIOSITY", accent: YL },
+    { icon: "02", title: "BUILD", subtitle: "PROJECTS • EXPERIMENTS • SOLUTIONS", accent: BL },
+    { icon: "03", title: "CREATE", subtitle: "DESIGN • CODE • INNOVATE", accent: PK },
+    { icon: "04", title: "CONNECT", subtitle: "PEOPLE • TEAMS • COMMUNITY", accent: GR },
   ];
 
   return (
@@ -213,7 +172,7 @@ function StatsAchievements() {
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-8 py-8 md:py-10">
 
-        {/* ── MAIN: STATS + ACHIEVEMENTS ────────────────────────── */}
+        {/* ── MAIN: STATS + PLAYER MISSION PROTOCOL ──────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-0 items-start">
 
           {/* ═══════ LEFT: STATS PANEL ══════════════════════════════ */}
@@ -357,62 +316,97 @@ function StatsAchievements() {
             <div className="w-[6px] h-[6px] mt-2" style={{ background: GR, boxShadow: `0 0 6px ${GR}60` }} />
           </div>
 
-          {/* ═══════ RIGHT: ACHIEVEMENTS ════════════════════════════ */}
+          {/* ═══════ RIGHT: PLAYER MISSION PROTOCOL ═══════════════════════ */}
           <div>
-            {/* Achievements heading */}
-            <div className="flex items-center gap-3 mb-4">
-              <span className="font-pixel text-[11px] text-arcade tracking-wider" style={{ letterSpacing: 2 }}>//</span>
-              <h3 className="font-pixel text-[11px] text-arcade tracking-wider">ACHIEVEMENTS</h3>
+            {/* Mission header */}
+            <div className="mb-5">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="font-pixel text-[9px] tracking-[0.2em]" style={{ color: PK }}>FHC //</span>
+                <span className="font-pixel text-[9px] tracking-[0.2em]" style={{ color: `${CR}45` }}>PLAYER PROTOCOL</span>
+              </div>
+              <div className="flex items-center gap-2 mb-1">
+                <h4
+                  className="font-pixel font-bold tracking-wider"
+                  style={{ fontSize: "clamp(14px, 3vw, 19px)", color: CR, textShadow: `2px 2px 0 0 ${INK}` }}
+                >
+                  THE FHC MISSION
+                </h4>
+                <span className="inline-block w-[8px] h-[13px]" style={{ background: PK, animation: "blink 1s steps(1) infinite" }} />
+              </div>
+             
+             
             </div>
 
-            {/* Achievement tiles — slightly compact */}
-            <div className="flex flex-col gap-2.5">
+            {/* Mission cards — 2×2 grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {achievements.map((a, i) => (
                 <div
                   key={a.title}
-                  className="group relative flex items-center gap-3 transition-transform duration-150 hover:translate-x-[3px]"
+                  className="group relative transition-transform duration-150 hover:translate-x-[3px]"
                 >
-                  {/* Offset shadow */}
+                  {/* Offset pixel shadow */}
                   <div
                     className="absolute inset-0"
                     style={{
                       background: a.accent,
                       transform: "translate(4px, 4px)",
-                      clipPath: "polygon(0 3px, 3px 0, calc(100% - 3px) 0, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 0 calc(100% - 3px))",
+                      clipPath: "polygon(0 4px, 4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px))",
                     }}
                   />
 
-                  {/* Card */}
+                  {/* Mission card body */}
                   <div
-                    className="relative flex-1 flex items-center gap-3 px-4 py-2.5"
+                    className="relative flex flex-col h-full px-3 py-3"
                     style={{
                       background: INK,
                       border: `2px solid ${a.accent}40`,
-                      clipPath: "polygon(0 3px, 3px 0, calc(100% - 3px) 0, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 0 calc(100% - 3px))",
+                      clipPath: "polygon(0 4px, 4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px))",
                     }}
                   >
-                    {/* Icon */}
+                    {/* Hover accent border */}
                     <div
-                      className="flex-shrink-0 flex items-center justify-center transition-transform duration-150 group-hover:scale-110"
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
                       style={{
-                        width: 36,
-                        height: 36,
-                        background: `${a.accent}15`,
-                        border: `2px solid ${a.accent}40`,
+                        border: `2px solid ${a.accent}`,
+                        clipPath: "polygon(0 4px, 4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px))",
                       }}
-                    >
-                      <span className="text-base">{a.icon}</span>
-                    </div>
+                    />
 
-                    {/* Text */}
-                    <div className="flex-1 min-w-0">
-                      <p className="font-pixel text-[9px] tracking-wider truncate" style={{ color: a.accent }}>
+                    {/* Card content */}
+                    <div className="relative flex flex-col gap-2 flex-1">
+                      {/* Index + objective label */}
+                      <div className="flex items-center justify-between">
+                        <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: `${CR}30` }}>
+                          OBJECTIVE
+                        </span>
+                        <span className="font-pixel text-[9px] font-bold leading-none" style={{ color: a.accent }}>
+                          [{a.icon}]
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <p
+                        className="font-pixel font-bold tracking-wider transition-transform duration-150 group-hover:translate-x-[2px]"
+                        style={{ fontSize: 13, color: a.accent, textShadow: `2px 2px 0 0 ${INK}` }}
+                      >
                         {a.title}
                       </p>
-                    </div>
 
-                    {/* Accent dot */}
-                    <span className="w-[4px] h-[4px] flex-shrink-0" style={{ background: a.accent, opacity: 0.5 }} />
+                      {/* Subtitle */}
+                      <p className="font-pixel text-[7px] leading-[1.9] tracking-wider" style={{ color: `${CR}55` }}>
+                        {a.subtitle}
+                      </p>
+
+                      {/* Bottom accent pixel strip */}
+                      <div className="mt-auto pt-2 flex items-center justify-between">
+                        <div className="flex items-center gap-[2px]">
+                          {Array.from({ length: 6 }).map((_, j) => (
+                            <div key={j} style={{ width: 3, height: 3, background: j % 2 === 0 ? `${a.accent}80` : `${a.accent}25` }} />
+                          ))}
+                        </div>
+                        <span className="w-[4px] h-[4px]" style={{ background: a.accent, opacity: 0.55 }} />
+                      </div>
+                    </div>
                   </div>
 
                   {/* Sparkle */}
@@ -457,6 +451,8 @@ function StatsAchievements() {
 function UpcomingEvents() {
   const [selected, setSelected] = useState(0);
   const [ticketKey, setTicketKey] = useState(0);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const PK = "#ff2e8c";
   const CY = "#5ab8ff";
@@ -466,9 +462,26 @@ function UpcomingEvents() {
   const INK = "#0c0c0f";
 
   const accents = [PK, CY, YL, GR];
-  const accent = accents[selected];
-  const e = EVENTS[selected];
-  const num = String(selected + 1).padStart(2, "0");
+
+  /* ── EVENT DATA ───────────────────────────────────────────────────
+     FHC does not ship a public.events table (and must never probe one)
+     while the schema contract is live — public.events returns a 404
+     (PGRST205) in this project. Until a real events source exists, this
+     terminal renders the NO ACTIVE EVENTS standby state with ZERO
+     database requests. Wire up a real source here when one exists. */
+
+  const sel = events.length ? Math.min(selected, events.length - 1) : 0;
+  const accent = events.length ? accents[sel % accents.length] : PK;
+  const e = events[sel];
+  const num = String(sel + 1).padStart(2, "0");
+
+  const formatDay = (iso) => {
+    if (!iso) return "TBA";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "TBA";
+    const month = d.toLocaleString("en-US", { month: "short" }).toUpperCase();
+    return `${month} ${String(d.getDate()).padStart(2, "0")}`;
+  };
 
   const handleSelect = (idx) => {
     if (idx !== selected) {
@@ -588,7 +601,7 @@ function UpcomingEvents() {
         {/* Border labels — top-left */}
         <span className="absolute top-[10px] left-[24px] font-pixel text-[5px] tracking-widest max-md:hidden" style={{ color: "#1687B8", opacity: 0.45 }}>FHC // EVENT TERMINAL</span>
         {/* Border labels — bottom-right */}
-        <span className="absolute bottom-[10px] right-[24px] font-pixel text-[5px] tracking-widest max-md:hidden" style={{ color: "#1687B8", opacity: 0.45 }}>04 PASSES AVAILABLE</span>
+        <span className="absolute bottom-[10px] right-[24px] font-pixel text-[5px] tracking-widest max-md:hidden" style={{ color: "#1687B8", opacity: 0.45 }}>{events.length ? `${String(events.length).padStart(2, "0")} PASSES AVAILABLE` : "PASSES OFFLINE"}</span>
       </div>
 
       {/* ── Arcade Machine Frame ────────────────────────────────── */}
@@ -639,20 +652,83 @@ function UpcomingEvents() {
             <span className="inline-block w-[8px] h-[14px]" style={{ background: accent, animation: "blink 1s steps(1) infinite" }} />
           </div>
           <div className="flex items-center gap-4 flex-wrap">
-            <span className="font-pixel text-[8px] tracking-widest" style={{ color: `${accent}90` }}>UPCOMING EVENTS</span>
+            <span className="font-pixel text-[8px] tracking-widest" style={{ color: `${accent}90` }}>
+              {loading ? "SYNCING EVENT DATA" : events.length ? "UPCOMING EVENTS" : "TERMINAL STANDBY"}
+            </span>
             <span className="flex-1 h-[1px] hidden sm:block" style={{ background: `${accent}20` }} />
-            <span className="font-pixel text-[6px] tracking-widest max-md:hidden" style={{ color: `${CR}30` }}>SELECT YOUR NEXT EXPERIENCE</span>
+            <span className="font-pixel text-[6px] tracking-widest max-md:hidden" style={{ color: `${CR}30` }}>
+              {loading ? "CONNECTING TO FHC EVENT TERMINAL" : events.length ? "SELECT YOUR NEXT EXPERIENCE" : "NO EVENTS IN QUEUE"}
+            </span>
           </div>
           <div className="flex items-center gap-3 mt-2 max-md:hidden">
             <span className="w-[4px] h-[4px] rounded-full" style={{ background: GR, animation: "led-blink 1.2s ease-in-out infinite" }} />
             <span className="font-pixel text-[6px] tracking-widest" style={{ color: `${CR}25` }}>FHC // EVENT TERMINAL</span>
             <span className="flex-1 h-[1px]" style={{ background: `${CR}08` }} />
-            <span className="font-pixel text-[6px] tracking-widest" style={{ color: `${GR}50` }}>SYSTEM ONLINE</span>
+            <span className="font-pixel text-[6px] tracking-widest" style={{ color: `${GR}50` }}>
+              {loading ? "LOADING DATA" : events.length ? "SYSTEM ONLINE" : "SYSTEM ONLINE // STANDBY"}
+            </span>
           </div>
         </div>
 
-        {/* ── MAIN 3-PANEL LAYOUT ───────────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr_220px] gap-4 lg:gap-5 items-start">
+        {/* ── STATES ───────────────────────────────────────────── */}
+        {loading ? (
+          <div className="flex justify-center pb-4">
+            <div className="w-full max-w-[620px]">
+              <div className="relative p-5" style={{ background: `${INK}f2`, border: `2px solid ${CY}30` }}>
+                <div className="absolute inset-[6px] pointer-events-none" style={{ border: `1px solid ${CY}15` }} />
+                <div className="flex items-center gap-2 mb-4 pb-3" style={{ borderBottom: `1px solid ${CY}20` }}>
+                  <span className="w-[6px] h-[6px]" style={{ background: GR, boxShadow: `0 0 6px ${GR}60`, animation: "led-blink 1.2s ease-in-out infinite" }} />
+                  <span className="font-pixel text-[7px] tracking-widest" style={{ color: `${CR}50` }}>FHC EVENT TERMINAL // CONNECTING</span>
+                </div>
+                <div className="font-pixel text-[8px] leading-[2.2] tracking-wider" style={{ color: `${GR}90` }}>
+                  <p>&gt; CONNECTING TO FHC EVENT TERMINAL...</p>
+                  <p>&gt; QUERYING PUBLISHED UPCOMING EVENTS...</p>
+                  <p className="flex items-center gap-2">
+                    <span>&gt; LOADING EVENTS...</span>
+                    <span className="inline-block w-[8px] h-[14px]" style={{ background: GR, animation: "blink 1s steps(1) infinite" }} />
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : events.length === 0 ? (
+          <div className="flex justify-center pb-4">
+            <div className="w-full max-w-[620px]">
+              <div className="relative p-5 sm:p-6 text-center" style={{ background: `${INK}f2`, border: `2px solid ${CY}30` }}>
+                <div className="absolute inset-[6px] pointer-events-none" style={{ border: `1px solid ${CY}15` }} />
+                <div className="absolute top-[12px] left-[12px] w-3 h-3 border-t-2 border-l-2 pointer-events-none" style={{ borderColor: `${CY}50` }} />
+                <div className="absolute top-[12px] right-[12px] w-3 h-3 border-t-2 border-r-2 pointer-events-none" style={{ borderColor: `${CY}50` }} />
+                <div className="absolute bottom-[12px] left-[12px] w-3 h-3 border-b-2 border-l-2 pointer-events-none" style={{ borderColor: `${CY}50` }} />
+                <div className="absolute bottom-[12px] right-[12px] w-3 h-3 border-b-2 border-r-2 pointer-events-none" style={{ borderColor: `${CY}50` }} />
+
+                <img
+                  src="/assets/pixel-tech/retro-tv.png"
+                  alt="FHC EVENT TERMINAL STANDBY"
+                  className="mx-auto mb-4"
+                  style={{ width: 88, height: 88, imageRendering: "pixelated", objectFit: "contain", opacity: 0.95, filter: `drop-shadow(0 0 10px ${CY}40)` }}
+                />
+
+                <h3 className="font-pixel font-bold tracking-widest mb-2" style={{ fontSize: 16, color: CR, textShadow: `2px 2px 0 0 ${INK}` }}>
+                  NO ACTIVE EVENTS
+                </h3>
+                <p className="font-pixel text-[9px] tracking-wider mb-1" style={{ color: `${CR}75` }}>
+                  No events are currently scheduled.
+                </p>
+                <p className="font-pixel text-[9px] tracking-wider" style={{ color: `${CY}85` }}>
+                  STAY TUNED FOR UPCOMING FHC EXPERIENCES.
+                </p>
+
+                <div className="mx-auto my-4 w-full max-w-[360px]" style={{ borderTop: `1px solid ${CY}25` }} />
+
+                <p className="font-pixel text-[7px] tracking-widest" style={{ color: `${GR}65` }}>FHC EVENT TERMINAL // STANDBY</p>
+                <p className="font-pixel text-[7px] tracking-widest mt-1" style={{ color: `${CR}40` }}>SYSTEM ONLINE // WAITING FOR NEXT EVENT</p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+          {/* ── MAIN 3-PANEL LAYOUT ───────────────────────────────── */}
+          <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr_220px] gap-4 lg:gap-5 items-start">
 
           {/* ═══════════════════════════════════════════════════════════
               LEFT — ARCADE EVENT SELECTOR
@@ -666,12 +742,12 @@ function UpcomingEvents() {
 
             {/* Mobile: horizontal scroll carousel */}
             <div className="flex lg:flex-col gap-2 events-selector-scroll lg:events-selector-scroll-none pb-2 lg:pb-0">
-              {EVENTS.map((ev, i) => {
+              {events.map((ev, i) => {
                 const isActive = i === selected;
-                const evAccent = accents[i];
+                const evAccent = accents[i % accents.length];
                 return (
                   <button
-                    key={ev.title}
+                    key={ev.id || ev.title}
                     onClick={() => handleSelect(i)}
                     className="relative text-left w-[140px] lg:w-full transition-all duration-200 group"
                     style={{
@@ -721,7 +797,7 @@ function UpcomingEvents() {
                           {ev.title}
                         </p>
                         <p className="font-pixel text-[6px] mt-1" style={{ color: isActive ? evAccent : `${CR}25` }}>
-                          {ev.day}
+                          {formatDay(ev.event_date)}
                         </p>
                       </div>
                     </div>
@@ -737,14 +813,14 @@ function UpcomingEvents() {
 
             {/* Mobile: dots indicator */}
             <div className="flex lg:hidden items-center justify-center gap-2 mt-3">
-              {EVENTS.map((_, i) => (
+              {events.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => handleSelect(i)}
                   className="w-[6px] h-[6px] transition-all duration-200"
                   style={{
-                    background: i === selected ? accents[i] : `${CR}20`,
-                    boxShadow: i === selected ? `0 0 6px ${accents[i]}60` : "none",
+                    background: i === selected ? accents[i % accents.length] : `${CR}20`,
+                    boxShadow: i === selected ? `0 0 6px ${accents[i % accents.length]}60` : "none",
                   }}
                 />
               ))}
@@ -829,7 +905,7 @@ function UpcomingEvents() {
                           clipPath: "polygon(0 4px, 4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px))",
                         }}
                       >
-                        <span className="font-pixel text-[12px] sm:text-[14px] font-bold tracking-wider" style={{ color: INK }}>{e.day}</span>
+                        <span className="font-pixel text-[12px] sm:text-[14px] font-bold tracking-wider" style={{ color: INK }}>{formatDay(e.event_date)}</span>
                       </div>
                     </div>
 
@@ -846,7 +922,7 @@ function UpcomingEvents() {
                         <div className="h-[2px] w-4" style={{ background: `${accent}40` }} />
                       </div>
                       <p className="font-pixel text-[8px] sm:text-[9px] leading-[2]" style={{ color: `${INK}65` }}>
-                        {e.desc}
+                        {e.description || e.tagline || "FHC EVENT"}
                       </p>
                     </div>
 
@@ -864,12 +940,21 @@ function UpcomingEvents() {
                       <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2" style={{ borderColor: `${accent}40` }} />
                       <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2" style={{ borderColor: `${accent}40` }} />
                       <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2" style={{ borderColor: `${accent}40` }} />
-                      <span
-                        className="text-4xl sm:text-5xl relative z-10 transition-transform duration-300 hover:scale-110"
-                        style={{ filter: `drop-shadow(0 0 12px ${accent}30)` }}
-                      >
-                        {e.icon}
-                      </span>
+                      {e.image_url ? (
+                        <img
+                          src={e.image_url}
+                          alt={e.title}
+                          className="relative z-10 max-w-full max-h-full px-2 py-1 transition-transform duration-300 hover:scale-110"
+                          style={{ objectFit: "contain", imageRendering: "pixelated" }}
+                        />
+                      ) : (
+                        <span
+                          className="relative z-10 font-pixel font-bold tracking-widest transition-transform duration-300 hover:scale-110"
+                          style={{ fontSize: 30, color: accent, textShadow: `3px 3px 0 0 ${INK}` }}
+                        >
+                          [EVT]
+                        </span>
+                      )}
                       {/* Tiny accent pixels */}
                       <span className="absolute top-3 right-4 w-[3px] h-[3px]" style={{ background: accent, opacity: 0.3 }} />
                       <span className="absolute bottom-3 left-4 w-[2px] h-[2px]" style={{ background: accent, opacity: 0.25 }} />
@@ -910,7 +995,7 @@ function UpcomingEvents() {
                         <span className="font-pixel text-[5px]" style={{ color: `${INK}15` }}>&#9670;</span>
                         <span className="font-pixel text-[5px]" style={{ color: `${INK}15` }}>&#9670;</span>
                       </div>
-                      <span className="font-pixel text-[5px] tracking-widest" style={{ color: `${INK}25` }}>{num} / 04</span>
+                      <span className="font-pixel text-[5px] tracking-widest" style={{ color: `${INK}25` }}>{num} / {String(events.length).padStart(2, "0")}</span>
                     </div>
                   </div>
 
@@ -942,7 +1027,7 @@ function UpcomingEvents() {
                     {/* Stub middle: date */}
                     <div className="flex flex-col items-center gap-0.5">
                       <span className="font-pixel text-[6px] tracking-widest" style={{ color: `${INK}30` }}>DATE</span>
-                      <span className="font-pixel text-[7px] font-bold" style={{ color: `${INK}60` }}>{e.day}</span>
+                      <span className="font-pixel text-[7px] font-bold" style={{ color: `${INK}60` }}>{formatDay(e.event_date)}</span>
                     </div>
 
                     {/* Stub: pixel barcode */}
@@ -993,7 +1078,7 @@ function UpcomingEvents() {
               {/* Date */}
               <div className="mb-3 pb-3" style={{ borderBottom: `1px solid ${accent}10` }}>
                 <span className="font-pixel text-[6px] tracking-widest block mb-1.5" style={{ color: `${CR}25` }}>DATE</span>
-                <span className="font-pixel text-[11px] font-bold tracking-wider" style={{ color: accent }}>{e.day}</span>
+                <span className="font-pixel text-[11px] font-bold tracking-wider" style={{ color: accent }}>{formatDay(e.event_date)}</span>
               </div>
 
               {/* Event name */}
@@ -1006,7 +1091,7 @@ function UpcomingEvents() {
               <div className="mb-3 pb-3" style={{ borderBottom: `1px solid ${accent}10` }}>
                 <span className="font-pixel text-[6px] tracking-widest block mb-1.5" style={{ color: `${CR}25` }}>PASS NUMBER</span>
                 <span className="font-pixel text-[14px] font-bold" style={{ color: accent }}>{num}</span>
-                <span className="font-pixel text-[6px] tracking-widest ml-2" style={{ color: `${CR}20` }}>/ 04</span>
+                <span className="font-pixel text-[6px] tracking-widest ml-2" style={{ color: `${CR}20` }}>/ {String(events.length).padStart(2, "0")}</span>
               </div>
 
               {/* Coin slot decoration */}
@@ -1085,20 +1170,22 @@ function UpcomingEvents() {
         </div>
 
         {/* ── BOTTOM STATUS BAR ──────────────────────────────────── */}
-        <div
-          className="mt-8 md:mt-10 flex flex-wrap items-center justify-between gap-3 pt-4 max-md:hidden"
-          style={{ borderTop: `1px solid ${accent}12` }}
-        >
-          <div className="flex items-center gap-2">
-            <span className="font-pixel text-[7px] tracking-widest" style={{ color: `${CR}40` }}>&gt; SELECT AN EVENT TO VIEW DETAILS</span>
-            <span className="inline-block w-[5px] h-[9px]" style={{ background: `${CR}20`, animation: "blink 1s steps(1) infinite" }} />
+          <div
+            className="mt-8 md:mt-10 flex flex-wrap items-center justify-between gap-3 pt-4 max-md:hidden"
+            style={{ borderTop: `1px solid ${accent}12` }}
+          >
+            <div className="flex items-center gap-2">
+              <span className="font-pixel text-[7px] tracking-widest" style={{ color: `${CR}40` }}>&gt; SELECT AN EVENT TO VIEW DETAILS</span>
+              <span className="inline-block w-[5px] h-[9px]" style={{ background: `${CR}20`, animation: "blink 1s steps(1) infinite" }} />
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="font-pixel text-[6px] tracking-widest" style={{ color: `${CR}20` }}>FHC EVENT TERMINAL</span>
+              <span className="h-[8px] w-[1px]" style={{ background: `${CR}10` }} />
+              <span className="font-pixel text-[6px] tracking-widest" style={{ color: `${CR}20` }}>{String(events.length).padStart(2, "0")} PASSES AVAILABLE</span>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="font-pixel text-[6px] tracking-widest" style={{ color: `${CR}20` }}>FHC EVENT TERMINAL</span>
-            <span className="h-[8px] w-[1px]" style={{ background: `${CR}10` }} />
-            <span className="font-pixel text-[6px] tracking-widest" style={{ color: `${CR}20` }}>04 PASSES AVAILABLE</span>
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </section>
   );

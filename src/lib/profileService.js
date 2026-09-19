@@ -52,9 +52,22 @@ export function classifyProfileError(error) {
   return PROFILE_ERROR.UNKNOWN;
 }
 
+/** Columns that may be written through the PUBLIC API. Anything else
+ *  (username, bio, is_active, email, last_login_at, avatar_seed ...) is
+ *  NOT part of the LIVE profiles schema — attempting to write it returns
+ *  a 400 (PGRST204), so those keys are stripped here before any request. */
+const WRITABLE_COLUMNS = new Set(["full_name", "avatar_url"]);
+
 /** Update ONLY the given auth uid's own profile row with `patch`.
  *  Caller decides WHICH fields actually changed. Returns the Supabase
  *  result; inspect `.error` (null on success). */
 export async function updateProfileFields(uid, patch) {
-  return supabase.from(PROFILE_TABLE).update(patch).eq("id", uid);
+  const safe = {};
+  for (const [k, v] of Object.entries(patch || {})) {
+    if (WRITABLE_COLUMNS.has(k)) safe[k] = v;
+  }
+  if (uid == null || Object.keys(safe).length === 0) {
+    return { data: null, error: { message: "NO WRITABLE PROFILE FIELDS PROVIDED", code: "FHC_NO_WRITABLE_FIELDS" } };
+  }
+  return supabase.from(PROFILE_TABLE).update(safe).eq("id", uid);
 }

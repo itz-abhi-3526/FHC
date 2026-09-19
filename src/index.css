@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @theme {
   --color-ink: #08090B;
@@ -31,7 +31,7 @@
   --font-pixel: "Press Start 2P", monospace;
   --font-mono: "VT323", monospace;
 
-  /* Navbar geometry — used by page heroes to clear the FHC plaque
+  /* Navbar geometry â€” used by page heroes to clear the FHC plaque
      that hangs below the pink bar (bar 108px + badge overhang 65px). */
   --fhc-navbar-height: 108px;
   --fhc-badge-bleed: 65px;
@@ -124,7 +124,7 @@ canvas {
 /* Background image (src/assets/FHC.png) is applied as a CSS background layer
    on .hero-sky-bg via JS-injected inline style so Vite bundles the asset. */
 
-/* Responsive hero background — desktop/laptop/tablet keep the wide
+/* Responsive hero background â€” desktop/laptop/tablet keep the wide
    FHC.png (inline style above, untouched). On phones (<768px) switch to
    the vertical FHC 1.png composition. This rule ONLY activates in its
    media block; the `!important` is what lets it override the inline
@@ -605,7 +605,7 @@ canvas {
 }
 
 /* Desktop: nudge the left text column down so it starts clear of the
-   FHC plaque hanging off the navbar. Content-only — the art column,
+   FHC plaque hanging off the navbar. Content-only â€” the art column,
    sky, clouds and grass strip stay anchored. */
 @media (min-width: 901px) {
   .hero-text-col {
@@ -665,7 +665,7 @@ canvas {
 
   /* Shared mobile hero breathing for page hero sections (About/Team/Gallery):
      gives the main content block intentional top spacing below the header
-     and logo plaque. Content-only â€” decorative/background layers (grass,
+     and logo plaque. Content-only Ã¢â‚¬â€ decorative/background layers (grass,
      clouds, scanlines, twinkles, grids) are absolutely positioned and stay
      anchored to their sections, so they are not pushed down with the text.
      Desktop (> 767px) is unaffected. */
@@ -699,7 +699,7 @@ canvas {
 }
 
 @media (max-width: 767px) and (max-height: 780px) {
-  /* System log panel is secondary â€” collapse it on short screens so the
+  /* System log panel is secondary Ã¢â‚¬â€ collapse it on short screens so the
      main content fits comfortably without clipping. */
   .splash-terminal {
     display: none;
@@ -742,7 +742,7 @@ canvas {
 }
 
 /* ============================================
-   JOIN PAGE â€” ARCADE PIXEL UTILITIES
+   JOIN PAGE Ã¢â‚¬â€ ARCADE PIXEL UTILITIES
    ============================================ */
 
 .pixel-corners {
@@ -782,10 +782,10 @@ canvas {
 }
 
 /* ============================================
-   ARCADE PRESS-START SCREEN â€” Level-up CTA
+   ARCADE PRESS-START SCREEN Ã¢â‚¬â€ Level-up CTA
    ============================================ */
 
-/* Heading cursor blink â€” FHC pink */
+/* Heading cursor blink Ã¢â‚¬â€ FHC pink */
 @keyframes arcade-cursor {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -822,7 +822,7 @@ canvas {
   animation: heart-pulse 2.4s ease-in-out infinite;
 }
 
-/* CRT scanlines â€” deep blue panel */
+/* CRT scanlines Ã¢â‚¬â€ deep blue panel */
 .arcade-panel-scanlines {
   pointer-events: none;
   position: absolute;
@@ -837,7 +837,7 @@ canvas {
   );
 }
 
-/* Pixel grid â€” barely visible up close */
+/* Pixel grid Ã¢â‚¬â€ barely visible up close */
 .arcade-panel-grid {
   pointer-events: none;
   position: absolute;
@@ -849,7 +849,7 @@ canvas {
   background-size: 8px 8px;
 }
 
-/* Button hover CRT flicker â€” extremely restrained */
+/* Button hover CRT flicker Ã¢â‚¬â€ extremely restrained */
 @keyframes btn-flicker {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.92; }
@@ -859,7 +859,7 @@ canvas {
 }
 
 /* ============================================
-   ARCADE PLAYER TERMINAL â€” Hero v2
+   ARCADE PLAYER TERMINAL Ã¢â‚¬â€ Hero v2
    ============================================ */
 
 /* CRT scanline sweep */
@@ -942,9 +942,9 @@ canvas {
   50% { opacity: 0.45; }
 }
 
-/* â”€â”€ Hero structural CSS â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Hero structural CSS Ã¢â€â‚¬Ã¢â€â‚¬ */
 
-/* CRT scanlines layer â€” 2px line + 2px gap, â‰¤2% opacity */
+/* CRT scanlines layer Ã¢â‚¬â€ 2px line + 2px gap, Ã¢â€°Â¤2% opacity */
 .term-scanlines {
   pointer-events: none;
   position: absolute;
@@ -959,7 +959,7 @@ canvas {
   );
 }
 
-/* Technical pixel grid â€” 32px spacing, 3% opacity */
+/* Technical pixel grid Ã¢â‚¬â€ 32px spacing, 3% opacity */
 .term-grid {
   pointer-events: none;
   position: absolute;
@@ -1006,7 +1006,7 @@ canvas {
   background: repeating-linear-gradient(to bottom, rgba(0,229,255,0.015) 0px, rgba(0,229,255,0.015) 1px, transparent 1px, transparent 5px);
 }
 
-/* Heart viewport â€” 140x140 with corner brackets */
+/* Heart viewport Ã¢â‚¬â€ 140x140 with corner brackets */
 .term-viewport {
   position: relative;
   width: 140px;
@@ -1023,7 +1023,7 @@ canvas {
   pointer-events: none;
 }
 
-/* Halftone dot field â€” magenta dots behind robot */
+/* Halftone dot field Ã¢â‚¬â€ magenta dots behind robot */
 .term-halftone {
   pointer-events: none;
   position: absolute;
@@ -1045,7 +1045,7 @@ canvas {
   letter-spacing: 1px;
 }
 
-/* HUD corner bracket â€” reusable L-shape */
+/* HUD corner bracket Ã¢â‚¬â€ reusable L-shape */
 .term-bracket {
   position: absolute;
   pointer-events: none;
@@ -1089,10 +1089,10 @@ canvas {
 }
 
 /* ============================================
-   FHC ARCADE â€” ABOUT PAGE EXPERIENCE
+   FHC ARCADE Ã¢â‚¬â€ ABOUT PAGE EXPERIENCE
    ============================================ */
 
-/* â”€â”€ Cursor blink â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Cursor blink Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes arcade-blink-kf {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -1102,7 +1102,7 @@ canvas {
   color: #1ED7E8;
 }
 
-/* â”€â”€ LED pulse â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ LED pulse Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes arcade-led-kf {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0.2; }
@@ -1111,7 +1111,7 @@ canvas {
   animation: arcade-led-kf 1.2s steps(1) infinite;
 }
 
-/* â”€â”€ Robot float â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Robot float Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes arcade-float-kf {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
@@ -1120,7 +1120,7 @@ canvas {
   animation: arcade-float-kf 4s ease-in-out infinite;
 }
 
-/* â”€â”€ Heart pulse â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Heart pulse Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes arcade-heart-kf {
   0%, 65% { transform: scale(1); }
   72% { transform: scale(1.15); }
@@ -1132,7 +1132,7 @@ canvas {
   animation: arcade-heart-kf 2.5s ease-in-out infinite;
 }
 
-/* â”€â”€ Telemetry flicker â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Telemetry flicker Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes arcade-telemetry-kf {
   0%, 88%, 100% { opacity: 1; }
   89% { opacity: 0.5; }
@@ -1143,25 +1143,25 @@ canvas {
   animation: arcade-telemetry-kf 6s ease-in-out infinite;
 }
 
-/* â”€â”€ Ring spin â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Ring spin Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes arcade-spin {
   0% { transform: translate(-50%, -50%) rotate(0deg); }
   100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* â”€â”€ Signal sweep bar â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Signal sweep bar Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes arcade-sweep {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(400%); }
 }
 
-/* â”€â”€ Reusable sweep alias â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Reusable sweep alias Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes sweep {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(400%); }
 }
 
-/* â”€â”€ Telemetry flicker â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Telemetry flicker Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes flicker {
   0%, 88%, 100% { opacity: 1; }
   89% { opacity: 0.5; }
@@ -1169,40 +1169,40 @@ canvas {
   93% { opacity: 0.4; }
 }
 
-/* â”€â”€ Standard spin â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Standard spin Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-/* â”€â”€ CRT sweep â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ CRT sweep Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes arcade-crt-sweep {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(500%); }
 }
 
-/* â”€â”€ CTA button â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ CTA button Ã¢â€â‚¬Ã¢â€â‚¬ */
 .arcade-cta {
   clip-path: polygon(0 6px, 6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px));
 }
 
-/* â”€â”€ Zone base â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Zone base Ã¢â€â‚¬Ã¢â€â‚¬ */
 .arcade-zone {
   position: relative;
 }
 
-/* â”€â”€ Canvas container â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Canvas container Ã¢â€â‚¬Ã¢â€â‚¬ */
 .arcade-canvas-wrap canvas {
   display: block;
 }
 
-/* â”€â”€ Arcade viewport sweep â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Arcade viewport sweep Ã¢â€â‚¬Ã¢â€â‚¬ */
 @keyframes arcade-viewport-sweep {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(600%); }
 }
 
-/* â”€â”€ Reduced motion â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Reduced motion Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (prefers-reduced-motion: reduce) {
   .arcade-blink,
   .arcade-led,
@@ -1228,7 +1228,7 @@ canvas {
   }
 }
 
-/* â”€â”€ Mobile: dim WebGL â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Mobile: dim WebGL Ã¢â€â‚¬Ã¢â€â‚¬ */
 @media (max-width: 768px) {
   .arcade-canvas-wrap {
     opacity: 0.25;
@@ -1236,7 +1236,7 @@ canvas {
 }
 
 /* ============================================
-   JOIN PAGE â€” HORIZON CORE + BUTTON INTERACTIONS
+   JOIN PAGE Ã¢â‚¬â€ HORIZON CORE + BUTTON INTERACTIONS
    ============================================ */
 
 /* CREATE PLAYER button hover scanline sweep */
@@ -1252,7 +1252,7 @@ canvas {
   }
 }
 
-/* Core canvas on mobile â€” ensure it doesn't overflow */
+/* Core canvas on mobile Ã¢â‚¬â€ ensure it doesn't overflow */
 @media (max-width: 768px) {
   .horizon-core-viewport canvas {
     max-width: 100% !important;
@@ -1260,7 +1260,7 @@ canvas {
 }
 
 /* ============================================
-   JOIN PAGE â€” TERMINAL INPUT ENHANCEMENTS
+   JOIN PAGE Ã¢â‚¬â€ TERMINAL INPUT ENHANCEMENTS
    ============================================ */
 
 /* Terminal input focus states */
@@ -1326,7 +1326,7 @@ canvas {
 }
 
 /* ============================================
-   COMING SOON PAGE â€” CINEMATIC ARCADE
+   COMING SOON PAGE Ã¢â‚¬â€ CINEMATIC ARCADE
    ============================================ */
 
 /* CRT scan sweep across viewport */
@@ -1353,7 +1353,7 @@ canvas {
   50% { transform: translateY(-8px); opacity: 0.4; }
 }
 
-/* Film grain overlay â€” subtle noise texture */
+/* Film grain overlay Ã¢â‚¬â€ subtle noise texture */
 .cs-film-grain {
   position: fixed;
   inset: 0;
@@ -1375,7 +1375,7 @@ canvas {
   100% { transform: translate(0, 0); }
 }
 
-/* CRT scanlines overlay â€” very subtle */
+/* CRT scanlines overlay Ã¢â‚¬â€ very subtle */
 .cs-crt-overlay {
   position: fixed;
   inset: 0;
@@ -1408,11 +1408,11 @@ canvas {
 
 
 /* ============================================
-   AUTH PAGE — FHC // HORIZON NETWORK
-   MEMBER ACCESS TERMINAL — ARCADE EDITION
+   AUTH PAGE â€” FHC // HORIZON NETWORK
+   MEMBER ACCESS TERMINAL â€” ARCADE EDITION
    ============================================ */
 
-/* — Keyframes — */
+/* â€” Keyframes â€” */
 @keyframes auth-led-kf {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0.2; }
@@ -1474,7 +1474,7 @@ canvas {
   animation-duration: 1s;
 }
 
-/* — Root environment — */
+/* â€” Root environment â€” */
 .auth-root {
   position: relative;
   min-height: 100dvh;
@@ -1487,7 +1487,7 @@ canvas {
   align-items: center;
 }
 
-/* — Background layers — */
+/* â€” Background layers â€” */
 .auth-bg {
   position: fixed;
   inset: 0;
@@ -1577,7 +1577,7 @@ canvas {
   animation: auth-scan-sweep 9s linear infinite;
 }
 
-/* — Corner telemetry — */
+/* â€” Corner telemetry â€” */
 .auth-corner-tele {
   position: absolute;
   top: clamp(18px, 4vmin, 34px);
@@ -1593,7 +1593,7 @@ canvas {
   .auth-corner-tele { display: flex; }
 }
 
-/* — Return link — */
+/* â€” Return link â€” */
 .auth-return {
   position: absolute;
   top: max(clamp(16px, 3vmin, 26px), env(safe-area-inset-top));
@@ -1638,7 +1638,7 @@ canvas {
   align-items: center;
 }
 
-/* — Environment header — */
+/* â€” Environment header â€” */
 .auth-env-head {
   position: relative;
   z-index: 5;
@@ -1672,7 +1672,7 @@ canvas {
   align-items: center;
 }
 
-/* — Shell (two-zone with connector) — */
+/* â€” Shell (two-zone with connector) â€” */
 .auth-shell {
   position: relative;
   z-index: 5;
@@ -1726,7 +1726,7 @@ canvas {
   animation: auth-connector-pulse 2s ease-in-out infinite;
 }
 
-/* ═══ TERMINAL FRAME ═══ */
+/* â•â•â• TERMINAL FRAME â•â•â• */
 .auth-terminal-frame {
   position: relative;
   background: linear-gradient(180deg, #05080F 0%, #04060C 100%);
@@ -1884,7 +1884,7 @@ canvas {
   .auth-statusstrip-hide { display: none; }
 }
 
-/* ═══ AUTH TABS ═══ */
+/* â•â•â• AUTH TABS â•â•â• */
 .auth-module {
   position: relative;
   margin: 18px 0 22px;
@@ -1983,7 +1983,7 @@ canvas {
   letter-spacing: 0.14em;
 }
 
-/* ═══ FORM / FIELDS ═══ */
+/* â•â•â• FORM / FIELDS â•â•â• */
 .auth-form {
   display: block;
 }
@@ -2213,7 +2213,7 @@ canvas {
 }
 .auth-forgot:hover { color: #00E5FF; }
 
-/* — Signup sections — */
+/* â€” Signup sections â€” */
 .auth-signup {
   display: flex;
   flex-direction: column;
@@ -2239,12 +2239,12 @@ canvas {
   background: linear-gradient(90deg, rgba(0, 229, 255, 0.25), transparent);
 }
 
-/* — CTA zone — */
+/* â€” CTA zone â€” */
 .auth-cta-zone {
   margin-top: clamp(18px, 3vmin, 26px);
 }
 
-/* — Primary button — */
+/* â€” Primary button â€” */
 .auth-pbtn {
   position: relative;
   display: block;
@@ -2399,7 +2399,7 @@ canvas {
   color: #FF1687;
 }
 
-/* ═══ SYSTEM MESSAGE ═══ */
+/* â•â•â• SYSTEM MESSAGE â•â•â• */
 .auth-msg {
   position: relative;
   border: 1px solid;
@@ -2426,7 +2426,7 @@ canvas {
   padding-left: 26px;
 }
 
-/* ═══ PROCESS STATE ═══ */
+/* â•â•â• PROCESS STATE â•â•â• */
 .auth-process {
   display: flex;
   flex-direction: column;
@@ -2472,7 +2472,7 @@ canvas {
   animation: auth-led-kf 0.6s ease-in-out infinite;
 }
 
-/* ═══ NETWORK MODULE ═══ */
+/* â•â•â• NETWORK MODULE â•â•â• */
 .auth-network {
   position: relative;
   width: 100%;
@@ -2599,7 +2599,7 @@ canvas {
   animation: auth-led-kf 3s ease-in-out infinite;
 }
 
-/* — Mobile network strip — */
+/* â€” Mobile network strip â€” */
 .auth-network-strip {
   display: flex;
   align-items: center;
@@ -2623,7 +2623,7 @@ canvas {
   letter-spacing: 0.1em;
 }
 
-/* — ENV FOOT — */
+/* â€” ENV FOOT â€” */
 .auth-env-foot {
   position: relative;
   z-index: 5;
@@ -2643,7 +2643,7 @@ canvas {
   animation: auth-led-kf 3s ease-in-out infinite;
 }
 
-/* — BOOT SEQUENCE — */
+/* â€” BOOT SEQUENCE â€” */
 .auth-boot {
   position: relative;
   z-index: 10;
@@ -2691,7 +2691,7 @@ canvas {
   transition: all 0.35s ease-out;
 }
 
-/* — ENTRANCE — */
+/* â€” ENTRANCE â€” */
 .auth-stage {
   width: 100%;
   display: flex;
@@ -2699,7 +2699,7 @@ canvas {
   align-items: center;
 }
 
-/* — RESPONSIVE — */
+/* â€” RESPONSIVE â€” */
 @media (min-width: 1440px) {
   .auth-shell { max-width: 1260px; }
 }
@@ -2757,7 +2757,7 @@ canvas {
   .auth-terminal-body { padding: 16px 22px; }
 }
 
-/* — REDUCED MOTION — */
+/* â€” REDUCED MOTION â€” */
 @media (prefers-reduced-motion: reduce) {
   .auth-root::after,
   .auth-bg-noise,
@@ -2790,10 +2790,10 @@ canvas {
   }
 }
 
-/* ════════════════════════════════════════════════════════════
-   FHC ARCADE // AUTHENTICATION TERMINAL — CABINET REDESIGN
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FHC ARCADE // AUTHENTICATION TERMINAL â€” CABINET REDESIGN
    A physical arcade machine waiting for an existing member.
-   ════════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 @keyframes auth-cab-sweep {
   0% { transform: translateY(-120%); }
@@ -2804,7 +2804,7 @@ canvas {
   100% { transform: translateX(50%); }
 }
 
-/* — top arcade marquee header — */
+/* â€” top arcade marquee header â€” */
 .auth-marquee {
   position: relative;
   z-index: 5;
@@ -2846,7 +2846,7 @@ canvas {
   font-size: 6px;
 }
 
-/* — shell / two-zone layout — */
+/* â€” shell / two-zone layout â€” */
 .auth-shell {
   position: relative;
   z-index: 5;
@@ -2868,7 +2868,7 @@ canvas {
   width: 100%;
 }
 
-/* ═══ ARCADE CABINET ═══ */
+/* â•â•â• ARCADE CABINET â•â•â• */
 .cab-marquee {
   position: relative;
   height: clamp(40px, 7vh, 56px);
@@ -2913,7 +2913,7 @@ canvas {
   animation: auth-marquee-move 4s ease-in-out infinite;
 }
 
-/* — CRT bezel — */
+/* â€” CRT bezel â€” */
 .cab-bezel {
   position: relative;
   background: #0a0c14;
@@ -2954,7 +2954,7 @@ canvas {
   animation: auth-cab-sweep 8s linear infinite;
 }
 
-/* CRT mode-swap sweep — vertical band that flashes across the tube on signup/login toggle */
+/* CRT mode-swap sweep â€” vertical band that flashes across the tube on signup/login toggle */
 .cab-mode-sweep {
   position: absolute;
   top: 0;
@@ -3031,7 +3031,7 @@ canvas {
   flex: none;
 }
 
-/* — control deck — */
+/* â€” control deck â€” */
 .cab-deck {
   position: relative;
   background: linear-gradient(180deg, #0a0c14 0%, #07090f 100%);
@@ -3068,7 +3068,7 @@ canvas {
   letter-spacing: 0.18em;
 }
 
-/* ═══ PRESS START ═══ */
+/* â•â•â• PRESS START â•â•â• */
 .ps-screen {
   position: relative;
   width: 100%;
@@ -3156,7 +3156,7 @@ canvas {
   opacity: 0.7;
 }
 
-/* ═══ ARCADE START BUTTON ═══ */
+/* â•â•â• ARCADE START BUTTON â•â•â• */
 .arcade-start-btn {
   position: relative;
   width: 100%;
@@ -3239,7 +3239,7 @@ canvas {
   .arcade-start-status { display: none; }
 }
 
-/* ═══ LOGIN SCREEN ═══ */
+/* â•â•â• LOGIN SCREEN â•â•â• */
 .login-head {
   position: relative;
 }
@@ -3284,7 +3284,7 @@ canvas {
   transform: rotate(45deg);
 }
 
-/* — arcade CONNECT button (primary CTA) — */
+/* â€” arcade CONNECT button (primary CTA) â€” */
 .auth-connect {
   position: relative;
   width: 100%;
@@ -3351,7 +3351,7 @@ canvas {
 }
 .auth-connect:hover .auth-connect-side { color: rgba(255, 244, 214, 0.7); }
 
-/* — login divider + join CTA — */
+/* â€” login divider + join CTA â€” */
 .login-divider {
   display: flex;
   align-items: center;
@@ -3400,7 +3400,7 @@ canvas {
   letter-spacing: 0.12em;
 }
 
-/* ═══ PROCESS / SIDE HUD ═══ */
+/* â•â•â• PROCESS / SIDE HUD â•â•â• */
 .process-wrap {
   padding: 14px 0 4px;
 }
@@ -3442,7 +3442,7 @@ canvas {
   animation: auth-connector-pulse 2s ease-in-out infinite;
 }
 
-/* — FHC NETWORK HUD — */
+/* â€” FHC NETWORK HUD â€” */
 .nhud {
   position: relative;
   border: 1px solid rgba(0, 229, 255, 0.22);
@@ -3536,7 +3536,7 @@ canvas {
   animation: auth-led-kf 3s ease-in-out infinite;
 }
 
-/* ═══ RESPONSIVE ═══ */
+/* â•â•â• RESPONSIVE â•â•â• */
 @media (min-width: 1440px) {
   .auth-shell { max-width: 1260px; }
   .auth-cabinet { max-width: 680px; }
@@ -3573,7 +3573,7 @@ canvas {
   .cab-bezel-name { font-size: 7px; }
 }
 
-/* ═══ REDUCED MOTION (cabinet additions) ═══ */
+/* â•â•â• REDUCED MOTION (cabinet additions) â•â•â• */
 @media (prefers-reduced-motion: reduce) {
   .cab-scan-sweep,
   .cab-marquee-glow,
@@ -3588,17 +3588,17 @@ canvas {
     transition: none;
   }
 }
-/* ════════════════════════════════════════════════════════════
-   NAVBAR // AUTH ARCADE CONTROL — " ▶ AUTH / ACCESS TERMINAL "
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   NAVBAR // AUTH ARCADE CONTROL â€” " â–¶ AUTH / ACCESS TERMINAL "
    A layered pixel-frame arcade button native to the FHC navbar.
    Layers: static hard-shadow + neon glow (outside the moving
-   button) → pink pixel frame → dark inner surface → content.
-   ════════════════════════════════════════════════════════════ */
+   button) â†’ pink pixel frame â†’ dark inner surface â†’ content.
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .nav-auth {
   position: relative;
 }
 
-/* neon glow — sits behind the button so it radiates outside the notch clip */
+/* neon glow â€” sits behind the button so it radiates outside the notch clip */
 .nav-auth-glow {
   position: absolute;
   inset: -8px;
@@ -3613,7 +3613,7 @@ canvas {
   box-shadow: 0 0 20px 4px rgba(255, 22, 135, 0.35), 0 0 8px 2px rgba(255, 22, 135, 0.4);
 }
 
-/* static hard-pixel shadow — stays put so the button physically presses into it */
+/* static hard-pixel shadow â€” stays put so the button physically presses into it */
 .nav-auth-shadow {
   position: absolute;
   inset: 0;
@@ -3624,7 +3624,7 @@ canvas {
   z-index: 0;
 }
 
-/* the moving button — motion-controlled via Framer Motion (y: hover/tap) */
+/* the moving button â€” motion-controlled via Framer Motion (y: hover/tap) */
 .nav-auth-btn {
   position: relative;
   display: inline-flex;
@@ -3659,7 +3659,7 @@ canvas {
   pointer-events: none;
 }
 
-/* tiny status LED — activates on hover */
+/* tiny status LED â€” activates on hover */
 .nav-auth-led {
   position: absolute;
   top: 8px;
@@ -3673,7 +3673,7 @@ canvas {
   pointer-events: none;
 }
 
-/* scanline / glitch flicker — very short burst during interaction */
+/* scanline / glitch flicker â€” very short burst during interaction */
 .nav-auth-scan {
   position: absolute;
   inset: 0;
@@ -3684,7 +3684,7 @@ canvas {
   pointer-events: none;
 }
 
-/* label stack: micro ACCESS over dominant ▶ AUTH */
+/* label stack: micro ACCESS over dominant â–¶ AUTH */
 .nav-auth-content {
   position: relative;
   z-index: 2;
@@ -3715,7 +3715,7 @@ canvas {
   transition: color 0.15s ease, transform 0.15s ease;
 }
 
-/* ── arcade interaction ── */
+/* â”€â”€ arcade interaction â”€â”€ */
 .nav-auth:hover .nav-auth-pink {
   background: #ff6bb0; /* brighter hot pink */
 }
@@ -3743,7 +3743,7 @@ canvas {
   100% { opacity: 0.22; transform: translateY(0); }
 }
 
-/* active route (navbar hidden on /auth today — kept for correctness) */
+/* active route (navbar hidden on /auth today â€” kept for correctness) */
 .nav-auth-act .nav-auth-pink {
   background: #ff1687;
 }
@@ -3761,7 +3761,7 @@ canvas {
   outline-offset: 5px;
 }
 
-/* tablet width (1024–1279): slightly more compact while keeping the frame */
+/* tablet width (1024â€“1279): slightly more compact while keeping the frame */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .nav-auth-btn {
     min-width: 104px;
@@ -3788,7 +3788,7 @@ canvas {
   }
 }
 
-/* ── mobile dropdown: highlighted arcade menu item ── */
+/* â”€â”€ mobile dropdown: highlighted arcade menu item â”€â”€ */
 .nav-auth-mobile {
   position: relative;
   display: flex;
@@ -3836,7 +3836,7 @@ canvas {
   color: #ff8ac0;
 }
 
-/* ── Navbar: keep the 8-item desktop nav from overflowing offscreen ──
+/* â”€â”€ Navbar: keep the 8-item desktop nav from overflowing offscreen â”€â”€
    Full-size nav needs ~1390px. Shrink links on laptops (1280-1439) and
    fall back to the hamburger below xl where even the shrunken row won't fit. */
 @media (max-width: 1439px) and (min-width: 1280px) {
@@ -3863,7 +3863,7 @@ canvas {
 
 
 /* --------------------------------------------------------------------
-   PLAYER TERMINAL v2 � /dashboard
+   PLAYER TERMINAL v2 ï¿½ /dashboard
    Premium cyberpunk console for authenticated members
    -------------------------------------------------------------------- */
 
@@ -4019,7 +4019,7 @@ canvas {
   object-fit: cover;
   background: #0c0c12;
 }
-/* RETRO-TECH AVATAR EDIT — hover/focus reveals the control */
+/* RETRO-TECH AVATAR EDIT â€” hover/focus reveals the control */
 .dsh-hero-avatar-frame {
   cursor: pointer;
 }
@@ -4440,7 +4440,7 @@ canvas {
 }
 
 /* -----------------------------------------------------------
-   RESPONSIVE � MOBILE
+   RESPONSIVE ï¿½ MOBILE
    ----------------------------------------------------------- */
 @media (max-width: 1024px) {
   .dsh-stats { grid-template-columns: repeat(3, 1fr); }
@@ -4477,7 +4477,7 @@ canvas {
   .dsh-blink, .dash-blink { animation: none; }
 }
 /* --------------------------------------------------------------------
-   NAVBAR � player avatar + terminal dropdown (authenticated)
+   NAVBAR ï¿½ player avatar + terminal dropdown (authenticated)
    -------------------------------------------------------------------- */
 .nav-player {
   position: relative;
@@ -4612,6 +4612,17 @@ canvas {
   background: rgba(255, 0, 127, 0.12);
   color: #ff8ac0;
 }
+.nav-player-menu-item.is-admin:hover {
+  background: rgba(30, 215, 232, 0.09);
+  color: #fff;
+}
+.nav-player-menu-item.is-admin {
+  color: #ff8ac0;
+}
+.nav-player-online.nav-player-admin {
+  color: #ff1687;
+  text-shadow: 0 0 8px rgba(255, 22, 135, 0.7);
+}
 .nav-player-menu-item .nav-player-menu-arrow {
   color: #ff1687;
   font-size: 8px;
@@ -4639,10 +4650,10 @@ canvas {
    ============================================ */
 
 /* ============================================
-   FHC PLAYER ARENA — ARCADE COMMAND CENTER
+   FHC PLAYER ARENA â€” ARCADE COMMAND CENTER
    ============================================ */
 
-/* — Shared keyframes — */
+/* â€” Shared keyframes â€” */
 @keyframes arena-led-kf {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
@@ -4710,13 +4721,13 @@ canvas {
   100% { top: calc(100% + 2px); }
 }
 
-/* — LED — */
+/* â€” LED â€” */
 .arena-led {
   border-radius: 50%;
   animation: arena-led-kf 1.8s ease-in-out infinite;
 }
 
-/* — Blinking cursor — */
+/* â€” Blinking cursor â€” */
 .arena-cursor {
   display: inline-block;
   color: #FF1687;
@@ -4945,7 +4956,7 @@ canvas {
 /* ============================================
    SECTOR FILTER / TEAM SELECTOR
    ============================================ */
-/* SECTOR SELECT — horizontal slider. Only this strip scrolls. */
+/* SECTOR SELECT â€” horizontal slider. Only this strip scrolls. */
 .arena-select-scroll {
   display: flex;
   gap: 10px;
@@ -4974,7 +4985,7 @@ canvas {
   padding-bottom: 2px;
 }
 
-/* Arrow navigation flanking the sector strip — pixel/terminal UI */
+/* Arrow navigation flanking the sector strip â€” pixel/terminal UI */
 .arena-select-row {
   gap: 10px;
 }
@@ -5105,7 +5116,10 @@ canvas {
   grid-template-columns: 1fr;
   gap: 22px;
 }
-@media (min-width: 480px) {
+/* Mobile-first portrait: one full-width PLAYER card per row until we hit
+   tablet width, so cards are never squeezed into narrow paired columns.
+   Laptop/desktop (>=1024px) layouts below are the locked reference. */
+@media (min-width: 768px) {
   .arena-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
 }
 @media (min-width: 1024px) {
@@ -5119,7 +5133,7 @@ canvas {
 }
 
 /* ============================================
-   PLAYER CARD — ARCADE CHARACTER SELECT
+   PLAYER CARD â€” ARCADE CHARACTER SELECT
    ============================================ */
 .arena-card {
   position: relative;
@@ -5585,13 +5599,13 @@ canvas {
 }
 
 /* ============================================================
-   TEAMS // PLAYERS ARENA — RESPONSIVE REFINEMENTS
-   Laptop/desktop (≥1024px) visual composition is LOCKED; every rule
+   TEAMS // PLAYERS ARENA â€” RESPONSIVE REFINEMENTS
+   Laptop/desktop (â‰¥1024px) visual composition is LOCKED; every rule
    here only reflows/compacts the existing arena for smaller widths.
    ============================================================ */
 
 /* Tablet down: nothing inside the arena may force the layout wider
-   than the viewport — allow every block to shrink/reflow naturally. */
+   than the viewport â€” allow every block to shrink/reflow naturally. */
 @media (max-width: 1023px) {
   .arena-hero .grid,
   .arena-net,
@@ -5607,11 +5621,26 @@ canvas {
   }
 }
 
-/* Phones: keep the PLAYERS ARENA lockup strong but compact — same
-   viewport-relative slope as desktop, only a lower small-screen floor. */
+/* Phones: keep the PLAYERS ARENA lockup strong but compact â€” same
+   viewport-relative slope as desktop, only a lower small-screen floor.
+   Single full-width cards need a taller-than-desktop 3:4 photo; cap it
+   so identity stays large and readable without an endless scroll per
+   card. Arrows get a comfortable touch target (this later block wins by
+   source order over the 34Ã—38 compact rule in the â‰¤639px block above). */
 @media (max-width: 767px) {
   .arena-hero h1 span {
     font-size: clamp(26px, 6.5vw, 80px) !important;
+  }
+  .arena-arrow {
+    width: 40px;
+    height: 44px;
+    font-size: 12px;
+  }
+  .arena-select-row {
+    gap: 8px;
+  }
+  .arena-card-photo-wrap {
+    max-height: min(50vh, 460px);
   }
 }
 
@@ -5626,7 +5655,7 @@ canvas {
 }
 
 /* ============================================================
-   DASHBOARD // FHC PLAYER OPERATING SYSTEM — POLISH PASS
+   DASHBOARD // FHC PLAYER OPERATING SYSTEM â€” POLISH PASS
    Preserves the existing FHC arcade visual language. Adds the
    layers that make the dashboard read as the club's own OS.
    ============================================================ */
@@ -5657,7 +5686,7 @@ canvas {
 }
 
 /* ------------------------------------------------------------
-   BACKGROUND LAYERS — felt, not noticed
+   BACKGROUND LAYERS â€” felt, not noticed
    ------------------------------------------------------------ */
 .dsh-bg-noise {
   position: absolute; inset: -2px; pointer-events: none; z-index: 0;
@@ -5679,7 +5708,7 @@ canvas {
 }
 
 /* ------------------------------------------------------------
-   DASHBOARD INIT STRIP — quick boot line, non-blocking
+   DASHBOARD INIT STRIP â€” quick boot line, non-blocking
    ------------------------------------------------------------ */
 .dsh-boot {
   position: absolute; top: 0; left: 0; right: 0; z-index: 5;
@@ -5710,7 +5739,7 @@ canvas {
 }
 
 /* ------------------------------------------------------------
-   STATUS DOTS — subtle animated telemetry
+   STATUS DOTS â€” subtle animated telemetry
    ------------------------------------------------------------ */
 .dsh-dot {
   display: inline-block;
@@ -5723,7 +5752,7 @@ canvas {
 }
 
 /* ------------------------------------------------------------
-   HERO — system identity terminal
+   HERO â€” system identity terminal
    ------------------------------------------------------------ */
 .dsh-hero-name {
   font-size: clamp(20px, 3.2vw, 34px);
@@ -5768,7 +5797,7 @@ canvas {
 }
 
 /* ------------------------------------------------------------
-   STAT MODULES — selectable arcade terminals
+   STAT MODULES â€” selectable arcade terminals
    ------------------------------------------------------------ */
 .dsh-stats {
   grid-template-columns: repeat(6, 1fr);
@@ -5838,7 +5867,7 @@ canvas {
 }
 
 /* ------------------------------------------------------------
-   ACTIVITY STREAM — system log
+   ACTIVITY STREAM â€” system log
    ------------------------------------------------------------ */
 .dsh-log {
   display: flex; flex-direction: column; gap: 9px;
@@ -5881,7 +5910,7 @@ canvas {
 }
 
 /* ------------------------------------------------------------
-   SECTOR CARDS — network sectors
+   SECTOR CARDS â€” network sectors
    ------------------------------------------------------------ */
 .dsh-sector {
   transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, transform 0.12s ease;
@@ -5907,7 +5936,7 @@ canvas {
 }
 
 /* ------------------------------------------------------------
-   PROFILE — personnel record
+   PROFILE â€” personnel record
    ------------------------------------------------------------ */
 .dsh-profile-badge {
   display: inline-flex; align-items: center; gap: 6px;
@@ -5926,7 +5955,7 @@ canvas {
 .dsh-btn-edit:hover .dsh-edit-swap-a { display: none; }
 
 /* ------------------------------------------------------------
-   ACCOUNT CONTROL — security console
+   ACCOUNT CONTROL â€” security console
    ------------------------------------------------------------ */
 .dsh-sec-row {
   display: flex; align-items: center; gap: 8px;
@@ -5979,7 +6008,7 @@ canvas {
 }
 
 /* ------------------------------------------------------------
-   REDUCED MOTION — dashboard layers settle to static
+   REDUCED MOTION â€” dashboard layers settle to static
    ------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   .dsh-bg-scanlines,
@@ -5998,7 +6027,7 @@ canvas {
 }
 
 /* ------------------------------------------------------------
-   NAVBAR — desktop links: established structure, subtle active underline only
+   NAVBAR â€” desktop links: established structure, subtle active underline only
    ------------------------------------------------------------ */
 .nav-link-active {
   position: absolute;
@@ -6020,3 +6049,4 @@ canvas {
 @media (prefers-reduced-motion: reduce) {
   .nav-link-active { transition: none; }
 }
+

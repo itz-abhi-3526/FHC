@@ -72,6 +72,19 @@ export function normalizeTeam(raw) {
   return TEAM_CANON[up] || OTHER_TEAM_KEY;
 }
 
+/* All raw database labels that map onto ONE canonical sector. The admin
+   team filter matches against the ACTUAL stored values (not just the
+   canonical label) so legacy rows like "TECH" / "EVENTS" / "FACULTY"
+   are still found when the operator picks "TECH TEAM" / "EVENT TEAM". */
+export function teamSynonyms(canon) {
+  const key = String(canon || "").trim().toUpperCase();
+  const out = new Set([key]);
+  for (const [raw, mapped] of Object.entries(TEAM_CANON)) {
+    if (mapped === key) out.add(raw);
+  }
+  return [...out];
+}
+
 /* Sector position (1-based) for any raw value or canonical key.
    Returns null for the OTHER bucket. */
 export function teamSectorNumber(key) {

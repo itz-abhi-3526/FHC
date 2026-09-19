@@ -6,6 +6,7 @@ import { mulberry32 } from "../lib/random";
 import ArcadeScene from "../components/arcade/ArcadeScene";
 import Footer from "../components/Footer";
 import PageFrame from "../components/PageFrame";
+import { usePublicCounts } from "../hooks/usePublicCounts";
 
 /* ═══════════════════════════════════════════
    DATA — FHC HORIZON SYSTEM
@@ -15,13 +16,6 @@ const PRINCIPLES = [
   { num: "01", title: "INNOVATION", tag: "BUILD WHAT'S NEXT", desc: "We build ideas, challenge limits and create what doesn't exist." },
   { num: "02", title: "COLLABORATION", tag: "BUILD TOGETHER", desc: "We grow together, share knowledge and build as one community." },
   { num: "03", title: "IMPACT", tag: "BUILD FOR SOMETHING", desc: "We use technology to solve real problems and make a difference." },
-];
-
-const NUMBERS = [
-  { value: "25+", label: "EVENTS CONDUCTED" },
-  { value: "300+", label: "ACTIVE MEMBERS" },
-  { value: "15+", label: "PROJECTS BUILT" },
-  { value: "5+", label: "YEARS OF IMPACT" },
 ];
 
 const WHAT_WE_DO = [
@@ -59,10 +53,10 @@ function useInView(threshold = 0.15) {
 
 function useCountUp(target, active, dur = 1400) {
   const [n, setN] = useState(0);
-  const num = parseInt(target.replace(/\D/g, ""), 10);
-  const sfx = target.replace(/[0-9]/g, "");
+  const num = parseInt(String(target ?? "").replace(/\D/g, ""), 10);
+  const sfx = String(target ?? "").replace(/[0-9]/g, "");
   useEffect(() => {
-    if (!active) return;
+    if (!active || !Number.isFinite(num)) return;
     const t0 = performance.now();
     const tick = (now) => {
       const p = Math.min((now - t0) / dur, 1);
@@ -71,6 +65,7 @@ function useCountUp(target, active, dur = 1400) {
     };
     requestAnimationFrame(tick);
   }, [active, num, dur]);
+  if (!Number.isFinite(num)) return "…";
   return `${n}${sfx}`;
 }
 
@@ -992,6 +987,17 @@ function ScoreCard({ value, label, active, delay }) {
 
 function ScoreboardSection() {
   const [ref, vis] = useInView(0.2);
+  const counts = usePublicCounts();
+
+  const NUMBERS = counts.members == null
+    ? []
+    : [
+        { value: `${counts.members}+`, label: "ACTIVE MEMBERS" },
+        { value: `${counts.users}+`, label: "REGISTERED USERS" },
+        { value: `${counts.gallery}+`, label: "GALLERY ALBUMS" },
+        { value: `${counts.team}+`, label: "ACTIVE TEAM" },
+      ];
+
   return (
     <section ref={ref} className="relative py-16 px-4 sm:px-6 lg:px-8">
       <div className="relative z-10 w-full max-w-[1100px] mx-auto">
@@ -1019,9 +1025,15 @@ function ScoreboardSection() {
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
-                {NUMBERS.map((n, i) => (
-                  <ScoreCard key={n.label} value={n.value} label={n.label} active={vis} delay={i * 120} />
-                ))}
+                {NUMBERS.length > 0 ? (
+                  NUMBERS.map((n, i) => (
+                    <ScoreCard key={n.label} value={n.value} label={n.label} active={vis} delay={i * 120} />
+                  ))
+                ) : (
+                  <div className="col-span-2 md:col-span-4 font-pixel text-[7px] sm:text-[8px] tracking-[0.2em] text-[#1ED7E8]/40 text-center py-6">
+                    SYNCING LIVE DATA...
+                  </div>
+                )}
               </div>
 
               <div className="mt-6 pt-3 border-t border-[#FFF7E5]/6 max-md:hidden">

@@ -172,7 +172,7 @@ function Scanlines({ tint = "rgba(0,229,255,0.014)" }) {
    ════════════════════════════════════════════════════════════ */
 function AuthInput({
   label, prompt, type = "text", value, onChange, autoComplete,
-  isPassword, show, onToggleShow, id, caretColor = SYS_PK, error, scan,
+  isPassword, show, onToggleShow, id, name, caretColor = SYS_PK, error, scan,
 }) {
   return (
     <motion.div
@@ -191,8 +191,9 @@ function AuthInput({
         <span className="auth-slot-led" aria-hidden="true" />
         <input
           id={id}
+          name={name}
           type={isPassword ? (show ? "text" : "password") : type}
-          value={value}
+          defaultValue={value}
           onChange={onChange}
           placeholder={prompt}
           autoComplete={autoComplete}
@@ -464,6 +465,7 @@ function LoginScreen({ fields, onField, onForgot, errors, onSubmit, connecting, 
       <div className="auth-fields">
         <AuthInput
           id="login-id"
+          name="username"
           label="PLAYER ID / EMAIL"
           prompt="ENTER MEMBER ID_"
           value={fields.loginId}
@@ -474,6 +476,7 @@ function LoginScreen({ fields, onField, onForgot, errors, onSubmit, connecting, 
         />
         <AuthInput
           id="login-pw"
+          name="password"
           label="ACCESS CODE"
           prompt="ENTER ACCESS CODE_"
           isPassword
@@ -572,6 +575,7 @@ function SignupScreen({ fields, onField, errors, onSubmit, onLogin }) {
         <div className="auth-fields-two">
           <AuthInput
             id="su-name"
+            name="fullname"
             label="FULL NAME"
             prompt="YOUR NAME_"
             value={fields.signupName}
@@ -583,6 +587,7 @@ function SignupScreen({ fields, onField, errors, onSubmit, onLogin }) {
           />
           <AuthInput
             id="su-email"
+            name="email"
             label="EMAIL"
             prompt="MEMBER@FHC.NET"
             type="email"
@@ -597,6 +602,7 @@ function SignupScreen({ fields, onField, errors, onSubmit, onLogin }) {
         <div className="auth-fields-two">
           <AuthInput
             id="su-pw"
+            name="new-password"
             label="ACCESS CODE"
             prompt="CREATE ACCESS CODE_"
             isPassword
@@ -611,6 +617,7 @@ function SignupScreen({ fields, onField, errors, onSubmit, onLogin }) {
           />
           <AuthInput
             id="su-pw2"
+            name="confirm-new-password"
             label="CONFIRM ACCESS CODE"
             prompt="RE-ENTER CODE_"
             isPassword
@@ -686,6 +693,7 @@ function ForgotScreen({ email, onEmail, onBack, onSubmit }) {
       <div className="auth-fields">
         <AuthInput
           id="forgot-email"
+          name="email"
           label="REGISTERED EMAIL"
           prompt="MEMBER@FHC.NET"
           type="email"
@@ -745,6 +753,7 @@ function RecoveryScreen({ fields, onField, errors, onSubmit, onCancel }) {
       <div className="auth-fields">
         <AuthInput
           id="rc-pw"
+          name="new-password"
           label="NEW ACCESS CODE"
           prompt="ENTER NEW CODE_"
           isPassword
@@ -759,6 +768,7 @@ function RecoveryScreen({ fields, onField, errors, onSubmit, onCancel }) {
         />
         <AuthInput
           id="rc-pw2"
+          name="confirm-new-password"
           label="CONFIRM NEW CODE"
           prompt="RE-ENTER NEW CODE_"
           isPassword
@@ -870,7 +880,7 @@ export default function Auth() {
   const reduceMotion = useReducedMotion();
   const navigate = useNavigate();
   const location = useLocation();
-  const { status: authStatus, refreshProfile } = useAuth();
+  const { status: authStatus, refreshProfile, role } = useAuth();
 
   const [entered, setEntered] = useState(false);
   const [started, setStarted] = useState(false);
@@ -898,12 +908,40 @@ export default function Auth() {
     rcPw: "", rcPw2: "", rcShowPw: false, rcShowPw2: false,
   });
 
-  /* if already authenticated and NOT handling a recovery link → go to dashboard */
+  /* ── live-input reconciliation ────────────────────────────────────
+     These fields are fully controlled (value={fields.*}), so browser
+     autofill/credential managers can write straight into the DOM node
+     WITHOUT firing onChange — leaving React state stale while the input
+     LOOKS filled. That stale state is exactly what made validation
+     report "COMPLETE ALL REQUIRED FIELDS_" on a visibly-complete form.
+     current() prefers the live DOM value over state for every field. */
+  const LIVE_IDS = {
+    loginId: "login-id",
+    loginPw: "login-pw",
+    signupName: "su-name",
+    signupEmail: "su-email",
+    signupPw: "su-pw",
+    signupPw2: "su-pw2",
+    forgotEmail: "forgot-email",
+    rcPw: "rc-pw",
+    rcPw2: "rc-pw2",
+  };
+  const current = () => {
+    const out = {};
+    for (const [key, id] of Object.entries(LIVE_IDS)) {
+      const el = document.getElementById(id);
+      out[key] = el && typeof el.value === "string" ? el.value : fields[key];
+    }
+    return out;
+  };
+
+  /* if already authenticated and NOT handling a recovery link → go to dashboard
+     (admins land in the FHC Command Center, everyone else in their member area) */
   useEffect(() => {
     if (authStatus === "authed" && !location.hash.includes("type=recovery") && successKind !== "recovery-complete") {
-      navigate("/dashboard", { replace: true });
+      navigate(role === "admin" ? "/admin" : "/dashboard", { replace: true });
     }
-  }, [authStatus, navigate, location.hash, successKind]);
+  }, [authStatus, navigate, location.hash, successKind, role]);
 
   /* detect a Supabase password-recovery deep link (#access_token&type=recovery) */
   useEffect(() => {
@@ -962,19 +1000,20 @@ export default function Auth() {
   };
 
   const validation = () => {
+    const c = current();
     const errs = {};
     if (mode === "signup") {
-      if (!fields.signupName.trim()) errs.signupName = "NAME REQUIRED_";
-      if (!fields.signupEmail.trim()) errs.signupEmail = "EMAIL REQUIRED_";
-      else if (!fields.signupEmail.includes("@")) errs.signupEmail = "INVALID EMAIL FORMAT_";
-      if (!fields.signupPw.trim()) errs.signupPw = "ACCESS CODE REQUIRED_";
-      else if (fields.signupPw.length < 6) errs.signupPw = "MIN 6 CHARS_";
-      if (!fields.signupPw2.trim()) errs.signupPw2 = "CONFIRM REQUIRED_";
-      else if (fields.signupPw !== fields.signupPw2) errs.signupPw2 = "CODES DO NOT MATCH_";
+      if (!c.signupName.trim()) errs.signupName = "NAME REQUIRED_";
+      if (!c.signupEmail.trim()) errs.signupEmail = "EMAIL REQUIRED_";
+      else if (!c.signupEmail.includes("@")) errs.signupEmail = "INVALID EMAIL FORMAT_";
+      if (!c.signupPw.trim()) errs.signupPw = "ACCESS CODE REQUIRED_";
+      else if (c.signupPw.length < 6) errs.signupPw = "MIN 6 CHARS_";
+      if (!c.signupPw2.trim()) errs.signupPw2 = "CONFIRM REQUIRED_";
+      else if (c.signupPw !== c.signupPw2) errs.signupPw2 = "CODES DO NOT MATCH_";
       return errs;
     }
-    if (!fields.loginId.trim()) errs.loginId = "ID REQUIRED_";
-    if (!fields.loginPw.trim()) errs.loginPw = "ACCESS CODE REQUIRED_";
+    if (!c.loginId.trim()) errs.loginId = "ID REQUIRED_";
+    if (!c.loginPw.trim()) errs.loginPw = "ACCESS CODE REQUIRED_";
     return errs;
   };
 
@@ -1026,6 +1065,8 @@ export default function Auth() {
       setConnecting(false);
       return;
     }
+    /* Read live DOM values so browser autofill is respected (see current()). */
+    const c = current();
     setOrigin("login");
     setSuccessKind("login");
     enterProcess(LOGIN_STEPS, SYS_PK);
@@ -1033,16 +1074,14 @@ export default function Auth() {
       await sleep(300);
       setProcStep(1);
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: fields.loginId.trim(),
-        password: fields.loginPw,
+        email: c.loginId.trim(),
+        password: c.loginPw,
       });
       if (error) throw error;
       setProcStep(2);
-      /* Update last_login_at — fire-and-forget, don't block on RLS failure */
-      if (data?.user?.id) {
-        supabase.from("profiles").update({ last_login_at: new Date().toISOString() }).eq("id", data.user.id)
-          .then(() => {}).catch(() => {});
-      }
+      /* NOTE: last_login_at is an optional column that does not exist in the
+         live profiles schema; writing it silently 400s, so we no longer
+         attempt it.  The column can be added by a future migration. */
       await sleep(140);
       setProcStep(3);
       /* Pass uid directly — user state in React may not have updated yet */
@@ -1050,7 +1089,10 @@ export default function Auth() {
       await sleep(180);
       setConnecting(false);
       setProcessDone(true);
-      navigate("/dashboard", { replace: true });
+      /* Resolve the landing from the returned user object (React state may lag):
+         admins go straight to the Command Center. */
+      const landedAdmin = data?.user?.app_metadata?.role === "admin" || data?.user?.user_metadata?.role === "admin";
+      navigate(landedAdmin ? "/admin" : "/dashboard", { replace: true });
     } catch (err) {
       console.error("[FHC] Login failed:", err);
       failWith(err, "signin");
@@ -1068,6 +1110,8 @@ export default function Auth() {
       setConnecting(false);
       return;
     }
+    /* Read live DOM values so browser autofill is respected (see current()). */
+    const c = current();
     setOrigin("signup");
     setSuccessKind("signup-verify");
     enterProcess(SIGNUP_STEPS, SYS_CY);
@@ -1075,10 +1119,10 @@ export default function Auth() {
       await sleep(300);
       setProcStep(1);
       const { data, error } = await supabase.auth.signUp({
-        email: fields.signupEmail.trim(),
-        password: fields.signupPw,
+        email: c.signupEmail.trim(),
+        password: c.signupPw,
         options: {
-          data: { full_name: fields.signupName.trim() },
+          data: { full_name: c.signupName.trim(), role: "user" },
           emailRedirectTo: `${window.location.origin}/dashboard`,
         },
       });
@@ -1095,7 +1139,8 @@ export default function Auth() {
       if (data?.session) {
         /* Email confirmation disabled — user is authenticated immediately */
         console.log("[FHC] Signup successful — session active");
-        navigate("/dashboard", { replace: true });
+        const landedAdmin = data.user?.app_metadata?.role === "admin" || data.user?.user_metadata?.role === "admin";
+        navigate(landedAdmin ? "/admin" : "/dashboard", { replace: true });
       } else {
         /* Email confirmation enabled — user must verify first */
         console.log("[FHC] Signup successful — awaiting email confirmation");
@@ -1109,7 +1154,8 @@ export default function Auth() {
   };
 
   const runForgot = async () => {
-    if (!fields.forgotEmail || !fields.forgotEmail.includes("@")) {
+    const c = current();
+    if (!c.forgotEmail || !c.forgotEmail.includes("@")) {
       setOrigin("forgot");
       setMsgError({ title: "EMAIL REQUIRED", lines: ["ENTER REGISTERED MEMBER EMAIL_"] });
       setView("error");
@@ -1123,7 +1169,7 @@ export default function Auth() {
     try {
       await sleep(280);
       setProcStep(1);
-      const { error } = await supabase.auth.resetPasswordForEmail(fields.forgotEmail.trim(), {
+      const { error } = await supabase.auth.resetPasswordForEmail(c.forgotEmail.trim(), {
         redirectTo: `${window.location.origin}/auth`,
       });
       if (error) throw error;
@@ -1141,11 +1187,12 @@ export default function Auth() {
   };
 
   const runRecovery = async () => {
+    const c = current();
     const v = {};
-    if (!fields.rcPw) v.rcPw = "NEW ACCESS CODE REQUIRED_";
-    else if (fields.rcPw.length < 6) v.rcPw = "MIN 6 CHARS_";
-    if (!fields.rcPw2) v.rcPw2 = "CONFIRM REQUIRED_";
-    else if (fields.rcPw !== fields.rcPw2) v.rcPw2 = "CODES DO NOT MATCH_";
+    if (!c.rcPw) v.rcPw = "NEW ACCESS CODE REQUIRED_";
+    else if (c.rcPw.length < 6) v.rcPw = "MIN 6 CHARS_";
+    if (!c.rcPw2) v.rcPw2 = "CONFIRM REQUIRED_";
+    else if (c.rcPw !== c.rcPw2) v.rcPw2 = "CODES DO NOT MATCH_";
     if (Object.keys(v).length > 0) {
       setErrors(v);
       setOrigin("recovery");
@@ -1161,7 +1208,7 @@ export default function Auth() {
     try {
       await sleep(300);
       setProcStep(1);
-      const { error } = await supabase.auth.updateUser({ password: fields.rcPw });
+      const { error } = await supabase.auth.updateUser({ password: c.rcPw });
       if (error) throw error;
       setProcStep(2);
       await sleep(160);

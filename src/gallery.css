@@ -1,0 +1,1312 @@
+/* ════════════════════════════════════════════════════════════════
+   FHC // GALLERY — event-based media archive
+   New folder/image/lighbox system (.gf-* namespace)
+   ════════════════════════════════════════════════════════════════ */
+
+.gf-root {
+  background: #04060C;
+  color: #FFF4D6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.gf-root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 0%, rgba(255, 22, 135, 0.06), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 10%, rgba(30, 215, 232, 0.05), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gf-root > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ──────────────────────────────────────────────────── */
+.gf-header {
+  padding: 96px 24px 32px;
+  border-bottom: 1px solid rgba(255, 244, 214, 0.12);
+}
+
+.gf-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gf-kicker {
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: rgba(255, 244, 214, 0.5);
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gf-kicker-fhc { color: #FF1687; }
+.gf-kicker-sep { color: #1ED7E8; }
+.gf-kicker-path { color: rgba(255, 244, 214, 0.55); }
+
+.gf-title {
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: clamp(34px, 6vw, 72px);
+  line-height: 1;
+  margin: 0;
+  letter-spacing: 0.04em;
+  color: #FFF4D6;
+}
+
+.gf-title-accent {
+  color: #FFF4D6;
+  text-shadow: 0 0 28px rgba(255, 22, 135, 0.45);
+}
+
+.gf-sub {
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 13px;
+  letter-spacing: 0.26em;
+  color: #1ED7E8;
+  margin: 14px 0 6px;
+}
+
+.gf-tag {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 244, 214, 0.6);
+  margin: 0;
+}
+
+.gf-search {
+  max-width: 1200px;
+  margin: 24px auto 0;
+  position: relative;
+}
+
+.gf-search::before {
+  content: attr(data-glyph);
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #1ED7E8;
+  font-size: 15px;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.gf-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 244, 214, 0.05);
+  border: 1px solid rgba(30, 215, 232, 0.35);
+  color: #FFF4D6;
+  padding: 12px 16px 12px 40px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.gf-search-input::placeholder {
+  color: rgba(255, 244, 214, 0.35);
+  letter-spacing: 0.14em;
+}
+
+.gf-search-input:focus {
+  border-color: #1ED7E8;
+  background: rgba(30, 215, 232, 0.06);
+  box-shadow: 0 0 0 2px rgba(30, 215, 232, 0.15);
+}
+
+.gf-search-cursor {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 14px;
+  background: #FF1687;
+  animation: gf-blink 1s steps(1) infinite;
+  pointer-events: none;
+}
+
+@keyframes gf-blink {
+  50% { opacity: 0; }
+}
+
+/* ── Loading / error states ──────────────────────────────────── */
+.gf-state {
+  max-width: 1200px;
+  margin: 64px auto;
+  padding: 48px 24px;
+  text-align: center;
+  border: 1px solid rgba(255, 244, 214, 0.12);
+  background: rgba(255, 244, 214, 0.02);
+}
+
+.gf-state-spin {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(30, 215, 232, 0.25);
+  border-top-color: #1ED7E8;
+  border-radius: 50%;
+  animation: gf-spin 0.8s linear infinite;
+  margin-bottom: 18px;
+}
+
+@keyframes gf-spin {
+  to { transform: rotate(360deg); }
+}
+
+.gf-state-title {
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  color: #FFF4D6;
+  margin: 0 0 8px;
+}
+
+.gf-state-sub {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: rgba(255, 244, 214, 0.55);
+  margin: 0;
+}
+
+.gf-state-err .gf-state-title {
+  color: #FF1687;
+}
+
+.gf-retry {
+  margin-top: 18px;
+  background: transparent;
+  border: 1px solid #FF1687;
+  color: #FF1687;
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.gf-retry:hover {
+  background: #FF1687;
+  color: #04060C;
+}
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.gf-empty {
+  max-width: 1200px;
+  margin: 64px auto;
+  padding: 64px 24px;
+  text-align: center;
+  border: 1px dashed rgba(255, 244, 214, 0.18);
+}
+
+.gf-empty-icon {
+  display: block;
+  font-size: 34px;
+  color: rgba(255, 244, 214, 0.25);
+  margin-bottom: 14px;
+}
+
+.gf-empty-title {
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  color: #FFF4D6;
+  margin: 0 0 8px;
+}
+
+.gf-empty-sub {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 244, 214, 0.55);
+  margin: 0;
+}
+
+/* ── Folder grid ─────────────────────────────────────────────── */
+.gf-stage {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 32px 24px 64px;
+}
+
+.gf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.gf-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 244, 214, 0.03);
+  border: 1px solid rgba(255, 244, 214, 0.12);
+  text-decoration: none;
+  color: #FFF4D6;
+  transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
+  overflow: hidden;
+}
+
+.gf-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(30, 215, 232, 0.55);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(30, 215, 232, 0.2);
+}
+
+.gf-card-cover {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #0A0D16;
+  overflow: hidden;
+}
+
+.gf-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s;
+}
+
+.gf-card:hover .gf-card-cover img {
+  transform: scale(1.04);
+}
+
+.gf-card-cover-ph {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(135deg, rgba(30, 215, 232, 0.06), rgba(255, 22, 135, 0.06));
+}
+
+.gf-card-glyph {
+  font-size: 38px;
+  color: rgba(255, 244, 214, 0.3);
+}
+
+.gf-card-count {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  background: rgba(4, 6, 12, 0.82);
+  border: 1px solid rgba(30, 215, 232, 0.45);
+  color: #1ED7E8;
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  padding: 5px 9px;
+  pointer-events: none;
+}
+
+.gf-card-body {
+  padding: 14px;
+}
+
+.gf-card-title {
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  margin: 0 0 6px;
+  color: #FFF4D6;
+}
+
+.gf-card-date {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 244, 214, 0.55);
+  margin: 0;
+}
+
+/* ── Folder detail page ──────────────────────────────────────── */
+.gf-root-folder {
+  padding-top: 64px;
+}
+
+.gf-folder-head {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 24px;
+}
+
+.gf-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: #1ED7E8;
+  text-decoration: none;
+  padding: 8px 10px;
+  margin: 0 0 28px -10px;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.gf-back:hover {
+  transform: translateX(-4px);
+  color: #FFF4D6;
+}
+
+.gf-folder-mast {
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(255, 244, 214, 0.12);
+  margin-bottom: 32px;
+}
+
+.gf-folder-mast .gf-title {
+  font-size: clamp(28px, 4.5vw, 52px);
+}
+
+.gf-folder-desc {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  line-height: 1.7;
+  color: rgba(255, 244, 214, 0.7);
+  margin: 14px 0 0;
+  max-width: 640px;
+}
+
+.gf-folder-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 16px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+}
+
+.gf-folder-date {
+  color: #FF1687;
+}
+
+.gf-folder-count {
+  color: rgba(255, 244, 214, 0.6);
+  border-left: 1px solid rgba(255, 244, 214, 0.2);
+  padding-left: 18px;
+}
+
+.gf-folder-cover {
+  margin-bottom: 28px;
+  aspect-ratio: 21 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(255, 244, 214, 0.12);
+}
+
+.gf-folder-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gf-grid-folder {
+  margin-bottom: 64px;
+}
+
+/* ── Image tiles ─────────────────────────────────────────────── */
+.gf-tile {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #0A0D16;
+  border: 1px solid rgba(255, 244, 214, 0.1);
+}
+
+.gf-tile-media {
+  width: 100%;
+  height: 100%;
+}
+
+.gf-tile-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s;
+}
+
+.gf-tile:hover .gf-tile-media img {
+  transform: scale(1.05);
+}
+
+.gf-tile-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 8px 10px;
+  background: rgba(4, 6, 12, 0.78);
+  color: #FFF4D6;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.gf-tile:hover .gf-tile-cap {
+  opacity: 1;
+}
+
+.gf-tile-cover {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.gf-tile-cover:focus-visible {
+  outline: 2px solid #1ED7E8;
+  outline-offset: -2px;
+}
+
+/* ── Lightbox ────────────────────────────────────────────────── */
+.gf-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(4, 6, 12, 0.96);
+  display: flex;
+  flex-direction: column;
+}
+
+.gf-lightbox::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 15% 0%, rgba(255, 22, 135, 0.08), transparent 60%),
+    radial-gradient(ellipse 40% 35% at 90% 100%, rgba(30, 215, 232, 0.07), transparent 60%);
+  pointer-events: none;
+}
+
+.gf-lightbox-top,
+.gf-lightbox-stage,
+.gf-lightbox-bottom,
+.gf-nav {
+  position: relative;
+  z-index: 1;
+}
+
+.gf-lightbox-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 244, 214, 0.12);
+}
+
+.gf-lightbox-brand {
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 244, 214, 0.85);
+}
+
+.gf-lightbox-brand-fhc {
+  color: #FF1687;
+}
+
+.gf-lightbox-sep {
+  color: #1ED7E8;
+  margin: 0 4px;
+}
+
+.gf-lightbox-close {
+  background: transparent;
+  border: 1px solid rgba(255, 244, 214, 0.3);
+  color: #FFF4D6;
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  padding: 8px 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.gf-lightbox-close:hover {
+  border-color: #FF1687;
+  color: #FF1687;
+  background: rgba(255, 22, 135, 0.08);
+}
+
+.gf-lightbox-stage {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  min-height: 0;
+}
+
+.gf-lightbox-frame {
+  max-width: min(1400px, 92vw);
+  max-height: calc(100vh - 180px);
+  display: grid;
+  place-items: center;
+}
+
+.gf-lightbox-img {
+  max-width: min(1400px, 92vw);
+  max-height: calc(100vh - 180px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 244, 214, 0.14);
+}
+
+.gf-lightbox-frame.is-loaded .gf-lightbox-img {
+  opacity: 1;
+}
+
+.gf-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 52px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 244, 214, 0.04);
+  border: 1px solid rgba(255, 244, 214, 0.16);
+  color: #FFF4D6;
+  font-size: 28px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.gf-nav:hover {
+  background: rgba(30, 215, 232, 0.12);
+  border-color: #1ED7E8;
+  color: #1ED7E8;
+}
+
+.gf-nav-prev {
+  left: 16px;
+}
+
+.gf-nav-next {
+  right: 16px;
+}
+
+.gf-lightbox-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255, 244, 214, 0.12);
+}
+
+.gf-lightbox-count {
+  font-family: "Pixelify Sans", "Press Start 2P", monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: #1ED7E8;
+}
+
+.gf-lightbox-hint {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 244, 214, 0.45);
+  margin: 0;
+}
+
+.gf-lightbox-hint span {
+  color: #FFF4D6;
+  border: 1px solid rgba(255, 244, 214, 0.3);
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .gf-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .gf-header {
+    padding: 80px 16px 24px;
+  }
+  .gf-stage,
+  .gf-folder-head {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .gf-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .gf-card-body {
+    padding: 10px;
+  }
+  .gf-card-title {
+    font-size: 11px;
+  }
+  .gf-folder-cover {
+    aspect-ratio: 16 / 9;
+  }
+  .gf-nav {
+    width: 40px;
+    height: 52px;
+    font-size: 22px;
+  }
+  .gf-nav-prev {
+    left: 6px;
+  }
+  .gf-nav-next {
+    right: 6px;
+  }
+  .gf-folder-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .gf-folder-count {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .gf-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .gf-card-glyph {
+    font-size: 28px;
+  }
+  .gf-lightbox-hint {
+    display: none;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   FHC // MEDIA CONSOLE (public-site, /media) — media-role gallery tool.
+   Reuses the gf-* visual language: pixel type, dark stage, hot pink,
+   cyan, cream. Admin-only edition functions are NOT duplicated here.
+   ──────────────────────────────────────────────────────────────── */
+
+.mc-root .mc-header {
+  border-bottom: 1px solid rgba(255, 244, 214, 0.1);
+}
+
+.mc-authgf {
+  padding: 80px 20px;
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+}
+
+.mc-banner {
+  margin: 16px auto 0;
+  max-width: 1200px;
+  padding: 12px 16px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  border: 1px solid rgba(255, 244, 214, 0.2);
+  color: #FFF4D6;
+  background: rgba(255, 244, 214, 0.04);
+}
+
+.mc-banner--warn {
+  border-color: rgba(255, 210, 26, 0.4);
+  color: #FFD21A;
+}
+
+.mc-banner--error {
+  border-color: rgba(255, 22, 135, 0.55);
+  color: #FF1687;
+}
+
+.mc-toolbar {
+  max-width: 1200px;
+  margin: 22px auto 0;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mc-toolbar-spacer {
+  flex: 1;
+}
+
+.mc-toolbar-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mc-badge {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: #1ED7E8;
+  border: 1px solid rgba(30, 215, 232, 0.35);
+  padding: 5px 8px;
+  background: rgba(30, 215, 232, 0.06);
+}
+
+.mc-badge--dim {
+  color: rgba(255, 244, 214, 0.55);
+  border-color: rgba(255, 244, 214, 0.2);
+  background: transparent;
+}
+
+.mc-panel {
+  max-width: 1200px;
+  margin: 18px auto 0;
+  border: 1px solid rgba(255, 244, 214, 0.14);
+  background: rgba(255, 244, 214, 0.03);
+}
+
+.mc-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 244, 214, 0.1);
+}
+
+.mc-panel-tag {
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  color: #FF1687;
+}
+
+.mc-panel-sub {
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 244, 214, 0.35);
+}
+
+.mc-panel-body {
+  padding: 16px;
+}
+
+.mc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #FFF4D6;
+  background: transparent;
+  border: 1px solid rgba(255, 244, 214, 0.3);
+  padding: 10px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.18s, color 0.18s, background 0.18s, transform 0.18s;
+}
+
+.mc-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.mc-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.mc-btn--cyan {
+  color: #1ED7E8;
+  border-color: rgba(30, 215, 232, 0.55);
+}
+
+.mc-btn--cyan:hover:not(:disabled) {
+  background: rgba(30, 215, 232, 0.1);
+  border-color: #1ED7E8;
+}
+
+.mc-btn--pink {
+  color: #FF1687;
+  border-color: rgba(255, 22, 135, 0.55);
+}
+
+.mc-btn--pink:hover:not(:disabled) {
+  background: rgba(255, 22, 135, 0.1);
+  border-color: #FF1687;
+}
+
+.mc-btn--ghost {
+  color: rgba(255, 244, 214, 0.6);
+  border-color: rgba(255, 244, 214, 0.18);
+}
+
+.mc-btn--ghost:hover:not(:disabled) {
+  color: #FFF4D6;
+  border-color: rgba(255, 244, 214, 0.4);
+}
+
+.mc-btn--danger {
+  color: #FF1687;
+  border-color: rgba(255, 22, 135, 0.45);
+}
+
+.mc-btn--danger:hover:not(:disabled) {
+  background: rgba(255, 22, 135, 0.1);
+}
+
+.mc-sm {
+  font-size: 7px;
+  padding: 7px 9px;
+}
+
+.mc-grow {
+  flex: 1;
+}
+
+.mc-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mc-create {
+  width: 100%;
+  padding: 18px;
+  font-size: 11px;
+}
+
+.mc-create-form,
+.mc-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mc-label {
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 244, 214, 0.5);
+}
+
+.mc-input {
+  width: 100%;
+  font-family: "VT323", monospace;
+  font-size: 18px;
+  color: #FFF4D6;
+  background: rgba(255, 244, 214, 0.04);
+  border: 1px solid rgba(255, 244, 214, 0.25);
+  padding: 9px 11px;
+  outline: none;
+}
+
+.mc-input:focus {
+  border-color: rgba(30, 215, 232, 0.7);
+  box-shadow: 0 0 0 1px rgba(30, 215, 232, 0.25);
+}
+
+.mc-input--date {
+  width: auto;
+  min-width: 220px;
+  color-scheme: dark;
+}
+
+.mc-input::placeholder {
+  color: rgba(255, 244, 214, 0.25);
+}
+
+.mc-textarea {
+  width: 100%;
+  resize: vertical;
+  font-family: "VT323", monospace;
+  font-size: 18px;
+  color: #FFF4D6;
+  background: rgba(255, 244, 214, 0.04);
+  border: 1px solid rgba(255, 244, 214, 0.25);
+  padding: 9px 11px;
+  outline: none;
+  min-height: 64px;
+}
+
+.mc-textarea:focus {
+  border-color: rgba(30, 215, 232, 0.7);
+  box-shadow: 0 0 0 1px rgba(30, 215, 232, 0.25);
+}
+
+.mc-textarea::placeholder {
+  color: rgba(255, 244, 214, 0.25);
+}
+
+.mc-dropzone {
+  border: 1px dashed rgba(30, 215, 232, 0.4);
+  background: rgba(30, 215, 232, 0.04);
+  padding: 34px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.mc-dropzone:hover {
+  border-color: rgba(30, 215, 232, 0.8);
+  background: rgba(30, 215, 232, 0.07);
+}
+
+.mc-dropzone[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mc-dropzone-main {
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: #1ED7E8;
+}
+
+.mc-dropzone-sub {
+  margin-top: 10px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 244, 214, 0.4);
+}
+
+.mc-queue {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mc-qitem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 244, 214, 0.14);
+  background: rgba(255, 244, 214, 0.03);
+}
+
+.mc-qitem-name {
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  letter-spacing: 0.06em;
+  color: #FFF4D6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 46%;
+}
+
+.mc-qitem-meta {
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 244, 214, 0.4);
+  display: flex;
+  gap: 8px;
+}
+
+.mc-qitem-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mc-qstatus {
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+}
+
+.mc-qitem.is-queued .mc-qstatus { color: rgba(255, 244, 214, 0.5); }
+.mc-qitem.is-uploading .mc-qstatus { color: #FFD21A; }
+.mc-qitem.is-done .mc-qstatus { color: #36D65A; }
+.mc-qitem.is-failed .mc-qstatus { color: #FF1687; }
+
+.mc-qitem-error {
+  width: 100%;
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  color: #FF1687;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 22, 135, 0.25);
+}
+
+.mc-albums {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.mc-album {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 244, 214, 0.14);
+  background: rgba(255, 244, 214, 0.03);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.mc-album:hover {
+  border-color: rgba(30, 215, 232, 0.5);
+  box-shadow: 0 0 0 1px rgba(30, 215, 232, 0.2);
+}
+
+.mc-album-cover {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #0A0D16;
+  overflow: hidden;
+}
+
+.mc-album-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mc-album-ph {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-size: 34px;
+  color: rgba(255, 244, 214, 0.3);
+  background: linear-gradient(135deg, rgba(30, 215, 232, 0.06), rgba(255, 22, 135, 0.06));
+}
+
+.mc-album-count {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  color: #FFF4D6;
+  background: rgba(8, 9, 11, 0.85);
+  border: 1px solid rgba(255, 244, 214, 0.25);
+  padding: 4px 6px;
+}
+
+.mc-album-body {
+  padding: 12px 12px 8px;
+}
+
+.mc-album-title {
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #FFF4D6;
+  margin: 0;
+}
+
+.mc-album-date {
+  margin-top: 6px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  color: #1ED7E8;
+}
+
+.mc-album-actions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px 12px;
+}
+
+.mc-album-meta-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.mc-album-bigtitle {
+  font-family: "Press Start 2P", monospace;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #FFF4D6;
+  margin: 0;
+}
+
+.mc-album-desc {
+  margin-top: 8px;
+  max-width: 640px;
+  color: rgba(255, 244, 214, 0.6);
+  font-family: "VT323", monospace;
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+.mc-album-meta-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.mc-tile {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 244, 214, 0.14);
+  background: rgba(255, 244, 214, 0.03);
+  overflow: hidden;
+}
+
+.mc-tile-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #0A0D16;
+  overflow: hidden;
+}
+
+.mc-tile-media img,
+.mc-tile-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #0A0D16;
+}
+
+.mc-tile-cov {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 6px;
+  letter-spacing: 0.12em;
+  color: #FFD21A;
+  border: 1px solid rgba(255, 210, 26, 0.5);
+  background: rgba(8, 9, 11, 0.85);
+  padding: 3px 5px;
+}
+
+.mc-tile-type {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 6px;
+  letter-spacing: 0.12em;
+  color: #1ED7E8;
+  border: 1px solid rgba(30, 215, 232, 0.5);
+  background: rgba(8, 9, 11, 0.85);
+  padding: 3px 5px;
+}
+
+.mc-tile-actions {
+  display: flex;
+  padding: 8px;
+}
+
+.mc-tile-actions .mc-btn {
+  flex: 1;
+}
+
+/* Video tiles + lightbox inside the PUBLIC gallery folder page. */
+.gf-tile-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #0A0D16;
+}
+
+.gf-tile-media video:fullscreen {
+  object-fit: contain;
+}
+
+.gf-lightbox-video {
+  max-width: 100%;
+  max-height: 70vh;
+  display: block;
+  margin: 0 auto;
+  background: #000;
+  outline: none;
+  border: 1px solid rgba(255, 244, 214, 0.15);
+}
+
+@media (max-width: 860px) {
+  .mc-toolbar-badges {
+    margin-top: 4px;
+  }
+  .mc-album-meta-actions {
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 640px) {
+  .mc-albums {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .mc-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .mc-qitem-name {
+    max-width: 100%;
+  }
+  .mc-dropzone {
+    padding: 24px 10px;
+  }
+}

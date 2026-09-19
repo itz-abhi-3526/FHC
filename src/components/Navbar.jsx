@@ -9,7 +9,7 @@ const LINKS = [
   { label: "EVENTS", to: "/coming-soon" },
   { label: "PROJECTS", to: "/coming-soon" },
   { label: "TEAM", to: "/team" },
-  { label: "GALLERY", to: "/coming-soon" },
+  { label: "GALLERY", to: "/gallery" },
   { label: "ABOUT", to: "/about" },
   { label: "JOIN", to: "/join" },
   { label: "AUTH", to: "/auth", auth: true },
@@ -88,7 +88,7 @@ function NavAvatar({ url, seed, size, className = "" }) {
 }
 
 /* ── PLAYER menu — avatar trigger + compact arcade dropdown ── */
-function PlayerMenu({ name, seed, avatarUrl, onLoggedInChange }) {
+function PlayerMenu({ name, seed, avatarUrl, onLoggedInChange, isAdmin = false }) {
   const { signOut } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -132,13 +132,25 @@ function PlayerMenu({ name, seed, avatarUrl, onLoggedInChange }) {
             <NavAvatar url={avatarUrl} seed={seed} size={34} className="nav-player-avatar" />
             <div className="min-w-0 flex-1">
               <div className="nav-player-menu-name">{name}</div>
-              <div className="nav-player-menu-status mt-1"><span className="nav-player-online">ONLINE</span></div>
+              <div className="nav-player-menu-status mt-1">
+                {isAdmin ? (
+                  <span className="nav-player-online nav-player-admin">ADMIN</span>
+                ) : (
+                  <span className="nav-player-online">ONLINE</span>
+                )}
+              </div>
             </div>
           </div>
           <Link to="/dashboard" onClick={close} className="nav-player-menu-item">
             <span>DASHBOARD</span>
             <span className="nav-player-menu-arrow" aria-hidden="true">▶</span>
           </Link>
+          {isAdmin && (
+            <Link to="/admin" onClick={close} className="nav-player-menu-item is-admin">
+              <span>ADMIN PANEL</span>
+              <span className="nav-player-menu-arrow" aria-hidden="true">▶</span>
+            </Link>
+          )}
           <button type="button" onClick={doLogout} className="nav-player-menu-item is-logout">
             <span>LOG OUT</span>
             <span className="nav-player-menu-arrow" aria-hidden="true">⏻</span>
@@ -151,7 +163,7 @@ function PlayerMenu({ name, seed, avatarUrl, onLoggedInChange }) {
 
 export default function Navbar() {
   const { hash, pathname } = useLocation();
-  const { status, user, profile, signOut } = useAuth();
+  const { status, user, profile, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const isJoin = pathname === "/join";
@@ -206,7 +218,7 @@ export default function Navbar() {
               <li key={l.label} className={`flex items-center${l.auth ? " nav-auth" : ""}`}>
                 {l.auth ? (
                   isAuthed ? (
-                    <PlayerMenu name={name} seed={seed} avatarUrl={avatarUrl} />
+                    <PlayerMenu name={name} seed={seed} avatarUrl={avatarUrl} isAdmin={isAdmin} />
                   ) : (
                     <AuthNavButton active={isAuthActive} onClose={() => setOpen(false)} />
                   )
@@ -232,7 +244,7 @@ export default function Navbar() {
                 )}
               </li>
             ))}
-          </ul>
+        </ul>
 
           {/* Mobile toggle — own black panel, upper-right, clear of the logo badge */}
           <button
@@ -331,6 +343,15 @@ export default function Navbar() {
                         >
                           DASHBOARD
                         </Link>
+                        {isAdmin && (
+                          <Link
+                            to="/admin"
+                            onClick={() => setOpen(false)}
+                            className="block font-pixel text-[12px] px-4 py-3 border-2 border-pink text-center bg-pink text-ink text-left"
+                          >
+                            ADMIN PANEL
+                          </Link>
+                        )}
                         <button
                           type="button"
                           onClick={handleMobileLogout}
