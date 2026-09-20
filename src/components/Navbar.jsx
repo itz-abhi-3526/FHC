@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import PixelAvatar from "../components/PixelAvatar";
+import MobileTerminal from "./MobileTerminal";
 
 const LINKS = [
   { label: "HOME", to: "/", arrow: true },
@@ -163,8 +164,7 @@ function PlayerMenu({ name, seed, avatarUrl, onLoggedInChange, isAdmin = false }
 
 export default function Navbar() {
   const { hash, pathname } = useLocation();
-  const { status, user, profile, signOut, isAdmin } = useAuth();
-  const navigate = useNavigate();
+  const { status, user, profile, isAdmin } = useAuth();
   const [open, setOpen] = useState(false);
   const isJoin = pathname === "/join";
   const isAuthActive = pathname === "/auth";
@@ -178,12 +178,6 @@ export default function Navbar() {
   const seed = isAuthed ? profile?.avatar_seed || user?.id || "fhc" : "fhc";
   const avatarUrl = isAuthed ? profile?.avatar_url || "" : "";
 
-  const handleMobileLogout = async () => {
-    setOpen(false);
-    await signOut();
-    navigate("/", { replace: true });
-  };
-
   useEffect(() => {
     if (!hash || hash.length < 2) return;
     try {
@@ -195,9 +189,10 @@ export default function Navbar() {
   }, [hash]);
 
   return (
-    <header
-      className={`relative z-[10000]${isJoin ? ' join-nav-header' : ''}`}
-    >
+    <>
+      <header
+        className={`relative z-[10000]${isJoin ? ' join-nav-header' : ''}`}
+      >
       {isJoin && (
         <style>{`
           .join-nav-header { margin: 6px; margin-bottom: 0; background: #08090B; }
@@ -313,83 +308,10 @@ export default function Navbar() {
           </div>
         </Link>
       </div>
-
-      {/* ── Mobile dropdown ──────────────────────────────────── */}
-      {open && (
-        <div className="lg:hidden border-b-4 border-ink bg-pink absolute left-0 right-0 z-40" style={{ top: 116 }}>
-          <ul className="px-6 py-4 flex flex-col gap-2 max-h-[calc(100dvh-140px)] overflow-y-auto">
-            {isAuthed && (
-              <li>
-<div className="nav-auth-mobile flex items-center gap-3 justify-start mb-2 max-w-none">
-                    <NavAvatar url={avatarUrl} seed={seed} size={34} className="nav-player-avatar shrink-0" />
-                    <div className="min-w-0">
-                      <div className="nav-player-menu-name text-left">{name}</div>
-                      <div className="nav-player-menu-status mt-1 text-left">
-                        <span className="nav-player-online">ONLINE</span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              )}
-              {LINKS.map((l) => (
-                <li key={l.label}>
-                  {l.auth ? (
-                    isAuthed ? (
-                      <div className="flex flex-col gap-2">
-                        <Link
-                          to="/dashboard"
-                          onClick={() => setOpen(false)}
-                          className="block font-pixel text-[12px] px-4 py-3 border-2 border-ink text-center bg-ink text-cream text-left"
-                        >
-                          DASHBOARD
-                        </Link>
-                        {isAdmin && (
-                          <Link
-                            to="/admin"
-                            onClick={() => setOpen(false)}
-                            className="block font-pixel text-[12px] px-4 py-3 border-2 border-pink text-center bg-pink text-ink text-left"
-                          >
-                            ADMIN PANEL
-                          </Link>
-                        )}
-                        <button
-                          type="button"
-                          onClick={handleMobileLogout}
-                          className="block font-pixel text-[12px] px-4 py-3 border-2 border-ink text-center bg-ink text-pink text-left"
-                        >
-                          LOG OUT
-                        </button>
-                      </div>
-                    ) : (
-                    <Link
-                      to={l.to}
-                      onClick={() => setOpen(false)}
-                      className={`nav-auth-mobile font-pixel${isAuthActive ? " nav-auth-mobile-act" : ""}`}
-                    >
-                      <span className="nav-auth-mobile-edge" aria-hidden="true" />
-                      <span className="nav-auth-mobile-main">
-                        <span className="nav-auth-icon" aria-hidden="true">▶</span>
-                        AUTH
-                      </span>
-                      <span className="nav-auth-mobile-micro font-pixel">ACCESS</span>
-                    </Link>
-                  )
-                ) : (
-                  <Link
-                    to={l.to}
-                    onClick={() => setOpen(false)}
-                    aria-current={isActive(l.to) ? "page" : undefined}
-                    className={`nav-link-mob block font-pixel text-[12px] px-4 py-3 border-2 border-ink text-center bg-ink text-cream${isActive(l.to) ? " is-active" : ""}`}
-                  >
-                    {l.arrow && <span className="mr-1">▶</span>}
-                    {l.label}
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </header>
+
+    {/* ── Mobile navigation terminal — overlay drawer (<1024px) ── */}
+    <MobileTerminal open={open} onClose={() => setOpen(false)} />
+    </>
   );
 }

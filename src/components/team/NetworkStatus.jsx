@@ -6,7 +6,7 @@ export default function NetworkStatus({ state, teams, total }) {
   const live = state === TEAM_STATE.SUCCESS;
 
   return (
-    <section className="relative z-10 -mt-1 px-4 sm:px-6 lg:px-8">
+    <section className="relative z-10 -mt-1 hidden md:block px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-[1400px] mx-auto">
         <motion.div
           className="arena-net relative border border-[#00E5FF]/18 bg-[#04070d]"

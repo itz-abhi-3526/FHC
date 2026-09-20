@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import "./../player-hub.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  MotionConfig,
+} from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import PixelAvatar from "../components/PixelAvatar";
 import { supabase } from "../lib/supabase";
@@ -11,11 +16,12 @@ import {
 } from "../lib/cloudinary";
 import { classifyProfileError, PROFILE_ERROR, updateProfileFields } from "../lib/profileService";
 
-const PK = "#FF007F";
+const PK = "#FF1687";
 const CY = "#00E5FF";
-const CR = "#FFF4D6";
-const GR = "#4CFF4C";
-const YL = "#FFD400";
+const CR = "#FFF7E5";
+const GR = "#36D65A";
+const YL = "#FFD21A";
+const INK = "#0A0C12";
 
 function fmtDate(iso) {
   if (!iso) return "-- --- ----";
@@ -27,86 +33,196 @@ function fmtDate(iso) {
   } catch { return "-- --- ----"; }
 }
 
-/* ═══════════════════════════════════════════════════════════
-   SMALL ATOMICS
-   ═══════════════════════════════════════════════════════════ */
+/* ── tiny handcrafted pixel sprites ─────────────────────────── */
 
-function Led({ color = GR, size = 5, blink = false }) {
+function PixelIcon({ rows, color = PK, size = 40, className = "" }) {
+  const h = rows.length;
+  const w = Math.max(...rows.map((r) => r.length));
   return (
-    <span
-      aria-hidden="true"
-      className={blink ? "dsh-blink" : ""}
-      style={{ width: size, height: size, background: color, boxShadow: `0 0 6px ${color}88`, display: "inline-block", flexShrink: 0 }}
-    />
+    <svg width={size} height={size} viewBox={`0 0 ${w} ${h}`} shapeRendering="crispEdges" className={className} aria-hidden="true">
+      {rows.map((row, y) =>
+        [...row].map((ch, x) =>
+          ch === "." ? null : (
+            <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={ch === "+" ? CR : color} />
+          )
+        )
+      )}
+    </svg>
   );
 }
 
-function CornerBrackets({ color = CY, inset = -1 }) {
-  const s = { position: "absolute", width: 12, height: 12, pointerEvents: "none", opacity: 0.7 };
-  return (
-    <>
-      <span aria-hidden="true" style={{ ...s, top: inset, left: inset, borderTop: `1px solid ${color}`, borderLeft: `1px solid ${color}` }} />
-      <span aria-hidden="true" style={{ ...s, top: inset, right: inset, borderTop: `1px solid ${color}`, borderRight: `1px solid ${color}` }} />
-      <span aria-hidden="true" style={{ ...s, bottom: inset, left: inset, borderBottom: `1px solid ${color}`, borderLeft: `1px solid ${color}` }} />
-      <span aria-hidden="true" style={{ ...s, bottom: inset, right: inset, borderBottom: `1px solid ${color}`, borderRight: `1px solid ${color}` }} />
-    </>
-  );
-}
-
-function SectionLabel({ tag, title, accent = CY }) {
-  return (
-    <div className="dsh-mod-head">
-      <span className="font-pixel text-[7px] tracking-[0.2em]" style={{ color: accent }}>
-        <span style={{ color: PK, marginRight: 4 }}>▌</span>{tag}
-      </span>
-      <span className="font-pixel text-[6px] text-cream/25 tracking-[0.15em]">{title}</span>
-    </div>
-  );
-}
-
-function Panel({ id, tag, title, accent = CY, wide = false, children }) {
-  return (
-    <motion.div
-      id={id}
-      className={`dsh-mod ${wide ? "dsh-mod--wide" : ""}`}
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      style={{ borderColor: `${accent}28`, scrollMarginTop: 120 }}
-      whileHover={{ borderColor: `${accent}50` }}
-    >
-      <CornerBrackets color={accent} />
-      <SectionLabel tag={tag} title={title} accent={accent} />
-      <div className="dsh-mod-body">{children}</div>
-      <div className="dsh-mod-foot" aria-hidden="true" />
-    </motion.div>
-  );
-}
-
-function SecRow({ label, value, accent = CY }) {
-  return (
-    <div className="dsh-sec-row">
-      <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: CR, opacity: 0.45 }}>{label}</span>
-      <span className="dsh-sec-leader" aria-hidden="true" />
-      <span className="font-pixel text-[7px] tracking-[0.14em]" style={{ color: accent }}>{value || "—"}</span>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════
-   MAIN DASHBOARD — minimal member terminal
-   ═══════════════════════════════════════════════════════════ */
-
-const ACCESS_LINKS = [
-  { label: "EVENTS", to: "/coming-soon", desc: "CLUB OPERATIONS SCHEDULE" },
-  { label: "PROJECTS", to: "/coming-soon", desc: "HACKATHONS & DIVISION BUILDS" },
-  { label: "GALLERY", to: "/gallery", desc: "MEMORY ARCHIVE" },
-  { label: "ABOUT", to: "/about", desc: "HORIZON CORE RECORD" },
+const EVENTS_ART = [
+  "..####..",
+  "..####..",
+  ".######.",
+  "##....##",
+  "##.##.##",
+  "##.##.##",
+  ".######.",
+  "..####..",
 ];
 
+const PROJECTS_ART = [
+  ".########.",
+  "#........#",
+  "#>......+#",
+  "#.#....#.#",
+  "#.######.#",
+  "#.######.#",
+  "#.#....#.#",
+  "#........#",
+  ".########.",
+];
+
+const GALLERY_ART = [
+  "...####...",
+  "..######..",
+  ".########.",
+  "##########",
+  "#.######.#",
+  "#.######.#",
+  "#.######.#",
+  "#.######.#",
+  "##########",
+  ".########.",
+];
+
+const ABOUT_ART = [
+  "..######..",
+  ".########.",
+  "##########",
+  ".#......#.",
+  ".#.####.#.",
+  ".#.####.#.",
+  ".#.####.#.",
+  ".#......#.",
+  ".########.",
+  "..######..",
+];
+
+/* The FHC sunrise mark — horizon line over the sun. */
+const FHC_MARK_ART = [
+  "....####....",
+  "...######...",
+  "..##....##..",
+  "..##.##.##..",
+  "...######...",
+  "....####....",
+  "............",
+  "..########..",
+  ".##########.",
+  "############",
+  "############",
+  "############",
+];
+
+/* ── ARCADE — four destinations ───────────────────────────── */
+
+const WORLD = [
+  {
+    key: "EVENTS",
+    num: "01",
+    label: "EVENTS",
+    cat: "TICKET",
+    sub: "WHAT'S HAPPENING",
+    to: "/coming-soon",
+    accent: PK,
+    art: EVENTS_ART,
+    route: { x1: 50, y1: 34, x2: 50, y2: 22 },
+    tip: "M49 22 L51 22 L50 20 Z",
+  },
+  {
+    key: "PROJECTS",
+    num: "02",
+    label: "PROJECTS",
+    cat: "SCREEN",
+    sub: "BUILDS / EXPERIMENTS",
+    to: "/coming-soon",
+    accent: CY,
+    art: PROJECTS_ART,
+    route: { x1: 38, y1: 48, x2: 26, y2: 48 },
+    tip: "M22 46 L22 48 L20 47 Z",
+  },
+  {
+    key: "GALLERY",
+    num: "03",
+    label: "GALLERY",
+    cat: "FRAME",
+    sub: "MEMORIES",
+    to: "/gallery",
+    accent: YL,
+    art: GALLERY_ART,
+    route: { x1: 62, y1: 48, x2: 74, y2: 48 },
+    tip: "M78 46 L78 48 L80 47 Z",
+  },
+  {
+    key: "ABOUT",
+    num: "04",
+    label: "ABOUT",
+    cat: "CREST",
+    sub: "THE CLUB",
+    to: "/about",
+    accent: GR,
+    art: ABOUT_ART,
+    route: { x1: 50, y1: 60, x2: 50, y2: 70 },
+    tip: "M49 72 L51 72 L50 74 Z",
+  },
+];
+
+const MotionLink = motion.create(Link);
+
+/* ── choreography ──────────────────────────────────────────── */
+
+const rise = {
+  hidden: { opacity: 0, y: 26 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const boot = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+
+const viewStagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
+};
+
+const passWrap = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.35 } },
+};
+
+const partStagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05, delayChildren: 0.5 } },
+};
+
+const partRise = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+};
+
+/* the little pixel marker descending toward the pass */
+const descent = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.4, delay: 0.5 } },
+};
+
+/* the detached stub settling into place after the pass lands */
+const stubSettle = {
+  hidden: { opacity: 0, x: 16 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.75 } },
+};
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN DASHBOARD — FHC PLAYER HUB
+   Business logic is intentionally unchanged: every handler and
+   data extraction below is the same one that has always worked.
+   ═══════════════════════════════════════════════════════════ */
+
 export default function Dashboard() {
-  const { user, profile, status, refreshProfile, signOut, supabase, isMedia } = useAuth();
+  const { user, profile, status, refreshProfile, signOut, supabase, role, isMedia } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -142,17 +258,17 @@ export default function Dashboard() {
 
   if (status === "loading" || status !== "authed") {
     return (
-      <div className="dsh-loader">
-        <div className="dsh-loader-inner">
-          <div className="dsh-loader-bar" />
-          <div className="font-pixel text-[8px] tracking-[0.3em] mt-4" style={{ color: CY }}>
-            <span className="dsh-blink">█</span> ESTABLISHING SECURE CONNECTION...
-          </div>
-          <div className="font-pixel text-[6px] tracking-[0.2em] mt-2" style={{ color: CR, opacity: 0.4 }}>
-            VERIFYING PLAYER CREDENTIALS
+      <MotionConfig reducedMotion="user">
+        <div className="hub-loader">
+          <div className="hub-loader-box">
+            <div className="hub-loader-pulse" aria-hidden="true" />
+            <div className="font-pixel text-[8px] tracking-[0.3em]" style={{ color: CY }}>
+              <span className="hub-caret" aria-hidden="true">_</span> OPENING YOUR FHC SPACE
+            </div>
+            <div className="hub-loader-sub font-pixel">VERIFYING PLAYER SESSION</div>
           </div>
         </div>
-      </div>
+      </MotionConfig>
     );
   }
 
@@ -160,10 +276,9 @@ export default function Dashboard() {
   const name = profile?.full_name || user?.user_metadata?.full_name || "PLAYER";
   const email = profile?.email || user?.email || "";
   const seed = profile?.avatar_seed || user?.id || email || "fhc";
-  /* MEMBER SINCE: prefer profiles.created_at; fall back to the Supabase Auth
-     user's real created_at. No extra query, no fake/hardcoded date. */
   const since = profile?.created_at || user?.created_at;
   const avatarUrl = profile?.avatar_url || "";
+  const accessLevel = role === "admin" ? "ADMIN" : role === "media" ? "MEDIA" : "MEMBER";
 
   /* ── handlers ── */
   const saveProfile = async () => {
@@ -196,7 +311,6 @@ export default function Dashboard() {
       await refreshProfile(uid); // refetch from DB — the source of truth
       setEditMode(false);
     } catch (err) {
-      /* Real cause must never be hidden — always in the console. */
       console.error("[FHC] Profile update failed:", err);
       const cls = classifyProfileError(err);
       const text =
@@ -245,8 +359,6 @@ export default function Dashboard() {
     }
     console.log("[FHC Avatar] validation passed →", file.name);
 
-    /* busy → always released in finally below; the button/file input are
-       only disabled while a real upload/update is running. */
     setAvatarBusy(true);
     try {
       const secureUrl = await uploadAvatarToCloudinary(file, user?.id);
@@ -260,20 +372,17 @@ export default function Dashboard() {
         .maybeSingle();
 
       if (error) throw error;
-      /* Do not trust it blindly — confirm what came back. */
       console.log("[FHC Avatar] Supabase update successful →", data);
       if (!data || data.avatar_url !== secureUrl) {
         console.error("[FHC Avatar] Supabase returned unexpected avatar_url", data);
         throw new Error("Supabase update confirmed but returned wrong avatar_url");
       }
 
-      /* refresh profile/context state so dashboard AND navbar update now */
       await refreshProfile(user.id);
       setAvatarVersion((v) => v + 1); // display-only cache-buster
       console.log("[FHC Avatar] local avatar state updated (version", avatarVersion + 1, ")");
       setAvatarMsg({ kind: "ok", text: "AVATAR UPLOADED ✓" });
     } catch (err) {
-      /* previous avatar stays — avatar_url is never cleared on failure */
       console.error("[FHC Avatar] upload pipeline failed:", err);
       const isCloudFail =
         err.code === "CLOUDINARY_NOT_CONFIGURED" ||
@@ -315,253 +424,644 @@ export default function Dashboard() {
     navigate("/", { replace: true });
   };
 
-  /* MEDIA-only entry point: media users manage albums/uploads from the
-     public MEDIA CONSOLE (/media). Normal members see nothing; admins
-     keep their existing /admin/gallery workflow. */
-  const accessLinks = isMedia
-    ? [
-        ...ACCESS_LINKS,
-        { label: "MEDIA CONSOLE", to: "/media", desc: "MANAGE ALBUMS + UPLOAD EVENT MEDIA" },
-      ]
-    : ACCESS_LINKS;
+  const openEdit = () => {
+    setEditName(name);
+    setEditMsg(null);
+    setPwMode(false);
+    setEditMode(true);
+  };
+
+  const openAccessCode = () => {
+    setEditMode(false);
+    setPwMode(true);
+    setPwMsg(null);
+  };
 
   return (
-    <div className="dsh-root">
-      {/* ── ambient layers ── */}
-      <div className="dsh-bg-grid" aria-hidden="true" />
-      <div className="dsh-bg-glow dsh-bg-glow--pink" aria-hidden="true" />
-      <div className="dsh-bg-glow dsh-bg-glow--cyan" aria-hidden="true" />
-      <div className="dsh-bg-scanlines" aria-hidden="true" />
-      <div className="dsh-bg-noise" aria-hidden="true" />
-      <div className="dsh-bg-vignette" aria-hidden="true" />
-      <div className="dsh-bg-sweep" aria-hidden="true" />
+    <MotionConfig reducedMotion="user">
+      <div className="hub-root">
+        {/* ── arcade room, at night ── */}
+        <div className="hub-ambient" aria-hidden="true">
+          <div className="hub-bg-grid" />
+          <div className="hub-bg-lites" />
+          <div className="hub-bg-scan" />
+          <div className="hub-bg-stars" />
+          <div className="hub-bg-cue" />
+        </div>
 
-      {/* ── logout overlay ── */}
-      <AnimatePresence>
-        {loggingOut && (
-          <motion.div className="dsh-logout-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.25 }} className="dsh-logout-box">
-              <CornerBrackets color={PK} inset={-4} />
-              <motion.div className="font-pixel text-[9px] tracking-[0.2em] text-center" style={{ color: CR }} animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 0.5, repeat: Infinity }}>
-                <div style={{ color: PK }}>DISCONNECTING PLAYER...</div>
-                <div className="mt-3" style={{ color: CY }}>SESSION TERMINATED</div>
-                <div className="mt-3 text-[7px]" style={{ color: CR, opacity: 0.5 }}>RETURNING TO HORIZON NETWORK</div>
+        <div className="hub-inner">
+
+          {/* ═══════════════════════════════════════════
+              00 — ARRIVAL / GREETING
+              ═══════════════════════════════════════════ */}
+          <motion.section className="hub-entry" initial="hidden" animate="show" variants={boot} aria-label="Player entry">
+            <div className="hub-eyebrow font-pixel" variants={rise}>
+              <span className="hub-kicker-tick" aria-hidden="true">▮</span>
+              FHC // PLAYER HUB
+            </div>
+
+            <h1 className="hub-hello font-pixel" variants={rise}>
+              WELCOME BACK<span className="hub-hello-comma" aria-hidden="true">.</span>
+            </h1>
+
+            <p className="hub-hello-sub" variants={rise}>YOUR PLACE INSIDE THE HORIZON.</p>
+
+            {/* the little pixel marker descending toward the pass */}
+            <motion.div className="hub-descent" variants={descent} aria-hidden="true">
+              <span className="hub-descent-rail" />
+              <span className="hub-descent-pix" />
+            </motion.div>
+          </motion.section>
+
+          {/* ═══════════════════════════════════════════
+              THE HORIZON PASS — the physical boarding pass
+              ═══════════════════════════════════════════ */}
+          <section className="hub-section hub-passsec" aria-label="Your FHC horizon pass">
+            <div className="hub-section-head">
+              <div className="hub-kicker font-pixel">
+                <span className="hub-kicker-tick" aria-hidden="true">▮</span>
+                01 // HORIZON PASS
+              </div>
+              <h2 className="hub-h2 font-pixel">YOUR HORIZON PASS</h2>
+              <p className="hub-section-sub">YOUR IDENTITY AT THE GATES OF FHC.</p>
+            </div>
+
+            <div className="hub-pass-slot">
+              <HorizonPass
+                name={name}
+                email={email}
+                seed={seed}
+                avatarUrl={avatarUrl}
+                avatarVersion={avatarVersion}
+                accessLevel={accessLevel}
+                since={since}
+                avatarBusy={avatarBusy}
+                avatarMsg={avatarMsg}
+                avatarInputRef={avatarInputRef}
+                handleAvatarChange={handleAvatarChange}
+              />
+            </div>
+          </section>
+
+          {/* ═══════════════════════════════════════════
+              02 — ARCADE SELECT
+              ═══════════════════════════════════════════ */}
+          <section className="hub-section hub-select" aria-label="Choose your destination">
+            <div className="hub-section-head hub-section-head--center">
+              <div className="hub-kicker font-pixel">
+                <span className="hub-kicker-tick" aria-hidden="true">▮</span>
+                02 // ARCADE SELECT
+              </div>
+              <h2 className="hub-h2 font-pixel">WHERE DO YOU WANT TO GO?</h2>
+              <p className="hub-section-sub">FOUR DESTINATIONS. ONE CLUB. PICK YOUR PATH.</p>
+            </div>
+
+            <nav className="hub-select-stage" aria-label="Club destinations">
+              <ArcadeBoard />
+
+              {isMedia && (
+                <Link to="/media" className="hub-media-link font-pixel">
+                  <span className="hub-media-dot" aria-hidden="true">◈</span>
+                  MEDIA CONSOLE — MANAGE ALBUMS + UPLOAD EVENT MEDIA
+                  <span className="hub-enter-arrow" aria-hidden="true">→</span>
+                </Link>
+              )}
+            </nav>
+          </section>
+
+          {/* ═══════════════════════════════════════════
+              03 — PLAYER LOADOUT
+              ═══════════════════════════════════════════ */}
+          <motion.section className="hub-section hub-loadsec" variants={rise} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-64px" }} aria-label="Player loadout">
+            <div className="hub-section-head">
+              <div className="hub-kicker font-pixel">
+                <span className="hub-kicker-tick" aria-hidden="true">▮</span>
+                03 // PLAYER LOADOUT
+              </div>
+              <h2 className="hub-h2 font-pixel">PLAYER LOADOUT</h2>
+              <p className="hub-section-sub">YOUR CURRENT FIGHTING GEAR INSIDE FHC.</p>
+            </div>
+
+            <PlayerLoadout
+              name={name}
+              email={email}
+              seed={seed}
+              avatarUrl={avatarUrl}
+              avatarVersion={avatarVersion}
+              accessLevel={accessLevel}
+              since={since}
+            />
+          </motion.section>
+
+          {/* ═══════════════════════════════════════════
+              04 — PLAYER CONTROLS
+              ═══════════════════════════════════════════ */}
+          <motion.section className="hub-section hub-ctlsec" variants={rise} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-64px" }} aria-label="Player controls">
+            <div className="hub-section-head">
+              <div className="hub-kicker font-pixel">
+                <span className="hub-kicker-tick" aria-hidden="true">▮</span>
+                04 // PLAYER CONTROLS
+              </div>
+              <h2 className="hub-h2 font-pixel">PLAYER CONTROLS</h2>
+              <p className="hub-section-sub">MANAGE YOUR SPACE INSIDE FHC.</p>
+            </div>
+
+            <div className="hub-ctl-slot">
+              <AnimatePresence mode="wait">
+                {editMode ? (
+                  <motion.div key="edit" className="hub-form" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }}>
+                    <div className="hub-form-head">
+                      <span className="hub-form-eye" aria-hidden="true">▸</span>
+                      <span className="font-pixel" style={{ color: CY }}>EDITING PLAYER DATA</span>
+                    </div>
+                    <div className="hub-form-body">
+                      <label className="hub-form-label font-pixel" htmlFor="hub-name">FULL NAME</label>
+                      <input
+                        id="hub-name"
+                        className="hub-form-input"
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        autoFocus
+                      />
+                      <AnimatePresence>
+                        {editMsg && (
+                          <motion.div
+                            role="status"
+                            initial={{ opacity: 0, y: -4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            className="hub-form-msg font-pixel"
+                            style={{ color: editMsg.kind === "ok" ? GR : PK }}
+                          >
+                            {editMsg.text}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      <div className="hub-form-actions">
+                        <motion.button type="button" onClick={saveProfile} disabled={editSaving} className="hub-btn" style={{ color: GR }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
+                          {editSaving ? "SYNCING..." : "SAVE CHANGES ✓"}
+                        </motion.button>
+                        <motion.button
+                          type="button"
+                          onClick={() => { setEditMode(false); setEditMsg(null); }}
+                          className="hub-btn hub-btn--ghost"
+                          style={{ color: CR }}
+                          whileHover={{ y: -1 }} whileTap={{ y: 1 }}
+                        >
+                          CANCEL
+                        </motion.button>
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : pwMode ? (
+                  <motion.div key="pw" className="hub-form" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }}>
+                    <div className="hub-form-head">
+                      <span className="hub-form-eye" aria-hidden="true">▸</span>
+                      <span className="font-pixel" style={{ color: CY }}>REINITIALIZE ACCESS CODE</span>
+                    </div>
+                    <div className="hub-form-body">
+                      <label className="hub-form-label font-pixel" htmlFor="hub-pw1">NEW ACCESS CODE</label>
+                      <input id="hub-pw1" type="password" className="hub-form-input" value={pw1} onChange={(e) => setPw1(e.target.value)} />
+                      <label className="hub-form-label font-pixel" htmlFor="hub-pw2">CONFIRM NEW CODE</label>
+                      <input id="hub-pw2" type="password" className="hub-form-input" value={pw2} onChange={(e) => setPw2(e.target.value)} />
+                      <AnimatePresence>
+                        {pwMsg && (
+                          <motion.div
+                            role="status"
+                            initial={{ opacity: 0, y: -4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            className="hub-form-msg font-pixel"
+                            style={{ color: pwMsg.kind === "ok" ? GR : PK }}
+                          >
+                            {pwMsg.text}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      <div className="hub-form-actions">
+                        <motion.button type="button" onClick={savePassword} disabled={pwSaving} className="hub-btn" style={{ color: GR }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
+                          {pwSaving ? "ENCRYPTING..." : "REINITIALIZE ✓"}
+                        </motion.button>
+                        <motion.button
+                          type="button"
+                          onClick={() => { setPwMode(false); setPwMsg(null); }}
+                          className="hub-btn hub-btn--ghost"
+                          style={{ color: CR }}
+                          whileHover={{ y: -1 }} whileTap={{ y: 1 }}
+                        >
+                          CANCEL
+                        </motion.button>
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <PlayerControls key="controls" openEdit={openEdit} openAccessCode={openAccessCode} doLogout={doLogout} />
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.section>
+
+          <footer className="hub-foot">
+            <span className="hub-foot-mark font-pixel">FHC // PLAYER HUB</span>
+            <span className="hub-foot-text">YOUR PLACE INSIDE THE HORIZON.</span>
+            <span className="hub-foot-led" aria-hidden="true" />
+          </footer>
+        </div>
+
+        {/* ── logout overlay ── */}
+        <AnimatePresence>
+          {loggingOut && (
+            <motion.div className="hub-logout-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.25 }} className="hub-logout-box">
+                <motion.div className="font-pixel text-center" style={{ color: CR }} animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 0.5, repeat: Infinity }}>
+                  <div style={{ color: PK }}>DISCONNECTING PLAYER...</div>
+                  <div className="mt-3" style={{ color: CY }}>SESSION TERMINATED</div>
+                  <div className="hub-logout-sub font-pixel mt-3">POWERING DOWN THE HORIZON PASS</div>
+                </motion.div>
               </motion.div>
             </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </MotionConfig>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HORIZON PASS — a physical FHC boarding pass / identity ticket
+   ═══════════════════════════════════════════════════════════ */
+
+function HorizonPass({ name, email, seed, avatarUrl, avatarVersion, accessLevel, since, avatarBusy, avatarMsg, avatarInputRef, handleAvatarChange }) {
+  return (
+    <motion.div
+      className="hub-pass-wrap"
+      initial="hidden"
+      animate="show"
+      exit={{ opacity: 0, y: -14, transition: { duration: 0.22 } }}
+      variants={partStagger}
+    >
+      <motion.div
+        className="hub-pass"
+        variants={passWrap}
+        whileHover={{ y: -3 }}
+      >
+        {/* the single scanning line — one pass on load, then still */}
+        <span className="hub-pass-scanline" aria-hidden="true" />
+
+        {/* face (main portion, kept whole) */}
+        <div className="hub-pass-main">
+          {/* header */}
+          <motion.div className="hub-pass-top" variants={partRise}>
+            <div className="hub-pass-brand">
+              <span className="hub-pass-brand-fhc font-pixel">FHC</span>
+              <span className="hub-pass-brand-txt font-pixel">HORIZON PASS</span>
+            </div>
+            <div className="hub-pass-meta">
+              <span className="hub-pass-meta-k font-pixel">FISAT HORIZON CLUB</span>
+              <span className="hub-pass-meta-v font-pixel" style={{ color: accessLevel === "ADMIN" ? YL : accessLevel === "MEDIA" ? CY : GR }}>
+                MEMBER CLASS · {accessLevel}
+              </span>
+            </div>
+            <span className="hub-pass-sun" aria-hidden="true">
+              <PixelIcon rows={FHC_MARK_ART} color={PK} size={30} />
+            </span>
           </motion.div>
-        )}
-      </AnimatePresence>
 
-      <div className="dsh-inner">
+          {/* body — identity + ID photo */}
+          <div className="hub-pass-core">
+            <motion.div className="hub-pass-id" variants={partRise}>
+              <span className="hub-pass-field font-pixel">PLAYER</span>
+              <span className="hub-pass-name font-pixel" title={name}>{name}</span>
+              {email && <span className="hub-pass-mail">{email}</span>}
+              <div className="hub-pass-since">
+                <span className="hub-pass-field font-pixel">MEMBER SINCE</span>
+                <span className="hub-pass-since-v font-pixel">{fmtDate(since)}</span>
+              </div>
+            </motion.div>
 
-        {/* ═══════════════════════════════════════════════════════
-            SECTION 1 — MEMBER IDENTITY
-            ═══════════════════════════════════════════════════════ */}
-        <motion.section
-          className="dsh-hero"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <CornerBrackets color={PK} inset={-2} />
-          <div className="dsh-hero-scan" aria-hidden="true" />
-
-          <div className="dsh-hero-inner">
-            <div className="dsh-hero-avatar-col">
-              <div className="dsh-hero-avatar-frame">
-                <CornerBrackets color={CY} inset={-3} />
-                <div className="dsh-hero-avatar-glow" aria-hidden="true" />
-                {avatarUrl ? (
-                  <img
-                    /* display-only cache-buster — stored avatar_url stays clean */
-                    src={avatarVersion ? `${avatarUrl}?v=${avatarVersion}` : avatarUrl}
-                    alt={`${name} profile avatar`}
-                    width={120}
-                    height={120}
-                    className="dsh-hero-avatar dsh-hero-avatar-img"
-                  />
-                ) : (
-                  <PixelAvatar seed={seed} size={120} className="dsh-hero-avatar" />
-                )}
-                <div className="dsh-hero-avatar-scan" aria-hidden="true" />
-                <input
-                  ref={avatarInputRef}
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
-                  onChange={handleAvatarChange}
-                  className="sr-only"
-                  tabIndex={-1}
-                  aria-hidden="true"
-                />
+            {/* photo (ID frame with registration marks) */}
+            <motion.div className="hub-pass-photo" variants={partRise}>
+              <span className="hub-pass-photo-tag font-pixel">ID PHOTO</span>
+              <div className="hub-pass-photo-frame">
+                <span className="hub-pass-reg hub-pass-reg--tl" aria-hidden="true" />
+                <span className="hub-pass-reg hub-pass-reg--tr" aria-hidden="true" />
+                <span className="hub-pass-reg hub-pass-reg--bl" aria-hidden="true" />
+                <span className="hub-pass-reg hub-pass-reg--br" aria-hidden="true" />
                 <button
                   type="button"
                   onClick={() => avatarInputRef.current?.click()}
                   disabled={avatarBusy}
-                  className="dsh-avatar-change font-pixel"
-                  aria-label="Change avatar"
+                  className="hub-pass-avatar-btn"
+                  aria-label="Edit profile avatar"
                 >
-                  {avatarBusy ? "UPLOADING..." : "[ CHANGE AVATAR ]"}
+                  {avatarUrl ? (
+                    <img
+                      /* display-only cache-buster — stored avatar_url stays clean */
+                      src={avatarVersion ? `${avatarUrl}?v=${avatarVersion}` : avatarUrl}
+                      alt={`${name} profile avatar`}
+                      className="hub-pass-avatar-img"
+                      width={150}
+                      height={150}
+                    />
+                  ) : (
+                    <PixelAvatar seed={seed} size={150} className="hub-pass-avatar-pix" />
+                  )}
+                  <span className="hub-pass-avatar-hint font-pixel">
+                    {avatarBusy ? "UPLOADING..." : "EDIT PROFILE"}
+                  </span>
                 </button>
+              </div>
+              <AnimatePresence>
                 {avatarMsg && (
-                  <div
-                    className="dsh-avatar-msg font-pixel"
+                  <motion.div
                     role="status"
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="hub-pass-avatar-msg font-pixel"
                     style={{ color: avatarMsg.kind === "ok" ? GR : PK }}
                   >
                     {avatarMsg.text}
-                  </div>
+                  </motion.div>
                 )}
-              </div>
-            </div>
-
-            <div className="dsh-hero-info">
-              <div className="dsh-hero-breadcrumb font-pixel">
-                <span style={{ color: PK }}>FHC</span>
-                <span style={{ color: CY, opacity: 0.4, margin: "0 6px" }}>//</span>
-                <span style={{ color: CR, opacity: 0.5 }}>MEMBER TERMINAL</span>
-              </div>
-
-              <h1 className="dsh-hero-name font-pixel">
-                {name}
-              </h1>
-
-              <div className="dsh-hero-email font-mono">
-                {email}
-              </div>
-
-              <div className="dsh-hero-divider" aria-hidden="true" />
-
-              <div className="dsh-hero-meta">
-                <div className="dsh-hero-meta-row">
-                  <Led color={GR} blink size={5} />
-                  <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: GR }}>PLAYER ONLINE</span>
-                </div>
-                <div className="dsh-hero-meta-row">
-                  <Led color={YL} size={5} />
-                  <span className="font-pixel text-[6px] tracking-[0.2em]" style={{ color: YL }}>
-                    MEMBER SINCE {fmtDate(since)}
-                  </span>
-                </div>
-              </div>
-            </div>
+              </AnimatePresence>
+              <input
+                ref={avatarInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                onChange={handleAvatarChange}
+                className="hub-sr-only"
+                tabIndex={-1}
+                aria-hidden="true"
+              />
+            </motion.div>
           </div>
-        </motion.section>
 
-        {/* ═══════════════════════════════════════════════════════
-            SECTION 2 — QUICK ACCESS + ACCOUNT
-            ═══════════════════════════════════════════════════════ */}
-        <div className="dsh-grid">
-
-          <Panel tag="QUICK ACCESS" title="NAVIGATE" accent={YL} wide>
-            <div className="dsh-sectors">
-              {accessLinks.map((l) => (
-                <Link key={l.label} to={l.to} className="dsh-sector group" aria-label={`${l.label} — enter`}>
-                  <CornerBrackets color={YL} inset={0} />
-                  <div className="dsh-sector-inner">
-                    <div className="dsh-sector-label font-pixel">{l.label}</div>
-                    <div className="dsh-sector-desc font-pixel">{l.desc}</div>
-                    <div className="dsh-sector-foot">
-                      <span className="dsh-sector-enter font-pixel" style={{ color: PK }}>
-                        ENTER <span className="inline-block transition-transform group-hover:translate-x-1">▶</span>
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+          {/* footer — four printed cells */}
+          <motion.div className="hub-pass-foot" variants={partRise} aria-label="Membership status">
+            <div className="hub-pass-cell">
+              <span className="hub-pass-cell-label font-pixel">ACCOUNT STATUS</span>
+              <span className="hub-pass-cell-val font-pixel" style={{ color: GR }}>
+                <span className="hub-pass-dot" style={{ background: GR }} aria-hidden="true" />ACTIVE
+              </span>
             </div>
-          </Panel>
-
-          <Panel id="account" tag="ACCOUNT" title="CONTROL" accent={GR} wide>
-            <div className="dsh-account" style={{ maxWidth: 560 }}>
-              {editMode ? (
-                <div className="dsh-profile-edit">
-                  <div className="dsh-profile-edit-header font-pixel">
-                    <span style={{ color: CY }}>▸</span> EDITING PLAYER DATA
-                  </div>
-                  <label className="dsh-edit-label font-pixel" htmlFor="dsh-name">FULL NAME</label>
-                  <input id="dsh-name" className="dsh-edit-input font-mono" value={editName} onChange={(e) => setEditName(e.target.value)} autoFocus />
-                  <AnimatePresence>
-                    {editMsg && (
-                      <motion.div role="status" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="dsh-edit-msg font-pixel" style={{ color: editMsg.kind === "ok" ? GR : PK }}>
-                        {editMsg.text}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  <div className="dsh-edit-actions">
-                    <motion.button type="button" onClick={saveProfile} disabled={editSaving} className="dsh-btn" style={{ color: GR, borderColor: `${GR}55` }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-                      {editSaving ? "SYNCING..." : "SAVE CHANGES ✓"}
-                    </motion.button>
-                    <motion.button type="button" onClick={() => { setEditMode(false); setEditMsg(null); }} className="dsh-btn" style={{ color: CR, opacity: 0.6, borderColor: `${CR}22` }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-                      CANCEL
-                    </motion.button>
-                  </div>
-                </div>
-              ) : pwMode ? (
-                <div className="dsh-pw-form">
-                  <label className="dsh-edit-label font-pixel" htmlFor="dsh-pw1">NEW ACCESS CODE</label>
-                  <input id="dsh-pw1" type="password" className="dsh-edit-input font-mono" value={pw1} onChange={(e) => setPw1(e.target.value)} />
-                  <label className="dsh-edit-label font-pixel" htmlFor="dsh-pw2">CONFIRM NEW CODE</label>
-                  <input id="dsh-pw2" type="password" className="dsh-edit-input font-mono" value={pw2} onChange={(e) => setPw2(e.target.value)} />
-                  <AnimatePresence>
-                    {pwMsg && (
-                      <motion.div role="status" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="dsh-edit-msg font-pixel" style={{ color: pwMsg.kind === "ok" ? GR : PK }}>
-                        {pwMsg.text}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  <div className="dsh-edit-actions">
-                    <motion.button type="button" onClick={savePassword} disabled={pwSaving} className="dsh-btn" style={{ color: GR, borderColor: `${GR}55` }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-                      {pwSaving ? "ENCRYPTING..." : "REINITIALIZE ✓"}
-                    </motion.button>
-                    <motion.button type="button" onClick={() => { setPwMode(false); setPwMsg(null); }} className="dsh-btn" style={{ color: CR, opacity: 0.6, borderColor: `${CR}22` }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-                      CANCEL
-                    </motion.button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="dsh-account-status">
-                    <SecRow label="ACCOUNT STATUS" value="ACTIVE" accent={GR} />
-                    <SecRow label="MEMBERSHIP" value="ACTIVE" accent={GR} />
-                    <SecRow label="ACCESS LEVEL" value="MEMBER" accent={YL} />
-                    <SecRow label="MEMBER SINCE" value={fmtDate(since)} accent={CY} />
-                  </div>
-                  <div className="dsh-account-actions">
-                    <motion.button
-                      type="button"
-                      onClick={() => { setEditName(name); setEditMsg(null); setEditMode(true); }}
-                      className="dsh-btn dsh-btn--accent dsh-btn-edit"
-                      style={{ color: PK }}
-                      whileHover={{ y: -1 }}
-                      whileTap={{ y: 1 }}
-                    >
-                      <span className="dsh-edit-swap-a">[ EDIT PROFILE ]</span>
-                      <span className="dsh-edit-swap-b">{">"} ACCESS PROFILE EDITOR</span>
-                    </motion.button>
-                    <motion.button type="button" onClick={() => setPwMode(true)} className="dsh-btn dsh-btn--full" style={{ color: CY, borderColor: `${CY}44` }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-                      [ CHANGE ACCESS CODE ]
-                    </motion.button>
-                    <motion.button type="button" onClick={doLogout} className="dsh-btn dsh-btn--full dsh-btn--danger" style={{ color: PK, borderColor: `${PK}44` }} whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-                      [ LOG OUT ]
-                    </motion.button>
-                  </div>
-                </>
-              )}
+            <div className="hub-pass-cell">
+              <span className="hub-pass-cell-label font-pixel">MEMBERSHIP</span>
+              <span className="hub-pass-cell-val font-pixel" style={{ color: GR }}>
+                <span className="hub-pass-dot" style={{ background: GR }} aria-hidden="true" />ACTIVE
+              </span>
             </div>
-          </Panel>
+            <div className="hub-pass-cell">
+              <span className="hub-pass-cell-label font-pixel">ACCESS LEVEL</span>
+              <span className="hub-pass-cell-val font-pixel" style={{ color: YL }}>{accessLevel}</span>
+            </div>
+            <div className="hub-pass-cell">
+              <span className="hub-pass-cell-label font-pixel">MEMBER SINCE</span>
+              <span className="hub-pass-cell-val font-pixel" style={{ color: CY }}>{fmtDate(since)}</span>
+            </div>
+          </motion.div>
+
+          {/* micro print strip */}
+          <div className="hub-pass-micro" aria-hidden="true">
+            <span>FHC // FISAT HORIZON CLUB OFFICIAL MEMBER IDENTITY · NOT FOR RESALE</span>
+            <span>ISSUED BY THE FHC ARCADE — CARRY THIS PASS WITH YOUR CREDENTIALS</span>
+          </div>
         </div>
 
-        {/* ═══════════════════════════════════════════════════════
-            SECTION 3 — CONSOLE FOOTER
-            ═══════════════════════════════════════════════════════ */}
-        <div className="dsh-footer">
-          <span className="dsh-footer-item">
-            <Led color={GR} size={4} />
-          </span>
-          <span className="dsh-footer-item font-pixel" style={{ color: CY, opacity: 0.5 }}>FHC // MEMBER TERMINAL</span>
-          <span className="dsh-footer-item font-pixel" style={{ color: PK, opacity: 0.4 }}>INTERNAL NETWORK</span>
+        {/* perforated tear line */}
+        <div className="hub-pass-perf" aria-hidden="true">
+          <span className="hub-pass-perf-y" />
         </div>
+
+        {/* detachable stub */}
+        <motion.div className="hub-pass-stub" variants={stubSettle} aria-hidden="true">
+          <div className="hub-pass-stub-crest">
+            <span className="hub-pass-stub-crest-ic" aria-hidden="true">
+              <PixelIcon rows={FHC_MARK_ART} color={INK} size={30} />
+            </span>
+            <span className="hub-pass-stub-crest-txt font-pixel">HORIZON CLUB</span>
+          </div>
+          <div className="hub-pass-stub-barcode" />
+          <span className="hub-pass-stub-note font-pixel">★ PASS</span>
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ARCADE SELECT — the FHC arcade terminal. A central CRT hub
+   connected to the four destinations by pixel route lines.
+   ═══════════════════════════════════════════════════════════ */
+
+function ArcadeBoard() {
+  const [hot, setHot] = useState(null);
+
+  return (
+    <div className="hub-board" data-hot={hot ?? ""} onMouseLeave={() => setHot(null)}>
+      {/* route overlay — hover lights the matching line */}
+      <svg className="hub-routes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        {WORLD.map((d) => (
+          <g key={d.key} className={`hub-route hub-route--${d.key}`}>
+            <line className="hub-route-line" x1={d.route.x1} y1={d.route.y1} x2={d.route.x2} y2={d.route.y2} />
+            <circle className="hub-route-node" cx={d.route.x1} cy={d.route.y1} r="1.6" />
+            <circle className="hub-route-node hub-route-node--g" cx={d.route.x2} cy={d.route.y2} r="1.2" />
+            <path className="hub-route-tip" d={d.tip} />
+          </g>
+        ))}
+      </svg>
+
+      <motion.div className="hub-board-grid" initial="hidden" whileInView="show" viewport={{ once: true, margin: "-64px" }} variants={viewStagger}>
+        <ArcadeHub hot={hot} />
+
+        {WORLD.map((d) => (
+          <ArcadeModule key={d.key} d={d} setHot={setHot} />
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+function ArcadeHub({ hot }) {
+  const dest = hot ? WORLD.find((d) => d.key === hot) : null;
+
+  return (
+    <div className="hub-hub" role="status" aria-live="polite">
+      <div className="hub-hub-crt" aria-hidden="true" />
+      <div className="hub-hub-frame">
+        <div className="hub-hub-base" aria-hidden="true" />
+        <AnimatePresence mode="wait">
+          {dest ? (
+            <motion.div className="hub-hub-screen" key={dest.key} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.18 }}>
+              <span className="hub-hub-screen-num font-pixel" style={{ color: dest.accent }}>{dest.num} // {dest.cat}</span>
+              <span className="hub-hub-screen-label font-pixel" style={{ color: dest.accent }}>{dest.label}</span>
+              <span className="hub-hub-screen-sub">{dest.sub}</span>
+              <span className="hub-hub-cue font-pixel">
+                <span className="hub-hub-cue-dot" style={{ background: dest.accent }} aria-hidden="true" />PRESS TO ENTER
+              </span>
+            </motion.div>
+          ) : (
+            <motion.div className="hub-hub-screen hub-hub-screen--idle" key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.18 }}>
+              <span className="hub-hub-screen-mark" aria-hidden="true">
+                <PixelIcon rows={FHC_MARK_ART} color={CY} size={30} />
+              </span>
+              <span className="hub-hub-screen-title font-pixel">FHC HORIZON HUB</span>
+              <span className="hub-hub-screen-sub">SELECT DESTINATION</span>
+              <span className="hub-hub-cue font-pixel">
+                <span className="hub-hub-cue-dot" aria-hidden="true" />INSERT COIN — PICK YOUR PATH
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
+    </div>
+  );
+}
+
+function ArcadeModule({ d, setHot }) {
+  return (
+    <MotionLink
+      to={d.to}
+      variants={rise}
+      style={{ "--hub-a": d.accent, gridArea: d.key.toLowerCase() }}
+      className="hub-mod"
+      onMouseEnter={() => setHot(d.key)}
+      onFocus={() => setHot(d.key)}
+      onBlur={() => setHot(null)}
+      whileHover={{ y: -3 }}
+      whileTap={{ y: 0 }}
+      aria-label={`${d.label} — enter`}
+    >
+      <span className="hub-mod-num font-pixel" aria-hidden="true">{d.num}</span>
+      <span className="hub-mod-ic" aria-hidden="true">
+        <PixelIcon rows={d.art} color={d.accent} size={26} />
+      </span>
+      <span className="hub-mod-txt">
+        <span className="hub-mod-kicker font-pixel" style={{ color: d.accent }}>{d.cat}</span>
+        <span className="hub-mod-label font-pixel">{d.label}</span>
+        <span className="hub-mod-sub">{d.sub}</span>
+      </span>
+      <span className="hub-mod-enter font-pixel">
+        ENTER <span className="hub-enter-arrow" aria-hidden="true">→</span>
+      </span>
+      <span className="hub-mod-spark hub-mod-spark--1" aria-hidden="true" />
+      <span className="hub-mod-spark hub-mod-spark--2" aria-hidden="true" />
+      <span className="hub-mod-spark hub-mod-spark--3" aria-hidden="true" />
+      <span className="hub-mod-spark hub-mod-spark--4" aria-hidden="true" />
+    </MotionLink>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PLAYER LOADOUT — compact character-select footer
+   ═══════════════════════════════════════════════════════════ */
+
+function PlayerLoadout({ name, email, seed, avatarUrl, avatarVersion, accessLevel, since }) {
+  return (
+    <div className="hub-loadout" aria-label="Player loadout summary">
+      <div className="hub-loadout-frame">
+        {avatarUrl ? (
+          <img
+            src={avatarVersion ? `${avatarUrl}?v=${avatarVersion}` : avatarUrl}
+            alt=""
+            width={52}
+            height={52}
+            className="hub-loadout-port-img"
+          />
+        ) : (
+          <PixelAvatar seed={seed} size={52} className="hub-loadout-port-pix" />
+        )}
+      </div>
+
+      <div className="hub-loadout-id">
+        <span className="hub-loadout-k font-pixel">PLAYER</span>
+        <span className="hub-loadout-name font-pixel" title={name}>{name}</span>
+        {email && <span className="hub-loadout-mail">{email}</span>}
+      </div>
+
+      <div className="hub-loadout-cell">
+        <span className="hub-loadout-k font-pixel">MEMBERSHIP</span>
+        <span className="hub-loadout-v font-pixel" style={{ color: GR }}>ACTIVE</span>
+      </div>
+
+      <div className="hub-loadout-cell">
+        <span className="hub-loadout-k font-pixel">ACCESS</span>
+        <span className="hub-loadout-v font-pixel" style={{ color: YL }}>{accessLevel}</span>
+      </div>
+
+      <div className="hub-loadout-cell">
+        <span className="hub-loadout-k font-pixel">SINCE</span>
+        <span className="hub-loadout-v hub-loadout-v--thick font-pixel" style={{ color: CY }}>{fmtDate(since)}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PLAYER CONTROLS — the arcade control panel
+   ═══════════════════════════════════════════════════════════ */
+
+function PlayerControls({ openEdit, openAccessCode, doLogout }) {
+  return (
+    <div className="hub-ctl">
+      <button type="button" onClick={openEdit} className="hub-ctl-row" style={{ "--hub-a": PK }}>
+        <span className="hub-ctl-ic" aria-hidden="true">
+          <PixelIcon rows={[
+            ".####.",
+            "#....#",
+            "#.#..#",
+            ".#..#.",
+            "..##..",
+            "#....#",
+          ]} color={PK} size={26} />
+        </span>
+        <span className="hub-ctl-txt">
+          <span className="hub-ctl-label font-pixel">EDIT PROFILE</span>
+          <span className="hub-ctl-desc">Update your player identity</span>
+        </span>
+        <span className="hub-ctl-cue font-pixel">SELECT</span>
+        <span className="hub-ctl-arrow font-pixel" aria-hidden="true">→</span>
+      </button>
+
+      <button type="button" onClick={openAccessCode} className="hub-ctl-row" style={{ "--hub-a": CY }}>
+        <span className="hub-ctl-ic" aria-hidden="true">
+          <PixelIcon rows={[
+            "..####..",
+            ".#....#.",
+            ".#.##.#.",
+            ".#.##.#.",
+            ".#....#.",
+            "..####..",
+          ]} color={CY} size={26} />
+        </span>
+        <span className="hub-ctl-txt">
+          <span className="hub-ctl-label font-pixel">CHANGE ACCESS CODE</span>
+          <span className="hub-ctl-desc">Manage account security</span>
+        </span>
+        <span className="hub-ctl-cue font-pixel">SELECT</span>
+        <span className="hub-ctl-arrow font-pixel" aria-hidden="true">→</span>
+      </button>
+
+      <button type="button" onClick={doLogout} className="hub-ctl-row hub-ctl-row--exit" style={{ "--hub-a": CR }}>
+        <span className="hub-ctl-ic" aria-hidden="true">
+          <PixelIcon rows={[
+            "........",
+            "...##...",
+            "...#....",
+            ".#####..",
+            "...#....",
+            "...##...",
+            "........",
+            ".######.",
+          ]} color={PK} size={26} />
+        </span>
+        <span className="hub-ctl-txt">
+          <span className="hub-ctl-label font-pixel">EXIT HUB — LOG OUT</span>
+          <span className="hub-ctl-desc">Power down and leave the arcade</span>
+        </span>
+        <span className="hub-ctl-cue font-pixel">EXIT</span>
+        <span className="hub-ctl-arrow font-pixel" aria-hidden="true">↗</span>
+      </button>
     </div>
   );
 }

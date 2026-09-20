@@ -62,7 +62,8 @@ export default function PlayerCard({ member, index, onOpen }) {
           </div>
 
           <div className="arena-card-open mt-3 flex items-center gap-2 font-pixel text-[7px] tracking-[0.18em] text-[#1ED7E8]/0">
-            <span>ACCESS DOSSIER</span>
+            <span className="hidden md:inline">ACCESS DOSSIER</span>
+            <span className="md:hidden">VIEW DOSSIER</span>
             <span aria-hidden="true">-&gt;</span>
           </div>
         </div>

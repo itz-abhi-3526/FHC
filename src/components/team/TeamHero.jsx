@@ -62,7 +62,7 @@ export default function TeamHero({ state, teams, total }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: EASE }}
             >
-              <p className="font-pixel text-[8px] sm:text-[9px] text-[#FF1687]/75 tracking-[0.28em] mb-5">
+              <p className="arena-hero-eyebrow font-pixel text-[8px] sm:text-[9px] text-[#FF1687]/75 tracking-[0.28em] mb-5">
                 /// FHC NETWORK - PLAYER DIRECTORY
               </p>
 
@@ -82,9 +82,9 @@ export default function TeamHero({ state, teams, total }) {
                 </span>
               </h1>
 
-              <div className="h-px w-full max-w-[440px] my-5 md:my-7 bg-gradient-to-r from-[#FF1687]/50 via-[#FF1687]/12 to-transparent" />
+              <div className="arena-hero-divider h-px w-full max-w-[440px] my-5 md:my-7 bg-gradient-to-r from-[#FF1687]/50 via-[#FF1687]/12 to-transparent" />
 
-              <p className="text-base sm:text-lg md:text-2xl text-[#FFF7E5]/70 font-mono leading-relaxed max-w-[540px]">
+              <p className="arena-hero-tagline text-base sm:text-lg md:text-2xl text-[#FFF7E5]/70 font-mono leading-relaxed max-w-[540px]">
                 MEET THE OPERATORS OF THE FHC NETWORK.
                 <br />
                 <span className="text-[#FFF7E5]/40">
@@ -95,7 +95,7 @@ export default function TeamHero({ state, teams, total }) {
 
             {/* Telemetry chips */}
             <motion.div
-              className="mt-5 sm:mt-6 md:mt-8 flex flex-wrap items-center gap-2 md:gap-3"
+              className="arena-hero-chips mt-5 sm:mt-6 md:mt-8 flex flex-wrap items-center gap-2 md:gap-3"
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
@@ -126,10 +126,20 @@ export default function TeamHero({ state, teams, total }) {
               <Brackets size={12} color="#FF1687" />
               <ScanOverlay />
               <div className="arena-roster-head flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-3 border-b border-[#00E5FF]/12">
-                <span className="font-pixel text-[7px] tracking-[0.2em] text-[#1ED7E8]/75">
+                <span className="hidden md:inline font-pixel text-[7px] tracking-[0.2em] text-[#1ED7E8]/75">
                   FHC_PLAYER_ROSTER
                 </span>
-                <span className="font-pixel text-[6px] text-[#FFF7E5]/25">v2.0</span>
+                <span className="md:hidden font-pixel text-[7px] tracking-[0.2em] text-[#36D65A]/85">
+                  FHC_PLAYER_REGISTRY
+                </span>
+                <span className="hidden md:inline font-pixel text-[6px] text-[#FFF7E5]/25">v2.0</span>
+                <span
+                  className="md:hidden flex items-center gap-2 font-pixel text-[7px] tracking-[0.18em]"
+                  style={{ color: status.tone }}
+                >
+                  <Led color={status.tone} size={5} />
+                  {loaded ? `ONLINE ${total}` : status.label}
+                </span>
               </div>
 
               <div className="px-3 py-2.5 sm:px-4 sm:py-4 font-mono text-base sm:text-lg leading-[1.65] sm:leading-[1.9]">

@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 @theme {
   --color-ink: #08090B;
@@ -31,7 +31,7 @@
   --font-pixel: "Press Start 2P", monospace;
   --font-mono: "VT323", monospace;
 
-  /* Navbar geometry â€” used by page heroes to clear the FHC plaque
+  /* Navbar geometry Ã¢â‚¬â€ used by page heroes to clear the FHC plaque
      that hangs below the pink bar (bar 108px + badge overhang 65px). */
   --fhc-navbar-height: 108px;
   --fhc-badge-bleed: 65px;
@@ -124,7 +124,7 @@ canvas {
 /* Background image (src/assets/FHC.png) is applied as a CSS background layer
    on .hero-sky-bg via JS-injected inline style so Vite bundles the asset. */
 
-/* Responsive hero background â€” desktop/laptop/tablet keep the wide
+/* Responsive hero background Ã¢â‚¬â€ desktop/laptop/tablet keep the wide
    FHC.png (inline style above, untouched). On phones (<768px) switch to
    the vertical FHC 1.png composition. This rule ONLY activates in its
    media block; the `!important` is what lets it override the inline
@@ -605,7 +605,7 @@ canvas {
 }
 
 /* Desktop: nudge the left text column down so it starts clear of the
-   FHC plaque hanging off the navbar. Content-only â€” the art column,
+   FHC plaque hanging off the navbar. Content-only Ã¢â‚¬â€ the art column,
    sky, clouds and grass strip stay anchored. */
 @media (min-width: 901px) {
   .hero-text-col {
@@ -665,7 +665,7 @@ canvas {
 
   /* Shared mobile hero breathing for page hero sections (About/Team/Gallery):
      gives the main content block intentional top spacing below the header
-     and logo plaque. Content-only Ã¢â‚¬â€ decorative/background layers (grass,
+     and logo plaque. Content-only ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â decorative/background layers (grass,
      clouds, scanlines, twinkles, grids) are absolutely positioned and stay
      anchored to their sections, so they are not pushed down with the text.
      Desktop (> 767px) is unaffected. */
@@ -699,7 +699,7 @@ canvas {
 }
 
 @media (max-width: 767px) and (max-height: 780px) {
-  /* System log panel is secondary Ã¢â‚¬â€ collapse it on short screens so the
+  /* System log panel is secondary ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â collapse it on short screens so the
      main content fits comfortably without clipping. */
   .splash-terminal {
     display: none;
@@ -742,7 +742,7 @@ canvas {
 }
 
 /* ============================================
-   JOIN PAGE Ã¢â‚¬â€ ARCADE PIXEL UTILITIES
+   JOIN PAGE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ARCADE PIXEL UTILITIES
    ============================================ */
 
 .pixel-corners {
@@ -782,10 +782,10 @@ canvas {
 }
 
 /* ============================================
-   ARCADE PRESS-START SCREEN Ã¢â‚¬â€ Level-up CTA
+   ARCADE PRESS-START SCREEN ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Level-up CTA
    ============================================ */
 
-/* Heading cursor blink Ã¢â‚¬â€ FHC pink */
+/* Heading cursor blink ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â FHC pink */
 @keyframes arcade-cursor {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -822,7 +822,7 @@ canvas {
   animation: heart-pulse 2.4s ease-in-out infinite;
 }
 
-/* CRT scanlines Ã¢â‚¬â€ deep blue panel */
+/* CRT scanlines ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â deep blue panel */
 .arcade-panel-scanlines {
   pointer-events: none;
   position: absolute;
@@ -837,7 +837,7 @@ canvas {
   );
 }
 
-/* Pixel grid Ã¢â‚¬â€ barely visible up close */
+/* Pixel grid ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â barely visible up close */
 .arcade-panel-grid {
   pointer-events: none;
   position: absolute;
@@ -849,7 +849,7 @@ canvas {
   background-size: 8px 8px;
 }
 
-/* Button hover CRT flicker Ã¢â‚¬â€ extremely restrained */
+/* Button hover CRT flicker ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â extremely restrained */
 @keyframes btn-flicker {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.92; }
@@ -859,7 +859,7 @@ canvas {
 }
 
 /* ============================================
-   ARCADE PLAYER TERMINAL Ã¢â‚¬â€ Hero v2
+   ARCADE PLAYER TERMINAL ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hero v2
    ============================================ */
 
 /* CRT scanline sweep */
@@ -942,9 +942,9 @@ canvas {
   50% { opacity: 0.45; }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Hero structural CSS Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Hero structural CSS ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 
-/* CRT scanlines layer Ã¢â‚¬â€ 2px line + 2px gap, Ã¢â€°Â¤2% opacity */
+/* CRT scanlines layer ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 2px line + 2px gap, ÃƒÂ¢Ã¢â‚¬Â°Ã‚Â¤2% opacity */
 .term-scanlines {
   pointer-events: none;
   position: absolute;
@@ -959,7 +959,7 @@ canvas {
   );
 }
 
-/* Technical pixel grid Ã¢â‚¬â€ 32px spacing, 3% opacity */
+/* Technical pixel grid ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 32px spacing, 3% opacity */
 .term-grid {
   pointer-events: none;
   position: absolute;
@@ -1006,7 +1006,7 @@ canvas {
   background: repeating-linear-gradient(to bottom, rgba(0,229,255,0.015) 0px, rgba(0,229,255,0.015) 1px, transparent 1px, transparent 5px);
 }
 
-/* Heart viewport Ã¢â‚¬â€ 140x140 with corner brackets */
+/* Heart viewport ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 140x140 with corner brackets */
 .term-viewport {
   position: relative;
   width: 140px;
@@ -1023,7 +1023,7 @@ canvas {
   pointer-events: none;
 }
 
-/* Halftone dot field Ã¢â‚¬â€ magenta dots behind robot */
+/* Halftone dot field ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â magenta dots behind robot */
 .term-halftone {
   pointer-events: none;
   position: absolute;
@@ -1045,7 +1045,7 @@ canvas {
   letter-spacing: 1px;
 }
 
-/* HUD corner bracket Ã¢â‚¬â€ reusable L-shape */
+/* HUD corner bracket ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â reusable L-shape */
 .term-bracket {
   position: absolute;
   pointer-events: none;
@@ -1089,10 +1089,10 @@ canvas {
 }
 
 /* ============================================
-   FHC ARCADE Ã¢â‚¬â€ ABOUT PAGE EXPERIENCE
+   FHC ARCADE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ABOUT PAGE EXPERIENCE
    ============================================ */
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Cursor blink Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Cursor blink ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes arcade-blink-kf {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -1102,7 +1102,7 @@ canvas {
   color: #1ED7E8;
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ LED pulse Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ LED pulse ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes arcade-led-kf {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0.2; }
@@ -1111,7 +1111,7 @@ canvas {
   animation: arcade-led-kf 1.2s steps(1) infinite;
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Robot float Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Robot float ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes arcade-float-kf {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
@@ -1120,7 +1120,7 @@ canvas {
   animation: arcade-float-kf 4s ease-in-out infinite;
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Heart pulse Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Heart pulse ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes arcade-heart-kf {
   0%, 65% { transform: scale(1); }
   72% { transform: scale(1.15); }
@@ -1132,7 +1132,7 @@ canvas {
   animation: arcade-heart-kf 2.5s ease-in-out infinite;
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Telemetry flicker Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Telemetry flicker ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes arcade-telemetry-kf {
   0%, 88%, 100% { opacity: 1; }
   89% { opacity: 0.5; }
@@ -1143,25 +1143,25 @@ canvas {
   animation: arcade-telemetry-kf 6s ease-in-out infinite;
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Ring spin Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Ring spin ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes arcade-spin {
   0% { transform: translate(-50%, -50%) rotate(0deg); }
   100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Signal sweep bar Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Signal sweep bar ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes arcade-sweep {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(400%); }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Reusable sweep alias Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Reusable sweep alias ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes sweep {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(400%); }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Telemetry flicker Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Telemetry flicker ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes flicker {
   0%, 88%, 100% { opacity: 1; }
   89% { opacity: 0.5; }
@@ -1169,40 +1169,40 @@ canvas {
   93% { opacity: 0.4; }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Standard spin Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Standard spin ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ CRT sweep Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ CRT sweep ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes arcade-crt-sweep {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(500%); }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ CTA button Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ CTA button ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 .arcade-cta {
   clip-path: polygon(0 6px, 6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px));
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Zone base Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Zone base ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 .arcade-zone {
   position: relative;
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Canvas container Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Canvas container ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 .arcade-canvas-wrap canvas {
   display: block;
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Arcade viewport sweep Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Arcade viewport sweep ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @keyframes arcade-viewport-sweep {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(600%); }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Reduced motion Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Reduced motion ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @media (prefers-reduced-motion: reduce) {
   .arcade-blink,
   .arcade-led,
@@ -1228,7 +1228,7 @@ canvas {
   }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ Mobile: dim WebGL Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Mobile: dim WebGL ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
 @media (max-width: 768px) {
   .arcade-canvas-wrap {
     opacity: 0.25;
@@ -1236,7 +1236,7 @@ canvas {
 }
 
 /* ============================================
-   JOIN PAGE Ã¢â‚¬â€ HORIZON CORE + BUTTON INTERACTIONS
+   JOIN PAGE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â HORIZON CORE + BUTTON INTERACTIONS
    ============================================ */
 
 /* CREATE PLAYER button hover scanline sweep */
@@ -1252,7 +1252,7 @@ canvas {
   }
 }
 
-/* Core canvas on mobile Ã¢â‚¬â€ ensure it doesn't overflow */
+/* Core canvas on mobile ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ensure it doesn't overflow */
 @media (max-width: 768px) {
   .horizon-core-viewport canvas {
     max-width: 100% !important;
@@ -1260,7 +1260,7 @@ canvas {
 }
 
 /* ============================================
-   JOIN PAGE Ã¢â‚¬â€ TERMINAL INPUT ENHANCEMENTS
+   JOIN PAGE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â TERMINAL INPUT ENHANCEMENTS
    ============================================ */
 
 /* Terminal input focus states */
@@ -1326,7 +1326,7 @@ canvas {
 }
 
 /* ============================================
-   COMING SOON PAGE Ã¢â‚¬â€ CINEMATIC ARCADE
+   COMING SOON PAGE ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â CINEMATIC ARCADE
    ============================================ */
 
 /* CRT scan sweep across viewport */
@@ -1353,7 +1353,7 @@ canvas {
   50% { transform: translateY(-8px); opacity: 0.4; }
 }
 
-/* Film grain overlay Ã¢â‚¬â€ subtle noise texture */
+/* Film grain overlay ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â subtle noise texture */
 .cs-film-grain {
   position: fixed;
   inset: 0;
@@ -1375,7 +1375,7 @@ canvas {
   100% { transform: translate(0, 0); }
 }
 
-/* CRT scanlines overlay Ã¢â‚¬â€ very subtle */
+/* CRT scanlines overlay ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â very subtle */
 .cs-crt-overlay {
   position: fixed;
   inset: 0;
@@ -1408,11 +1408,11 @@ canvas {
 
 
 /* ============================================
-   AUTH PAGE â€” FHC // HORIZON NETWORK
-   MEMBER ACCESS TERMINAL â€” ARCADE EDITION
+   AUTH PAGE Ã¢â‚¬â€ FHC // HORIZON NETWORK
+   MEMBER ACCESS TERMINAL Ã¢â‚¬â€ ARCADE EDITION
    ============================================ */
 
-/* â€” Keyframes â€” */
+/* Ã¢â‚¬â€ Keyframes Ã¢â‚¬â€ */
 @keyframes auth-led-kf {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0.2; }
@@ -1474,7 +1474,7 @@ canvas {
   animation-duration: 1s;
 }
 
-/* â€” Root environment â€” */
+/* Ã¢â‚¬â€ Root environment Ã¢â‚¬â€ */
 .auth-root {
   position: relative;
   min-height: 100dvh;
@@ -1487,7 +1487,7 @@ canvas {
   align-items: center;
 }
 
-/* â€” Background layers â€” */
+/* Ã¢â‚¬â€ Background layers Ã¢â‚¬â€ */
 .auth-bg {
   position: fixed;
   inset: 0;
@@ -1577,7 +1577,7 @@ canvas {
   animation: auth-scan-sweep 9s linear infinite;
 }
 
-/* â€” Corner telemetry â€” */
+/* Ã¢â‚¬â€ Corner telemetry Ã¢â‚¬â€ */
 .auth-corner-tele {
   position: absolute;
   top: clamp(18px, 4vmin, 34px);
@@ -1593,7 +1593,7 @@ canvas {
   .auth-corner-tele { display: flex; }
 }
 
-/* â€” Return link â€” */
+/* Ã¢â‚¬â€ Return link Ã¢â‚¬â€ */
 .auth-return {
   position: absolute;
   top: max(clamp(16px, 3vmin, 26px), env(safe-area-inset-top));
@@ -1638,7 +1638,7 @@ canvas {
   align-items: center;
 }
 
-/* â€” Environment header â€” */
+/* Ã¢â‚¬â€ Environment header Ã¢â‚¬â€ */
 .auth-env-head {
   position: relative;
   z-index: 5;
@@ -1672,7 +1672,7 @@ canvas {
   align-items: center;
 }
 
-/* â€” Shell (two-zone with connector) â€” */
+/* Ã¢â‚¬â€ Shell (two-zone with connector) Ã¢â‚¬â€ */
 .auth-shell {
   position: relative;
   z-index: 5;
@@ -1726,7 +1726,7 @@ canvas {
   animation: auth-connector-pulse 2s ease-in-out infinite;
 }
 
-/* â•â•â• TERMINAL FRAME â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â TERMINAL FRAME Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .auth-terminal-frame {
   position: relative;
   background: linear-gradient(180deg, #05080F 0%, #04060C 100%);
@@ -1884,7 +1884,7 @@ canvas {
   .auth-statusstrip-hide { display: none; }
 }
 
-/* â•â•â• AUTH TABS â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â AUTH TABS Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .auth-module {
   position: relative;
   margin: 18px 0 22px;
@@ -1983,7 +1983,7 @@ canvas {
   letter-spacing: 0.14em;
 }
 
-/* â•â•â• FORM / FIELDS â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â FORM / FIELDS Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .auth-form {
   display: block;
 }
@@ -2213,7 +2213,7 @@ canvas {
 }
 .auth-forgot:hover { color: #00E5FF; }
 
-/* â€” Signup sections â€” */
+/* Ã¢â‚¬â€ Signup sections Ã¢â‚¬â€ */
 .auth-signup {
   display: flex;
   flex-direction: column;
@@ -2239,12 +2239,12 @@ canvas {
   background: linear-gradient(90deg, rgba(0, 229, 255, 0.25), transparent);
 }
 
-/* â€” CTA zone â€” */
+/* Ã¢â‚¬â€ CTA zone Ã¢â‚¬â€ */
 .auth-cta-zone {
   margin-top: clamp(18px, 3vmin, 26px);
 }
 
-/* â€” Primary button â€” */
+/* Ã¢â‚¬â€ Primary button Ã¢â‚¬â€ */
 .auth-pbtn {
   position: relative;
   display: block;
@@ -2399,7 +2399,7 @@ canvas {
   color: #FF1687;
 }
 
-/* â•â•â• SYSTEM MESSAGE â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â SYSTEM MESSAGE Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .auth-msg {
   position: relative;
   border: 1px solid;
@@ -2426,7 +2426,7 @@ canvas {
   padding-left: 26px;
 }
 
-/* â•â•â• PROCESS STATE â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â PROCESS STATE Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .auth-process {
   display: flex;
   flex-direction: column;
@@ -2472,7 +2472,7 @@ canvas {
   animation: auth-led-kf 0.6s ease-in-out infinite;
 }
 
-/* â•â•â• NETWORK MODULE â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â NETWORK MODULE Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .auth-network {
   position: relative;
   width: 100%;
@@ -2599,7 +2599,7 @@ canvas {
   animation: auth-led-kf 3s ease-in-out infinite;
 }
 
-/* â€” Mobile network strip â€” */
+/* Ã¢â‚¬â€ Mobile network strip Ã¢â‚¬â€ */
 .auth-network-strip {
   display: flex;
   align-items: center;
@@ -2623,7 +2623,7 @@ canvas {
   letter-spacing: 0.1em;
 }
 
-/* â€” ENV FOOT â€” */
+/* Ã¢â‚¬â€ ENV FOOT Ã¢â‚¬â€ */
 .auth-env-foot {
   position: relative;
   z-index: 5;
@@ -2643,7 +2643,7 @@ canvas {
   animation: auth-led-kf 3s ease-in-out infinite;
 }
 
-/* â€” BOOT SEQUENCE â€” */
+/* Ã¢â‚¬â€ BOOT SEQUENCE Ã¢â‚¬â€ */
 .auth-boot {
   position: relative;
   z-index: 10;
@@ -2691,7 +2691,7 @@ canvas {
   transition: all 0.35s ease-out;
 }
 
-/* â€” ENTRANCE â€” */
+/* Ã¢â‚¬â€ ENTRANCE Ã¢â‚¬â€ */
 .auth-stage {
   width: 100%;
   display: flex;
@@ -2699,7 +2699,7 @@ canvas {
   align-items: center;
 }
 
-/* â€” RESPONSIVE â€” */
+/* Ã¢â‚¬â€ RESPONSIVE Ã¢â‚¬â€ */
 @media (min-width: 1440px) {
   .auth-shell { max-width: 1260px; }
 }
@@ -2757,7 +2757,7 @@ canvas {
   .auth-terminal-body { padding: 16px 22px; }
 }
 
-/* â€” REDUCED MOTION â€” */
+/* Ã¢â‚¬â€ REDUCED MOTION Ã¢â‚¬â€ */
 @media (prefers-reduced-motion: reduce) {
   .auth-root::after,
   .auth-bg-noise,
@@ -2790,10 +2790,10 @@ canvas {
   }
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   FHC ARCADE // AUTHENTICATION TERMINAL â€” CABINET REDESIGN
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+   FHC ARCADE // AUTHENTICATION TERMINAL Ã¢â‚¬â€ CABINET REDESIGN
    A physical arcade machine waiting for an existing member.
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 
 @keyframes auth-cab-sweep {
   0% { transform: translateY(-120%); }
@@ -2804,7 +2804,7 @@ canvas {
   100% { transform: translateX(50%); }
 }
 
-/* â€” top arcade marquee header â€” */
+/* Ã¢â‚¬â€ top arcade marquee header Ã¢â‚¬â€ */
 .auth-marquee {
   position: relative;
   z-index: 5;
@@ -2846,7 +2846,7 @@ canvas {
   font-size: 6px;
 }
 
-/* â€” shell / two-zone layout â€” */
+/* Ã¢â‚¬â€ shell / two-zone layout Ã¢â‚¬â€ */
 .auth-shell {
   position: relative;
   z-index: 5;
@@ -2868,7 +2868,7 @@ canvas {
   width: 100%;
 }
 
-/* â•â•â• ARCADE CABINET â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â ARCADE CABINET Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .cab-marquee {
   position: relative;
   height: clamp(40px, 7vh, 56px);
@@ -2913,7 +2913,7 @@ canvas {
   animation: auth-marquee-move 4s ease-in-out infinite;
 }
 
-/* â€” CRT bezel â€” */
+/* Ã¢â‚¬â€ CRT bezel Ã¢â‚¬â€ */
 .cab-bezel {
   position: relative;
   background: #0a0c14;
@@ -2954,7 +2954,7 @@ canvas {
   animation: auth-cab-sweep 8s linear infinite;
 }
 
-/* CRT mode-swap sweep â€” vertical band that flashes across the tube on signup/login toggle */
+/* CRT mode-swap sweep Ã¢â‚¬â€ vertical band that flashes across the tube on signup/login toggle */
 .cab-mode-sweep {
   position: absolute;
   top: 0;
@@ -3031,7 +3031,7 @@ canvas {
   flex: none;
 }
 
-/* â€” control deck â€” */
+/* Ã¢â‚¬â€ control deck Ã¢â‚¬â€ */
 .cab-deck {
   position: relative;
   background: linear-gradient(180deg, #0a0c14 0%, #07090f 100%);
@@ -3068,7 +3068,7 @@ canvas {
   letter-spacing: 0.18em;
 }
 
-/* â•â•â• PRESS START â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â PRESS START Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .ps-screen {
   position: relative;
   width: 100%;
@@ -3156,7 +3156,7 @@ canvas {
   opacity: 0.7;
 }
 
-/* â•â•â• ARCADE START BUTTON â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â ARCADE START BUTTON Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .arcade-start-btn {
   position: relative;
   width: 100%;
@@ -3239,7 +3239,7 @@ canvas {
   .arcade-start-status { display: none; }
 }
 
-/* â•â•â• LOGIN SCREEN â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â LOGIN SCREEN Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .login-head {
   position: relative;
 }
@@ -3284,7 +3284,7 @@ canvas {
   transform: rotate(45deg);
 }
 
-/* â€” arcade CONNECT button (primary CTA) â€” */
+/* Ã¢â‚¬â€ arcade CONNECT button (primary CTA) Ã¢â‚¬â€ */
 .auth-connect {
   position: relative;
   width: 100%;
@@ -3351,7 +3351,7 @@ canvas {
 }
 .auth-connect:hover .auth-connect-side { color: rgba(255, 244, 214, 0.7); }
 
-/* â€” login divider + join CTA â€” */
+/* Ã¢â‚¬â€ login divider + join CTA Ã¢â‚¬â€ */
 .login-divider {
   display: flex;
   align-items: center;
@@ -3400,7 +3400,7 @@ canvas {
   letter-spacing: 0.12em;
 }
 
-/* â•â•â• PROCESS / SIDE HUD â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â PROCESS / SIDE HUD Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .process-wrap {
   padding: 14px 0 4px;
 }
@@ -3442,7 +3442,7 @@ canvas {
   animation: auth-connector-pulse 2s ease-in-out infinite;
 }
 
-/* â€” FHC NETWORK HUD â€” */
+/* Ã¢â‚¬â€ FHC NETWORK HUD Ã¢â‚¬â€ */
 .nhud {
   position: relative;
   border: 1px solid rgba(0, 229, 255, 0.22);
@@ -3536,7 +3536,7 @@ canvas {
   animation: auth-led-kf 3s ease-in-out infinite;
 }
 
-/* â•â•â• RESPONSIVE â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â RESPONSIVE Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 @media (min-width: 1440px) {
   .auth-shell { max-width: 1260px; }
   .auth-cabinet { max-width: 680px; }
@@ -3573,7 +3573,7 @@ canvas {
   .cab-bezel-name { font-size: 7px; }
 }
 
-/* â•â•â• REDUCED MOTION (cabinet additions) â•â•â• */
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â REDUCED MOTION (cabinet additions) Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 @media (prefers-reduced-motion: reduce) {
   .cab-scan-sweep,
   .cab-marquee-glow,
@@ -3588,17 +3588,17 @@ canvas {
     transition: none;
   }
 }
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   NAVBAR // AUTH ARCADE CONTROL â€” " â–¶ AUTH / ACCESS TERMINAL "
+/* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+   NAVBAR // AUTH ARCADE CONTROL Ã¢â‚¬â€ " Ã¢â€“Â¶ AUTH / ACCESS TERMINAL "
    A layered pixel-frame arcade button native to the FHC navbar.
    Layers: static hard-shadow + neon glow (outside the moving
-   button) â†’ pink pixel frame â†’ dark inner surface â†’ content.
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   button) Ã¢â€ â€™ pink pixel frame Ã¢â€ â€™ dark inner surface Ã¢â€ â€™ content.
+   Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â */
 .nav-auth {
   position: relative;
 }
 
-/* neon glow â€” sits behind the button so it radiates outside the notch clip */
+/* neon glow Ã¢â‚¬â€ sits behind the button so it radiates outside the notch clip */
 .nav-auth-glow {
   position: absolute;
   inset: -8px;
@@ -3613,7 +3613,7 @@ canvas {
   box-shadow: 0 0 20px 4px rgba(255, 22, 135, 0.35), 0 0 8px 2px rgba(255, 22, 135, 0.4);
 }
 
-/* static hard-pixel shadow â€” stays put so the button physically presses into it */
+/* static hard-pixel shadow Ã¢â‚¬â€ stays put so the button physically presses into it */
 .nav-auth-shadow {
   position: absolute;
   inset: 0;
@@ -3624,7 +3624,7 @@ canvas {
   z-index: 0;
 }
 
-/* the moving button â€” motion-controlled via Framer Motion (y: hover/tap) */
+/* the moving button Ã¢â‚¬â€ motion-controlled via Framer Motion (y: hover/tap) */
 .nav-auth-btn {
   position: relative;
   display: inline-flex;
@@ -3659,7 +3659,7 @@ canvas {
   pointer-events: none;
 }
 
-/* tiny status LED â€” activates on hover */
+/* tiny status LED Ã¢â‚¬â€ activates on hover */
 .nav-auth-led {
   position: absolute;
   top: 8px;
@@ -3673,7 +3673,7 @@ canvas {
   pointer-events: none;
 }
 
-/* scanline / glitch flicker â€” very short burst during interaction */
+/* scanline / glitch flicker Ã¢â‚¬â€ very short burst during interaction */
 .nav-auth-scan {
   position: absolute;
   inset: 0;
@@ -3684,7 +3684,7 @@ canvas {
   pointer-events: none;
 }
 
-/* label stack: micro ACCESS over dominant â–¶ AUTH */
+/* label stack: micro ACCESS over dominant Ã¢â€“Â¶ AUTH */
 .nav-auth-content {
   position: relative;
   z-index: 2;
@@ -3715,7 +3715,7 @@ canvas {
   transition: color 0.15s ease, transform 0.15s ease;
 }
 
-/* â”€â”€ arcade interaction â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ arcade interaction Ã¢â€â‚¬Ã¢â€â‚¬ */
 .nav-auth:hover .nav-auth-pink {
   background: #ff6bb0; /* brighter hot pink */
 }
@@ -3743,7 +3743,7 @@ canvas {
   100% { opacity: 0.22; transform: translateY(0); }
 }
 
-/* active route (navbar hidden on /auth today â€” kept for correctness) */
+/* active route (navbar hidden on /auth today Ã¢â‚¬â€ kept for correctness) */
 .nav-auth-act .nav-auth-pink {
   background: #ff1687;
 }
@@ -3761,7 +3761,7 @@ canvas {
   outline-offset: 5px;
 }
 
-/* tablet width (1024â€“1279): slightly more compact while keeping the frame */
+/* tablet width (1024Ã¢â‚¬â€œ1279): slightly more compact while keeping the frame */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .nav-auth-btn {
     min-width: 104px;
@@ -3788,7 +3788,7 @@ canvas {
   }
 }
 
-/* â”€â”€ mobile dropdown: highlighted arcade menu item â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ mobile dropdown: highlighted arcade menu item Ã¢â€â‚¬Ã¢â€â‚¬ */
 .nav-auth-mobile {
   position: relative;
   display: flex;
@@ -3836,7 +3836,7 @@ canvas {
   color: #ff8ac0;
 }
 
-/* â”€â”€ Navbar: keep the 8-item desktop nav from overflowing offscreen â”€â”€
+/* Ã¢â€â‚¬Ã¢â€â‚¬ Navbar: keep the 8-item desktop nav from overflowing offscreen Ã¢â€â‚¬Ã¢â€â‚¬
    Full-size nav needs ~1390px. Shrink links on laptops (1280-1439) and
    fall back to the hamburger below xl where even the shrunken row won't fit. */
 @media (max-width: 1439px) and (min-width: 1280px) {
@@ -3863,11 +3863,9 @@ canvas {
 
 
 /* --------------------------------------------------------------------
-   PLAYER TERMINAL v2 ï¿½ /dashboard
-   Premium cyberpunk console for authenticated members
+   PLAYER HUB  (shared blink utilities preserved for navbar + RequireAuth)
+   Dashboard presentation styles now live in src/player-hub.css (hub-*).
    -------------------------------------------------------------------- */
-
-/* -- blink keyframes (shared with navbar LED) -- */
 .dsh-blink,
 .dash-blink {
   animation: dash-blink-kf 1.1s steps(2, jump-none) infinite;
@@ -3876,608 +3874,8 @@ canvas {
   0%, 55% { opacity: 1; }
   56%, 100% { opacity: 0.15; }
 }
-
-/* -- ambient layers -- */
-.dsh-bg-grid {
-  position: absolute; inset: 0; pointer-events: none;
-  background-image:
-    linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 95% 85% at 50% 10%, transparent 30%, #000 100%);
-  z-index: 0;
-}
-.dsh-bg-glow {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-}
-.dsh-bg-glow--pink {
-  background: radial-gradient(ellipse 55% 40% at 75% 8%, rgba(255, 0, 127, 0.10), transparent 65%);
-}
-.dsh-bg-glow--cyan {
-  background: radial-gradient(ellipse 50% 38% at 10% 90%, rgba(0, 229, 255, 0.08), transparent 65%);
-}
-.dsh-bg-scanlines {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  background: repeating-linear-gradient(
-    to bottom, transparent 0 2px, rgba(0, 0, 0, 0.12) 2px 3px
-  );
-  opacity: 0.5;
-}
-
-/* -- root + inner -- */
-.dsh-root {
-  position: relative;
-  min-height: calc(100dvh - 108px);
-  background: #050710;
-  color: #fff7e5;
-  overflow: hidden;
-  padding: 0 clamp(16px, 4vw, 48px);
-}
-.dsh-inner {
-  position: relative; z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-top: clamp(28px, 4vw, 56px);
-  padding-bottom: clamp(32px, 4vw, 56px);
-}
-
-/* -- loading -- */
-.dsh-loader {
-  min-height: 100dvh;
-  display: flex; align-items: center; justify-content: center;
-  background: #050710; color: #fff7e5;
-}
-.dsh-loader-inner {
-  text-align: center;
-}
-.dsh-loader-bar {
-  width: 200px; height: 3px;
-  background: #0a0d14;
-  position: relative; overflow: hidden;
-  border: 1px solid rgba(0, 229, 255, 0.25);
-}
-.dsh-loader-bar::after {
-  content: "";
-  position: absolute; left: -40%; top: 0; width: 40%; height: 100%;
-  background: linear-gradient(90deg, transparent, #00e5ff, transparent);
-  animation: dsh-load-slide 1.2s ease-in-out infinite;
-}
-@keyframes dsh-load-slide {
-  0%   { left: -40%; }
-  100% { left: 100%; }
-}
-
-/* -----------------------------------------------------------
-   HERO TERMINAL
-   ----------------------------------------------------------- */
-.dsh-hero {
-  position: relative;
-  background: linear-gradient(180deg, rgba(10, 12, 22, 0.95), rgba(6, 8, 16, 0.95));
-  border: 1px solid rgba(255, 0, 127, 0.30);
-  box-shadow:
-    inset 0 0 60px rgba(255, 0, 127, 0.04),
-    0 0 0 4px rgba(0, 0, 0, 0.5),
-    0 0 40px rgba(255, 0, 127, 0.08);
-  padding: clamp(20px, 3vw, 36px);
-  overflow: hidden;
-}
-.dsh-hero-scan {
-  position: absolute; inset: 0; pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom, transparent 0 3px, rgba(255, 0, 127, 0.015) 3px 4px
-  );
-  z-index: 1;
-}
-.dsh-hero-inner {
-  position: relative; z-index: 2;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: clamp(24px, 4vw, 48px);
-  align-items: center;
-}
-
-/* avatar column */
-.dsh-hero-avatar-col {
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-}
-.dsh-hero-avatar-frame {
-  position: relative;
-  padding: 6px;
-  background: rgba(0, 229, 255, 0.06);
-  border: 1px solid rgba(0, 229, 255, 0.25);
-}
-.dsh-hero-avatar-glow {
-  position: absolute; inset: -8px;
-  background: radial-gradient(circle at center, rgba(255, 0, 127, 0.15), transparent 70%);
-  pointer-events: none;
-}
-.dsh-hero-avatar-scan {
-  position: absolute; inset: 0; pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom, transparent 0 2px, rgba(0, 0, 0, 0.18) 2px 3px
-  );
-  mix-blend-mode: multiply;
-}
-.dsh-hero-avatar {
-  border: 2px solid rgba(255, 0, 127, 0.65) !important;
-  box-shadow: 0 0 24px rgba(255, 0, 127, 0.40), 0 0 0 3px #050710;
-  position: relative; z-index: 1;
-}
-.dsh-hero-avatar-id {
-  font-size: 7px; letter-spacing: 0.15em;
-}
-.dsh-hero-avatar-badge {
-  display: flex; align-items: center; gap: 5px;
-  padding: 3px 8px;
-  border: 1px solid rgba(76, 255, 76, 0.18);
-  background: rgba(76, 255, 76, 0.04);
-}
-/* uploaded Cloudinary avatar renders inside the same pixel frame */
-.dsh-hero-avatar-img {
-  display: block;
-  width: 120px; height: 120px;
-  object-fit: cover;
-  background: #0c0c12;
-}
-/* RETRO-TECH AVATAR EDIT â€” hover/focus reveals the control */
-.dsh-hero-avatar-frame {
-  cursor: pointer;
-}
-.dsh-avatar-change {
-  position: absolute; left: 6px; right: 6px; bottom: 6px;
-  z-index: 3;
-  display: flex; align-items: center; justify-content: center;
-  padding: 5px 8px;
-  font-size: 6px; letter-spacing: 0.2em;
-  color: #00e5ff;
-  background: rgba(5, 7, 16, 0.85);
-  border: 1px solid rgba(0, 229, 255, 0.45);
-  opacity: 0; transform: translateY(4px);
-  pointer-events: none;
-  transition: opacity 0.15s ease, transform 0.15s ease,
-    background-color 0.15s ease, color 0.15s ease;
-}
-.dsh-hero-avatar-frame:hover .dsh-avatar-change,
-.dsh-hero-avatar-frame:focus-within .dsh-avatar-change,
-.dsh-avatar-change:focus-visible {
-  opacity: 1; transform: translateY(0); pointer-events: auto;
-}
-.dsh-avatar-change:hover {
-  background: #00e5ff; color: #050710;
-}
-.dsh-avatar-change:disabled {
-  opacity: 0.65; pointer-events: auto; cursor: wait;
-}
-.dsh-avatar-msg {
-  position: absolute; left: 6px; right: 6px; top: 6px;
-  z-index: 3;
-  padding: 4px 6px;
-  font-size: 5.5px; letter-spacing: 0.16em;
-  text-align: center;
-  background: rgba(5, 7, 16, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  pointer-events: none;
-}
-
-/* info column */
-.dsh-hero-info { min-width: 0; }
-.dsh-hero-breadcrumb {
-  font-size: 7px; letter-spacing: 0.22em; margin-bottom: 10px;
-}
-.dsh-hero-name {
-  font-size: clamp(22px, 3.5vw, 36px);
-  line-height: 1;
-  color: #fff7e5;
-  text-shadow: 0 0 30px rgba(255, 0, 127, 0.25);
-  margin-bottom: 4px;
-}
-.dsh-hero-username {
-  font-size: 14px;
-  color: rgba(0, 229, 255, 0.85);
-  margin-bottom: 2px;
-}
-.dsh-hero-email {
-  font-size: 12px;
-  color: rgba(255, 247, 229, 0.40);
-  margin-bottom: 12px;
-}
-.dsh-hero-divider {
-  width: 60px; height: 1px;
-  background: linear-gradient(90deg, rgba(255, 0, 127, 0.6), transparent);
-  margin-bottom: 12px;
-}
-.dsh-hero-meta {
-  display: flex; flex-direction: column; gap: 6px;
-  margin-bottom: 14px;
-}
-.dsh-hero-meta-row {
-  display: flex; align-items: center; gap: 7px;
-}
-.dsh-hero-access {
-  display: flex; align-items: center; gap: 10px;
-  padding: 6px 10px;
-  border: 1px solid rgba(255, 212, 0, 0.22);
-  background: rgba(255, 212, 0, 0.04);
-  width: fit-content;
-}
-
-/* status column */
-.dsh-hero-status {
-  display: flex; flex-direction: column; gap: 10px;
-  padding: 14px;
-  border: 1px solid rgba(0, 229, 255, 0.15);
-  background: rgba(0, 229, 255, 0.02);
-  min-width: 120px;
-}
-.dsh-hero-status-item {
-  display: flex; flex-direction: column; gap: 2px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 247, 229, 0.06);
-}
-.dsh-hero-status-item:last-child { border-bottom: none; padding-bottom: 0; }
-
-/* -----------------------------------------------------------
-   STATS STRIP
-   ----------------------------------------------------------- */
-.dsh-stats {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-  margin-top: clamp(16px, 2.5vw, 24px);
-}
-.dsh-stat {
-  position: relative;
-  display: flex; flex-direction: column; align-items: center;
-  padding: clamp(10px, 1.5vw, 16px) 8px;
-  background: linear-gradient(180deg, rgba(10, 12, 22, 0.8), rgba(6, 8, 14, 0.8));
-  border: 1px solid rgba(255, 247, 229, 0.06);
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
-  text-align: center;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.dsh-stat-icon {
-  font-size: 14px; margin-bottom: 4px; opacity: 0.8;
-}
-.dsh-stat-value {
-  font-size: clamp(11px, 1.5vw, 15px);
-  line-height: 1.2;
-  letter-spacing: 0.1em;
-}
-.dsh-stat-label {
-  font-size: 5px;
-  letter-spacing: 0.22em;
-  color: rgba(255, 247, 229, 0.30);
-  margin-top: 4px;
-}
-
-/* -----------------------------------------------------------
-   MODULES (panels)
-   ----------------------------------------------------------- */
-.dsh-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(14px, 2.5vw, 22px);
-  margin-top: clamp(16px, 3vw, 28px);
-}
-.dsh-mod {
-  position: relative;
-  background: linear-gradient(180deg, rgba(10, 12, 22, 0.88), rgba(6, 8, 16, 0.88));
-  border: 1px solid rgba(255, 247, 229, 0.08);
-  box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.55), 0 10px 30px rgba(0, 0, 0, 0.30);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-.dsh-mod--wide {
-  grid-column: 1 / -1;
-}
-.dsh-mod-head {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 10px;
-  padding: 10px 14px;
-  border-bottom: 1px solid rgba(255, 247, 229, 0.07);
-  background: rgba(0, 0, 0, 0.30);
-}
-.dsh-mod-body {
-  padding: clamp(14px, 2vw, 22px);
-}
-.dsh-mod-foot {
-  height: 3px;
-  border-top: 1px solid rgba(255, 247, 229, 0.05);
-  background: repeating-linear-gradient(
-    90deg, rgba(0, 229, 255, 0.12) 0 6px, transparent 6px 12px
-  );
-}
-
-/* -----------------------------------------------------------
-   PROFILE MODULE
-   ----------------------------------------------------------- */
-.dsh-profile { }
-.dsh-profile-head {
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(255, 247, 229, 0.07);
-}
-.dsh-profile-avatar-wrap {
-  position: relative; flex-shrink: 0;
-}
-.dsh-profile-avatar {
-  border: 2px solid rgba(255, 0, 127, 0.50) !important;
-  box-shadow: 0 0 16px rgba(255, 0, 127, 0.30);
-}
-.dsh-profile-avatar-ring {
-  position: absolute; inset: -5px;
-  border: 1px solid rgba(255, 0, 127, 0.20);
-  pointer-events: none;
-}
-.dsh-profile-identity { min-width: 0; }
-
-/* readonly fields */
-.dsh-profile-readonly {
-  display: grid; gap: 10px;
-  grid-template-columns: repeat(2, 1fr);
-}
-.dsh-profile-readonly > .dsh-btn { grid-column: 1 / -1; width: fit-content; }
-.dsh-field {
-  display: flex; flex-direction: column; gap: 3px;
-}
-.dsh-field-label {
-  font-size: 5px; letter-spacing: 0.22em;
-  color: rgba(255, 247, 229, 0.30);
-}
-.dsh-field-value {
-  font-size: 13px; letter-spacing: 0.04em;
-}
-
-/* edit form */
-.dsh-profile-edit {
-  display: flex; flex-direction: column; gap: 10px;
-}
-.dsh-profile-edit-header {
-  font-size: 8px; letter-spacing: 0.16em;
-  color: #00e5ff;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(0, 229, 255, 0.15);
-}
-.dsh-edit-label {
-  font-size: 5px; letter-spacing: 0.22em;
-  color: rgba(255, 247, 229, 0.30);
-}
-.dsh-edit-input {
-  width: 100%;
-  background: #07090f;
-  border: 1px solid rgba(0, 229, 255, 0.28);
-  color: #fff7e5;
-  padding: 8px 10px;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-.dsh-edit-input:focus {
-  border-color: #00e5ff;
-  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
-}
-.dsh-edit-msg {
-  font-size: 7px; letter-spacing: 0.16em;
-  padding: 6px 10px;
-  border: 1px solid rgba(255, 247, 229, 0.08);
-  background: rgba(0, 0, 0, 0.30);
-}
-.dsh-edit-actions {
-  display: flex; gap: 10px; flex-wrap: wrap;
-}
-
-/* -----------------------------------------------------------
-   BUTTONS
-   ----------------------------------------------------------- */
-.dsh-btn {
-  font-family: var(--font-pixel);
-  font-size: 8px; letter-spacing: 0.18em;
-  color: #00e5ff;
-  background: transparent;
-  border: 1px solid currentColor;
-  padding: 9px 14px;
-  cursor: pointer;
-  transition: box-shadow 0.15s ease, background-color 0.15s ease;
-  text-decoration: none;
-}
-.dsh-btn:hover {
-  box-shadow: 0 0 14px currentColor;
-  background: rgba(255, 255, 255, 0.03);
-}
-.dsh-btn:disabled {
-  opacity: 0.40; cursor: wait;
-}
-.dsh-btn--accent { border-style: dashed; }
-.dsh-btn--full { width: 100%; text-align: center; }
-.dsh-btn--danger:hover {
-  box-shadow: 0 0 18px rgba(255, 0, 127, 0.40);
-}
-
-/* -----------------------------------------------------------
-   ACTIVITY TIMELINE
-   ----------------------------------------------------------- */
-.dsh-timeline {
-  display: flex; flex-direction: column; gap: 0;
-}
-.dsh-timeline-item {
-  display: grid;
-  grid-template-columns: 10px 1fr;
-  gap: 12px;
-  position: relative;
-  padding-bottom: 16px;
-}
-.dsh-timeline-item:last-child { padding-bottom: 0; }
-.dsh-timeline-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  margin-top: 3px;
-  grid-column: 1;
-  grid-row: 1;
-}
-.dsh-timeline-line {
-  position: absolute;
-  left: 3px; top: 10px; bottom: 0;
-  width: 1px;
-  background: rgba(255, 247, 229, 0.07);
-}
-.dsh-timeline-item:last-child .dsh-timeline-line { display: none; }
-.dsh-timeline-content {
-  grid-column: 2; grid-row: 1;
-}
-.dsh-timeline-label {
-  font-size: 7px; letter-spacing: 0.18em;
-}
-.dsh-timeline-ts {
-  font-size: 12px;
-  color: rgba(255, 247, 229, 0.40);
-  margin-top: 2px;
-}
-
-/* -----------------------------------------------------------
-   FHC ACCESS SECTORS
-   ----------------------------------------------------------- */
-.dsh-sectors {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-.dsh-sector {
-  position: relative;
-  display: block;
-  text-decoration: none;
-  padding: clamp(12px, 1.5vw, 18px);
-  background: rgba(5, 8, 16, 0.70);
-  border: 1px solid rgba(255, 212, 0, 0.15);
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
-}
-.dsh-sector:hover {
-  border-color: rgba(255, 212, 0, 0.60);
-  box-shadow: 0 0 22px rgba(255, 212, 0, 0.14);
-  background: rgba(20, 16, 5, 0.50);
-}
-.dsh-sector-inner {
-  display: flex; flex-direction: column; gap: 6px;
-}
-.dsh-sector-tag {
-  font-size: 5px; letter-spacing: 0.22em;
-  color: rgba(255, 212, 0, 0.45);
-}
-.dsh-sector-label {
-  font-size: 11px; letter-spacing: 0.14em;
-  color: #fff7e5;
-}
-.dsh-sector-enter {
-  font-size: 6px; letter-spacing: 0.2em;
-  color: #ff007f;
-  margin-top: 4px;
-}
-
-/* -----------------------------------------------------------
-   ACCOUNT CONTROL
-   ----------------------------------------------------------- */
-.dsh-account { }
-.dsh-account-status {
-  display: flex; flex-direction: column; gap: 8px;
-  padding: 10px 12px;
-  border: 1px solid rgba(76, 255, 76, 0.12);
-  background: rgba(76, 255, 76, 0.02);
-  margin-bottom: 14px;
-}
-.dsh-account-status-row {
-  display: flex; align-items: center; gap: 8px;
-}
-.dsh-account-actions {
-  display: flex; flex-direction: column; gap: 10px;
-}
-.dsh-pw-form {
-  display: flex; flex-direction: column; gap: 10px;
-}
-
-/* -----------------------------------------------------------
-   SYSTEM STATUS HUD
-   ----------------------------------------------------------- */
-.dsh-sysstatus {
-  display: flex; flex-direction: column; gap: 8px;
-}
-.dsh-sysstatus-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 7px 10px;
-  border: 1px solid rgba(255, 247, 229, 0.05);
-  background: rgba(0, 0, 0, 0.20);
-}
-
-/* -----------------------------------------------------------
-   CONSOLE FOOTER
-   ----------------------------------------------------------- */
-.dsh-footer {
-  margin-top: clamp(28px, 4vw, 44px);
-  display: flex; align-items: center; gap: 12px;
-  letter-spacing: 0.18em;
-  border-top: 1px dashed rgba(255, 247, 229, 0.10);
-  padding-top: 14px;
-  flex-wrap: wrap;
-}
-.dsh-footer-item {
-  font-size: 7px;
-}
-
-/* -----------------------------------------------------------
-   LOGOUT OVERLAY
-   ----------------------------------------------------------- */
-.dsh-logout-overlay {
-  position: fixed; inset: 0; z-index: 10050;
-  display: grid; place-items: center;
-  background: rgba(3, 5, 9, 0.82);
-  backdrop-filter: blur(3px);
-}
-.dsh-logout-box {
-  position: relative;
-  border: 1px solid rgba(255, 0, 127, 0.55);
-  background: #07090f;
-  padding: clamp(28px, 5vw, 52px) clamp(24px, 5vw, 60px);
-  box-shadow: 0 0 50px rgba(255, 0, 127, 0.25), inset 0 0 40px rgba(0, 0, 0, 0.6);
-  max-width: 90vw;
-}
-
-/* -----------------------------------------------------------
-   RESPONSIVE ï¿½ MOBILE
-   ----------------------------------------------------------- */
-@media (max-width: 1024px) {
-  .dsh-stats { grid-template-columns: repeat(3, 1fr); }
-  .dsh-sectors { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 768px) {
-  .dsh-hero-inner {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 20px;
-  }
-  .dsh-hero-avatar-col { justify-self: center; }
-  .dsh-hero-status {
-    flex-direction: row; flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-  .dsh-hero-access { margin: 0 auto; }
-  .dsh-hero-meta { align-items: center; }
-  .dsh-hero-divider { margin: 12px auto; }
-  .dsh-stats { grid-template-columns: repeat(3, 1fr); }
-  .dsh-grid { grid-template-columns: 1fr; }
-  .dsh-mod--wide { grid-column: 1; }
-  .dsh-sectors { grid-template-columns: 1fr 1fr; }
-  .dsh-profile-readonly { grid-template-columns: 1fr; }
-}
-@media (max-width: 480px) {
-  .dsh-stats { grid-template-columns: repeat(2, 1fr); }
-  .dsh-sectors { grid-template-columns: 1fr; }
-  .dsh-hero-status { flex-direction: column; align-items: stretch; }
-  .dsh-hero-name { font-size: 22px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .dsh-blink, .dash-blink { animation: none; }
-}
 /* --------------------------------------------------------------------
-   NAVBAR ï¿½ player avatar + terminal dropdown (authenticated)
+   NAVBAR Ã¯Â¿Â½ player avatar + terminal dropdown (authenticated)
    -------------------------------------------------------------------- */
 .nav-player {
   position: relative;
@@ -4650,10 +4048,10 @@ canvas {
    ============================================ */
 
 /* ============================================
-   FHC PLAYER ARENA â€” ARCADE COMMAND CENTER
+   FHC PLAYER ARENA Ã¢â‚¬â€ ARCADE COMMAND CENTER
    ============================================ */
 
-/* â€” Shared keyframes â€” */
+/* Ã¢â‚¬â€ Shared keyframes Ã¢â‚¬â€ */
 @keyframes arena-led-kf {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
@@ -4721,13 +4119,13 @@ canvas {
   100% { top: calc(100% + 2px); }
 }
 
-/* â€” LED â€” */
+/* Ã¢â‚¬â€ LED Ã¢â‚¬â€ */
 .arena-led {
   border-radius: 50%;
   animation: arena-led-kf 1.8s ease-in-out infinite;
 }
 
-/* â€” Blinking cursor â€” */
+/* Ã¢â‚¬â€ Blinking cursor Ã¢â‚¬â€ */
 .arena-cursor {
   display: inline-block;
   color: #FF1687;
@@ -4956,7 +4354,7 @@ canvas {
 /* ============================================
    SECTOR FILTER / TEAM SELECTOR
    ============================================ */
-/* SECTOR SELECT â€” horizontal slider. Only this strip scrolls. */
+/* SECTOR SELECT Ã¢â‚¬â€ horizontal slider. Only this strip scrolls. */
 .arena-select-scroll {
   display: flex;
   gap: 10px;
@@ -4985,7 +4383,7 @@ canvas {
   padding-bottom: 2px;
 }
 
-/* Arrow navigation flanking the sector strip â€” pixel/terminal UI */
+/* Arrow navigation flanking the sector strip Ã¢â‚¬â€ pixel/terminal UI */
 .arena-select-row {
   gap: 10px;
 }
@@ -5133,7 +4531,7 @@ canvas {
 }
 
 /* ============================================
-   PLAYER CARD â€” ARCADE CHARACTER SELECT
+   PLAYER CARD Ã¢â‚¬â€ ARCADE CHARACTER SELECT
    ============================================ */
 .arena-card {
   position: relative;
@@ -5599,13 +4997,13 @@ canvas {
 }
 
 /* ============================================================
-   TEAMS // PLAYERS ARENA â€” RESPONSIVE REFINEMENTS
-   Laptop/desktop (â‰¥1024px) visual composition is LOCKED; every rule
+   TEAMS // PLAYERS ARENA Ã¢â‚¬â€ RESPONSIVE REFINEMENTS
+   Laptop/desktop (Ã¢â€°Â¥1024px) visual composition is LOCKED; every rule
    here only reflows/compacts the existing arena for smaller widths.
    ============================================================ */
 
 /* Tablet down: nothing inside the arena may force the layout wider
-   than the viewport â€” allow every block to shrink/reflow naturally. */
+   than the viewport Ã¢â‚¬â€ allow every block to shrink/reflow naturally. */
 @media (max-width: 1023px) {
   .arena-hero .grid,
   .arena-net,
@@ -5621,12 +5019,12 @@ canvas {
   }
 }
 
-/* Phones: keep the PLAYERS ARENA lockup strong but compact â€” same
+/* Phones: keep the PLAYERS ARENA lockup strong but compact Ã¢â‚¬â€ same
    viewport-relative slope as desktop, only a lower small-screen floor.
    Single full-width cards need a taller-than-desktop 3:4 photo; cap it
    so identity stays large and readable without an endless scroll per
    card. Arrows get a comfortable touch target (this later block wins by
-   source order over the 34Ã—38 compact rule in the â‰¤639px block above). */
+   source order over the 34Ãƒâ€”38 compact rule in the Ã¢â€°Â¤639px block above). */
 @media (max-width: 767px) {
   .arena-hero h1 span {
     font-size: clamp(26px, 6.5vw, 80px) !important;
@@ -5655,379 +5053,272 @@ canvas {
 }
 
 /* ============================================================
-   DASHBOARD // FHC PLAYER OPERATING SYSTEM â€” POLISH PASS
-   Preserves the existing FHC arcade visual language. Adds the
-   layers that make the dashboard read as the club's own OS.
+   TEAMS // PLAYERS ARENA — HANDHELD PLAYER REGISTRY
+   MOBILE-ONLY redesign (portrait phones <= 767px). Desktop (>=768px)
+   composition is untouched; these rules only restyle the existing
+   arena components into a dense handheld FHC player registry.
    ============================================================ */
-@keyframes dsh-scan-crawl {
-  from { background-position-y: 0; }
-  to { background-position-y: 3px; }
+@media (max-width: 767px) {
+
+  /* ---- BACKGROUND: quieter CRT so faces win ---- */
+  .arena-bg-glow-cyan {
+    width: 320px;
+    height: 320px;
+    top: -160px;
+    right: -130px;
+    filter: blur(70px);
+  }
+  .arena-bg-glow-pink {
+    width: 360px;
+    height: 360px;
+    bottom: -200px;
+    left: -140px;
+    filter: blur(70px);
+  }
+  .arena-bg-sweep {
+    height: 1px;
+    opacity: 0.5;
+  }
+  .arena-bg-noise {
+    opacity: 0.02;
+  }
+
+  /* ---- HERO: slim handheld header ---- */
+  .arena-hero-eyebrow {
+    font-size: 7px !important;
+    margin-bottom: 14px;
+    letter-spacing: 0.22em !important;
+  }
+  .arena-hero h1 span {
+    font-size: clamp(28px, 8vw, 46px) !important;
+  }
+  .arena-hero-tagline {
+    font-size: 13px !important;
+    line-height: 1.7 !important;
+  }
+  .arena-hero-divider {
+    margin: 14px 0 16px !important;
+  }
+
+  /* Registry indicator — compact stat strip under the lockup */
+  .arena-hero-chips {
+    margin-top: 6px !important;
+    gap: 8px !important;
+  }
+  .arena-hero-chips .arena-chip-key,
+  .arena-hero-chips .arena-chip-val {
+    padding: 8px 9px;
+  }
+  .arena-hero-chips .arena-chip-key {
+    font-size: 6px !important;
+  }
+  .arena-hero-chips .arena-chip-val {
+    font-size: 9px !important;
+  }
+
+  /* Roster panel = FHC_PLAYER_REGISTRY status bar (body collapses out) */
+  .arena-roster {
+    border-color: rgba(30, 215, 232, 0.26);
+  }
+  .arena-roster-head ~ div {
+    display: none;
+  }
+  .arena-roster-head {
+    padding: 11px 13px;
+  }
+
+  /* ---- SECTOR SELECT: compact arcade rail, no page overflow ---- */
+  .arena-select-row {
+    gap: 6px;
+  }
+  .arena-arrow {
+    width: 34px;
+    height: 40px;
+    font-size: 11px;
+  }
+  .arena-tab {
+    padding: 9px 13px;
+    font-size: 8px;
+    letter-spacing: 0.11em;
+  }
+  .arena-select-progress {
+    font-size: 6px !important;
+  }
+
+  /* Active sector status — slim strip between rail and cards */
+  .arena-team-section h2 {
+    font-size: 10px !important;
+  }
+  .arena-team-section h2 + p {
+    display: none;
+  }
+  .arena-sector-num {
+    font-size: 13px !important;
+  }
+  .arena-team-section .arena-seat-count {
+    padding: 6px 9px;
+    font-size: 6px;
+  }
+
+  /* ---- PLAYER CARD: single full-width registry entry ---- */
+  .arena-card-photo-wrap {
+    aspect-ratio: 4 / 3 !important;
+    max-height: none !important;
+  }
+  .arena-card .arena-photo-img {
+    object-position: 50% 20%;
+  }
+  .arena-card-head {
+    padding: 10px 12px;
+  }
+  .arena-card-body {
+    padding: 13px 12px 14px;
+  }
+  .arena-card-name {
+    font-size: 11px !important;
+    line-height: 1.45;
+  }
+  .arena-card-role {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+  .arena-card-divide {
+    margin: 11px 0 10px;
+  }
+  /* Registry hint must stay visible on touch (base color is transparent) */
+  .arena-card-open {
+    opacity: 0.55;
+    color: #1ED7E8;
+  }
+  /* Tap feedback — small lift, accent border, tiny scan flash */
+  .arena-card-btn {
+    transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .arena-card-btn:active {
+    transform: translateY(-2px);
+    border-color: rgba(255, 22, 135, 0.55);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), 0 0 18px rgba(255, 22, 135, 0.16);
+  }
+  .arena-card:active::before {
+    border-color: rgba(255, 22, 135, 0.6);
+    box-shadow: 0 0 16px rgba(255, 22, 135, 0.16);
+  }
+  .arena-card:active .arena-card-photo-wrap::after {
+    opacity: 1;
+    animation: arena-card-scan 0.9s ease-in-out;
+  }
+
+  /* ---- DOSSIER: full-screen sheet with safe-area breathing ---- */
+  .arena-overlay {
+    align-items: stretch;
+    padding: 0 !important;
+  }
+  .arena-dossier {
+    width: 100%;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    border: none;
+    border-radius: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .arena-dossier-head {
+    top: env(safe-area-inset-top, 0px);
+  }
+  .arena-dossier-photo {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    aspect-ratio: 4 / 3;
+  }
+  .arena-dossier-row-grid {
+    gap: 16px;
+  }
+  .arena-dossier .arena-social {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 14px;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+  .arena-dossier .arena-social > span:last-child {
+    display: none;
+  }
+  .arena-dossier .arena-social::after {
+    content: "\2192";
+    flex-shrink: 0;
+  }
+
+  /* ---- LOADING: compact registry boot ---- */
+  .arena-loading-terminal {
+    max-width: 100%;
+  }
+  .arena-loading-terminal .font-mono {
+    font-size: 12px;
+    padding: 12px 14px !important;
+    line-height: 1.8;
+  }
+  .arena-skel-grid {
+    margin-top: 20px !important;
+  }
+  .arena-skel-photo {
+    aspect-ratio: 4 / 3;
+  }
+
+  /* ---- ERROR / EMPTY: compact terminal frames ---- */
+  .arena-error-frame,
+  .arena-empty-frame {
+    max-width: 100%;
+  }
+  .arena-error-frame .font-pixel,
+  .arena-empty-frame .font-pixel {
+    font-size: 10px !important;
+  }
+  .arena-error-frame .text-xl,
+  .arena-empty-frame .text-lg {
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+  }
+  .arena-error-frame .px-6,
+  .arena-empty-frame .px-6 {
+    padding: 22px 14px;
+  }
+
+  /* ---- CTA: tighter so the page closes without desktop margins ---- */
+  .arena-cta {
+    margin-top: 40px !important;
+  }
+  .arena-cta .px-6 {
+    padding: 28px 16px;
+  }
 }
-@keyframes dsh-sweep-kf {
-  0%   { top: -2%; opacity: 0; }
-  12%  { opacity: 0.55; }
-  88%  { opacity: 0.45; }
-  100% { top: 100%; opacity: 0; }
+
+/* Dossier reveal cascade — mobile only, skipped under reduced motion */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .arena-dossier-photo,
+  .arena-dossier-photo-cap,
+  .arena-dossier-row-grid,
+  .arena-dossier .mt-6 {
+    animation: arena-mob-reveal 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .arena-dossier-photo { animation-delay: 0.04s; }
+  .arena-dossier-photo-cap { animation-delay: 0.12s; }
+  .arena-dossier-row-grid { animation-delay: 0.16s; }
+  .arena-dossier .mt-6:nth-of-type(2) { animation-delay: 0.24s; }
+  .arena-dossier .mt-6:nth-of-type(3) { animation-delay: 0.3s; }
 }
-@keyframes dsh-noise-shift {
-  0%   { transform: translate(0, 0); }
-  25%  { transform: translate(-1px, 1px); }
-  50%  { transform: translate(1px, -1px); }
-  75%  { transform: translate(-1px, -1px); }
-  100% { transform: translate(0, 0); }
-}
-@keyframes dsh-dot-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.28; }
-}
-@keyframes dsh-boot-in {
-  from { opacity: 0; transform: translateY(-2px); }
+@keyframes arena-mob-reveal {
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: none; }
 }
 
 /* ------------------------------------------------------------
-   BACKGROUND LAYERS â€” felt, not noticed
-   ------------------------------------------------------------ */
-.dsh-bg-noise {
-  position: absolute; inset: -2px; pointer-events: none; z-index: 0;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: dsh-noise-shift 0.6s steps(4) infinite;
-}
-.dsh-bg-vignette {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(120% 90% at 50% 30%, transparent 55%, rgba(3, 5, 10, 0.5) 100%);
-}
-.dsh-bg-sweep {
-  position: absolute; left: 0; right: 0; height: 2px; pointer-events: none; z-index: 0;
-  background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.07), transparent);
-  animation: dsh-sweep-kf 14s linear infinite;
-}
-.dsh-bg-scanlines {
-  animation: dsh-scan-crawl 26s linear infinite;
-}
-
-/* ------------------------------------------------------------
-   DASHBOARD INIT STRIP â€” quick boot line, non-blocking
-   ------------------------------------------------------------ */
-.dsh-boot {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 5;
-  padding: 10px clamp(16px, 4vw, 48px);
-  background: linear-gradient(180deg, rgba(0, 229, 255, 0.05), transparent);
-  border-bottom: 1px solid rgba(0, 229, 255, 0.12);
-  display: flex; flex-direction: column; gap: 8px;
-  pointer-events: none;
-}
-.dsh-boot-line {
-  display: flex; flex-direction: column; gap: 3px;
-  font-size: 7px; letter-spacing: 0.18em; color: #00E5FF;
-}
-.dsh-boot-l {
-  opacity: 0;
-  animation: dsh-boot-in 0.25s ease both;
-}
-.dsh-boot-bar {
-  width: 150px; height: 2px;
-  background: rgba(0, 229, 255, 0.15);
-  position: relative; overflow: hidden;
-}
-.dsh-boot-bar > span {
-  display: block; height: 100%;
-  background: #00E5FF;
-  box-shadow: 0 0 10px #00E5FF;
-  transition: width 0.2s ease;
-}
-
-/* ------------------------------------------------------------
-   STATUS DOTS â€” subtle animated telemetry
-   ------------------------------------------------------------ */
-.dsh-dot {
-  display: inline-block;
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.dsh-dot--pulse {
-  animation: dsh-dot-pulse 2.4s ease-in-out infinite;
-}
-
-/* ------------------------------------------------------------
-   HERO â€” system identity terminal
-   ------------------------------------------------------------ */
-.dsh-hero-name {
-  font-size: clamp(20px, 3.2vw, 34px);
-  line-height: 1.12;
-  letter-spacing: 0.02em;
-  overflow-wrap: anywhere;
-}
-.dsh-hero-sub {
-  font-size: 6px; letter-spacing: 0.2em;
-  margin-top: -6px; margin-bottom: 12px;
-}
-.dsh-avatar-boot {
-  position: absolute; inset: 0; z-index: 3;
-  display: grid; place-items: center;
-  background: rgba(5, 7, 16, 0.84);
-  animation: dsh-boot-in 0.3s ease both;
-}
-.dsh-avatar-boot-line {
-  font-size: 5px; letter-spacing: 0.14em;
-  color: #00E5FF; text-align: center; line-height: 1.6;
-  padding: 0 6px; white-space: nowrap;
-}
-
-/* telemetry column */
-.dsh-hero-status-title {
-  font-size: 6px; letter-spacing: 0.24em;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 247, 229, 0.06);
-}
-.dsh-hero-status-val {
-  display: flex; align-items: center; gap: 7px;
-  margin-top: 3px; min-width: 0;
-}
-.dsh-hero-id-block {
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px dashed rgba(255, 247, 229, 0.10);
-  display: flex; flex-direction: column; gap: 4px;
-}
-.dsh-hero-id-row {
-  display: flex; align-items: center; justify-content: space-between; gap: 8px;
-}
-
-/* ------------------------------------------------------------
-   STAT MODULES â€” selectable arcade terminals
-   ------------------------------------------------------------ */
-.dsh-stats {
-  grid-template-columns: repeat(6, 1fr);
-}
-.dsh-stat {
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  overflow: hidden;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease;
-}
-.dsh-stat-id {
-  position: absolute; top: 6px; left: 8px;
-  font-size: 5px; letter-spacing: 0.18em;
-  opacity: 0.7;
-}
-.dsh-stat-desc {
-  font-size: 5px; letter-spacing: 0.18em;
-  color: rgba(255, 247, 229, 0.30);
-  margin-top: 4px;
-  line-height: 1.6;
-}
-.dsh-stat-value--sm {
-  font-size: clamp(7px, 1.1vw, 9px);
-  letter-spacing: 0.16em;
-}
-.dsh-stat-enter {
-  position: relative;
-  display: inline-block;
-  font-size: 6px; letter-spacing: 0.2em;
-  margin-top: 10px;
-  opacity: 0.65;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-}
-.dsh-stat-arrow {
-  display: inline-block;
-  transition: transform 0.15s ease;
-}
-.dsh-stat:hover .dsh-stat-enter {
-  opacity: 1;
-}
-.dsh-stat:hover .dsh-stat-arrow {
-  transform: translateX(2px);
-}
-.dsh-stat:hover {
-  border-color: var(--stat-c);
-  box-shadow: 0 0 18px var(--stat-c33), inset 0 0 24px var(--stat-c12);
-}
-.dsh-stat:active {
-  transform: translateY(1px);
-}
-.dsh-stat:focus-visible {
-  outline: 2px solid var(--stat-c);
-  outline-offset: 2px;
-}
-.dsh-stat-scan {
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--stat-c), transparent);
-  opacity: 0;
-  transform: translateX(-100%);
-  transition: opacity 0.2s ease, transform 0.7s ease;
-  pointer-events: none;
-}
-.dsh-stat:hover .dsh-stat-scan {
-  opacity: 0.7;
-  transform: translateX(100%);
-}
-
-/* ------------------------------------------------------------
-   ACTIVITY STREAM â€” system log
-   ------------------------------------------------------------ */
-.dsh-log {
-  display: flex; flex-direction: column; gap: 9px;
-}
-.dsh-log-caption {
-  font-size: 6px; letter-spacing: 0.2em;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255, 247, 229, 0.06);
-}
-.dsh-log-row {
-  display: flex; align-items: baseline; gap: 10px;
-  min-width: 0;
-}
-.dsh-log-time {
-  font-size: 13px;
-  color: rgba(0, 229, 255, 0.55);
-  white-space: nowrap;
-}
-.dsh-log-label {
-  font-size: 7px; letter-spacing: 0.14em; line-height: 1.5;
-}
-.dsh-log-state {
-  margin-left: auto;
-  font-size: 6px; line-height: 1;
-  transform: translateY(-1px);
-}
-.dsh-log-row--record .dsh-log-time {
-  color: rgba(255, 247, 229, 0.32);
-  font-size: 12px;
-}
-.dsh-log-row--now {
-  border-top: 1px dashed rgba(76, 255, 76, 0.2);
-  padding-top: 8px;
-}
-.dsh-log-divider {
-  font-size: 5px; letter-spacing: 0.2em;
-  color: rgba(255, 247, 229, 0.18);
-  margin: 2px 0;
-  text-align: center;
-}
-
-/* ------------------------------------------------------------
-   SECTOR CARDS â€” network sectors
-   ------------------------------------------------------------ */
-.dsh-sector {
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, transform 0.12s ease;
-}
-.dsh-sector-desc {
-  font-size: 6px; letter-spacing: 0.16em;
-  color: rgba(255, 247, 229, 0.35);
-  line-height: 1.6;
-}
-.dsh-sector-foot {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-top: 8px;
-}
-.dsh-sector-state {
-  display: inline-flex; align-items: center;
-}
-.dsh-sector:active {
-  transform: translateY(1px);
-}
-.dsh-sector:focus-visible {
-  outline: 2px solid #FFD21A;
-  outline-offset: 2px;
-}
-
-/* ------------------------------------------------------------
-   PROFILE â€” personnel record
-   ------------------------------------------------------------ */
-.dsh-profile-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 3px 8px;
-  border: 1px solid rgba(76, 255, 76, 0.18);
-  background: rgba(76, 255, 76, 0.04);
-  width: fit-content;
-}
-.dsh-btn-edit {
-  position: relative; overflow: hidden;
-}
-.dsh-btn-edit .dsh-edit-swap-b {
-  display: none; color: #00E5FF;
-}
-.dsh-btn-edit:hover .dsh-edit-swap-b { display: inline; }
-.dsh-btn-edit:hover .dsh-edit-swap-a { display: none; }
-
-/* ------------------------------------------------------------
-   ACCOUNT CONTROL â€” security console
-   ------------------------------------------------------------ */
-.dsh-sec-row {
-  display: flex; align-items: center; gap: 8px;
-  padding: 5px 0;
-}
-.dsh-sec-leader {
-  flex: 1; min-width: 12px;
-  border-bottom: 1px dotted rgba(255, 247, 229, 0.18);
-  transform: translateY(-3px);
-}
-
-/* ------------------------------------------------------------
-   SYSTEM STATUS notes
-   ------------------------------------------------------------ */
-.dsh-sysstatus-note {
-  margin-top: 8px;
-  font-size: 5px; letter-spacing: 0.18em;
-  text-align: center;
-  padding-top: 8px;
-  border-top: 1px dashed rgba(255, 247, 229, 0.08);
-}
-
-/* ------------------------------------------------------------
-   BUTTON MICRO-INTERACTIONS
-   ------------------------------------------------------------ */
-.dsh-btn:active {
-  transform: translateY(1px);
-}
-.dsh-btn:focus-visible {
-  outline: 2px solid #00E5FF;
-  outline-offset: 2px;
-}
-
-/* ------------------------------------------------------------
-   RESPONSIVE REFINEMENTS
-   ------------------------------------------------------------ */
-@media (max-width: 768px) {
-  .dsh-hero-status {
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: stretch;
-  }
-  .dsh-hero-status-val {
-    justify-content: space-between;
-  }
-  .dsh-boot-line { font-size: 6px; }
-}
-@media (max-width: 480px) {
-  .dsh-stat { padding: 12px 6px; }
-}
-
-/* ------------------------------------------------------------
-   REDUCED MOTION â€” dashboard layers settle to static
-   ------------------------------------------------------------ */
-@media (prefers-reduced-motion: reduce) {
-  .dsh-bg-scanlines,
-  .dsh-bg-sweep,
-  .dsh-bg-noise,
-  .dsh-dot--pulse,
-  .dsh-boot-l {
-    animation: none !important;
-  }
-  .dsh-boot-l { opacity: 1 !important; }
-  .dsh-boot-bar > span { width: 100% !important; transition: none; }
-  .dsh-stat-scan { display: none; }
-  .dsh-stat:hover { transform: none; }
-  .dsh-sector:active { transform: none; }
-  .dsh-btn:active { transform: none; }
-}
-
-/* ------------------------------------------------------------
-   NAVBAR â€” desktop links: established structure, subtle active underline only
+   NAVBAR Ã¢â‚¬â€ desktop links: established structure, subtle active underline only
    ------------------------------------------------------------ */
 .nav-link-active {
   position: absolute;
@@ -6050,3 +5341,381 @@ canvas {
   .nav-link-active { transition: none; }
 }
 
+/* ============================================================
+   FHC MOBILE NAVIGATION TERMINAL — open-state overlay drawer
+   (<1024px). The mobile navbar itself is the EXISTING hot-pink FHC
+   header rendered by Navbar.jsx at every width; this drawer only
+   appears when the hamburger is tapped, sliding in over the page.
+   Desktop (>=1024px) is never affected.
+   ============================================================ */
+@media (max-width: 1023px) {
+  /* avatar framing (nav terminal) */
+  .mnav-player-px,
+  .mnav-player-img {
+    display: block;
+    border: 1px solid rgba(30, 215, 232, 0.5);
+  }
+  .mnav-player-img {
+    object-fit: cover;
+    background: #0C0C12;
+  }
+
+  /* ── Nav terminal drawer ────────────────────────────────── */
+  .mnav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100050;
+    background: rgba(5, 5, 8, 0.72);
+  }
+  .mnav-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100060;
+    width: min(92vw, 420px);
+    background: #0B0C10;
+    border-left: 3px solid #FF1687;
+    box-shadow: -18px 0 60px rgba(0, 0, 0, 0.65);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+  @media (max-width: 379px) {
+    .mnav-drawer {
+      width: 100vw;
+      border-left-width: 2px;
+    }
+  }
+
+  /* CRT grid + scanline sweep over the panel */
+  .mnav-drawer-crt {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(30, 215, 232, 0.04) 0px,
+      rgba(30, 215, 232, 0.04) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    opacity: 0.5;
+  }
+  .mnav-scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -2%;
+    height: 1px;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(30, 215, 232, 0.9), transparent);
+    animation: mnav-scan-kf 0.55s ease-in-out infinite;
+  }
+  @keyframes mnav-scan-kf {
+    0% { top: -2%; }
+    100% { top: 102%; }
+  }
+
+  /* corner brackets */
+  .mnav-bracket {
+    position: absolute;
+    z-index: 3;
+    width: 22px;
+    height: 22px;
+    border: 0 solid rgba(255, 22, 135, 0.7);
+    pointer-events: none;
+  }
+  .mnav-bracket.tl { top: 12px; left: 12px; border-top-width: 2px; border-left-width: 2px; }
+  .mnav-bracket.tr { top: 12px; right: 12px; border-top-width: 2px; border-right-width: 2px; }
+  .mnav-bracket.bl { bottom: 12px; left: 12px; border-bottom-width: 2px; border-left-width: 2px; }
+  .mnav-bracket.br { bottom: 12px; right: 12px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  .mnav-drawer-body {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: calc(env(safe-area-inset-top) + 16px) 16px calc(env(safe-area-inset-bottom) + 14px);
+    overflow-y: auto;
+    background: radial-gradient(120% 90% at 100% 0%, rgba(30, 215, 232, 0.08), transparent 55%), #0B0C10;
+  }
+
+  .mnav-drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 247, 229, 0.1);
+    flex-shrink: 0;
+  }
+  .mnav-drawer-id {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+  .mnav-drawer-title {
+    font-family: var(--font-pixel);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: #FFF7E5;
+  }
+  .mnav-drawer-online {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    letter-spacing: 0.2em;
+    color: #4CFF4C;
+  }
+  .mnav-drawer-dot {
+    width: 6px;
+    height: 6px;
+    background: #4CFF4C;
+    box-shadow: 0 0 6px #4CFF4C;
+    animation: mnav-blink-kf 1.6s steps(2, jump-none) infinite;
+  }
+  .mnav-close {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    background: #0C0C10;
+    border: 2px solid #FF1687;
+    box-shadow: 0 3px 0 0 #000;
+    color: #FFF7E5;
+    font-family: var(--font-pixel);
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  /* nav list */
+  .mnav-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 14px;
+    flex-shrink: 0;
+  }
+  .mnav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 12px;
+    border-left: 3px solid transparent;
+    text-decoration: none;
+    color: #FFF7E5;
+    transition: background 0.15s ease;
+  }
+  .mnav-item:hover {
+    background: rgba(30, 215, 232, 0.06);
+  }
+  .mnav-item-code {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1;
+    color: rgba(30, 215, 232, 0.55);
+    width: 26px;
+    flex-shrink: 0;
+  }
+  .mnav-item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+  .mnav-item-label {
+    font-family: var(--font-pixel);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+  .mnav-item-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    color: rgba(255, 247, 229, 0.45);
+  }
+  .mnav-item-arrow {
+    margin-left: auto;
+    color: #FF1687;
+    font-size: 14px;
+    transition: transform 0.15s ease;
+  }
+  .mnav-item:hover .mnav-item-arrow {
+    transform: translateX(3px);
+  }
+  .mnav-item.is-active {
+    background: rgba(255, 22, 135, 0.1);
+    border-left-color: #FF1687;
+  }
+  .mnav-item.is-active .mnav-item-label {
+    color: #FF1687;
+  }
+  .mnav-item.is-active .mnav-item-code {
+    color: #FF1687;
+  }
+  .mnav-item.is-active::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: #FF1687;
+    box-shadow: 0 0 8px #FF1687;
+  }
+
+  /* player terminal */
+  .mnav-terminal {
+    margin-top: 18px;
+    border: 1px solid rgba(30, 215, 232, 0.35);
+    background: rgba(0, 0, 0, 0.35);
+    flex-shrink: 0;
+  }
+  .mnav-terminal-head {
+    display: block;
+    padding: 8px 12px;
+    font-family: var(--font-pixel);
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    color: rgba(30, 215, 232, 0.9);
+    background: rgba(30, 215, 232, 0.06);
+    border-bottom: 1px solid rgba(255, 247, 229, 0.08);
+  }
+  .mnav-term-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 12px;
+  }
+  .mnav-term-av {
+    position: relative;
+    display: inline-flex;
+  }
+  .mnav-term-av.is-off {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 247, 229, 0.25);
+    background: #0C0C12;
+    color: rgba(255, 247, 229, 0.4);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .mnav-term-dot {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 9px;
+    height: 9px;
+    border: 2px solid #0B0C10;
+    background: #36D65A;
+    box-shadow: 0 0 7px #36D65A;
+  }
+  .mnav-term-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .mnav-term-name {
+    font-family: var(--font-pixel);
+    font-size: 11px;
+    color: #FFF7E5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mnav-term-status {
+    font-family: var(--font-pixel);
+    font-size: 7px;
+    letter-spacing: 0.2em;
+    color: #4CFF4C;
+  }
+  .mnav-term-status.is-admin {
+    color: #FF1687;
+    text-shadow: 0 0 8px rgba(255, 22, 135, 0.7);
+  }
+  .mnav-term-status.is-offline {
+    color: rgba(255, 247, 229, 0.4);
+  }
+  .mnav-term-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    font-family: var(--font-pixel);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: #FFF7E5;
+    text-decoration: none;
+    border-top: 1px solid rgba(255, 247, 229, 0.07);
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .mnav-term-link:hover {
+    background: rgba(30, 215, 232, 0.09);
+  }
+  .mnav-term-link.is-admin,
+  .mnav-term-link.is-logout {
+    color: #FF8AC0;
+  }
+  .mnav-term-link.is-logout:hover {
+    background: rgba(255, 0, 127, 0.14);
+  }
+  .mnav-term-link.is-access {
+    color: #1ED7E8;
+  }
+  .mnav-term-arrow {
+    color: #FF1687;
+    font-size: 12px;
+  }
+
+  .mnav-drawer-foot {
+    margin-top: auto;
+    padding-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    color: rgba(255, 247, 229, 0.35);
+    flex-shrink: 0;
+  }
+  .mnav-foot-div {
+    color: rgba(255, 22, 135, 0.5);
+  }
+
+  /* focus visibility */
+  .mnav-drawer a:focus-visible,
+  .mnav-drawer button:focus-visible {
+    outline: 3px solid #1ED7E8;
+    outline-offset: -3px;
+  }
+
+  @keyframes mnav-blink-kf {
+    50% { opacity: 0.25; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mnav-scan { display: none; }
+    .mnav-drawer-dot {
+      animation: none;
+    }
+  }
+}
