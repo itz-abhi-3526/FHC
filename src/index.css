@@ -5160,13 +5160,15 @@ canvas {
     font-size: 6px;
   }
 
-  /* ---- PLAYER CARD: single full-width registry entry ---- */
+  /* ---- PLAYER CARD: single full-width portrait dossier entry ----
+     Portrait photograph frame (4:5) so real team photos keep their
+     original composition — never forced into a square crop. */
   .arena-card-photo-wrap {
-    aspect-ratio: 4 / 3 !important;
+    aspect-ratio: 4 / 5 !important;
     max-height: none !important;
   }
   .arena-card .arena-photo-img {
-    object-position: 50% 20%;
+    object-position: center center;
   }
   .arena-card-head {
     padding: 10px 12px;
@@ -5230,7 +5232,7 @@ canvas {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 5;
   }
   .arena-dossier-row-grid {
     gap: 16px;
@@ -5267,7 +5269,7 @@ canvas {
     margin-top: 20px !important;
   }
   .arena-skel-photo {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 5;
   }
 
   /* ---- ERROR / EMPTY: compact terminal frames ---- */
